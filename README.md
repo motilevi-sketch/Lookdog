@@ -159,6 +159,48 @@ Verify a change actually reached the front end rather than trusting the admin:
 \SureRank\Inc\Functions\Settings::prep_post_meta( $post_id, 'post' )['page_title'];
 ```
 
+## Homepage layout
+
+The homepage (page 61) is five sections, each a different shape, so the eye never
+scans the same rhythm twice:
+
+| Section | Source | Shape |
+| --- | --- | --- |
+| Hero | cover block in `post_content` | full-bleed image + headline |
+| Best Sellers rail | `[lookdog_product_rail]` | horizontal scroll of real products |
+| Explore by Category | `[lookdog_category_grid]` | image card grid |
+| Featured guide | `[lookdog_featured_guide]` | asymmetric navy band + pull quote |
+| How we pick | `[lookdog_method]` | three text columns, hairline rules |
+
+Three files back the new sections:
+
+- `scripts/lookdog-home-rail.php` — the product rail. Pulls live Best Sellers
+  (term 73), so it never shows a product that has been removed.
+- `scripts/lookdog-home-guide.php` — `[lookdog_featured_guide]` and
+  `[lookdog_method]`. The method stats are read live (product count, category
+  count), not typed in, so they cannot drift.
+- `scripts/lookdog-home-styles.php` — the shared CSS, printed on `wp_head` only
+  when one of the homepage shortcodes is actually present on the page.
+
+`[lookdog_method]` replaced four emoji feature boxes. Four identical boxes with
+an emoji each read as a template; the columns carry the same information with
+typography doing the work.
+
+Because the sections are shortcodes, `post_content` dropped from 4,036 to 2,588
+characters and every one of them reads live data.
+
+### Design system
+
+`design/DESIGN.md` (slug `lookdog-navy-ember`) is a *capture* of the look the
+site already had, not a new direction — the palette comes from the Astra global
+colours and the type from the theme's Poppins. Run `check-design` before shipping
+front-end markup.
+
+Two tokens exist only for dark bands: `bodyOnInk` (`#C9D0DC`) and `mutedOnInk`
+(`#AEB6C6`). They were flagged as off-palette on the first pre-flight; they are
+real, deliberate values for text on navy, so they were declared in the DESIGN.md
+rather than removed. Never use them on a light background.
+
 ## Homepage category grid
 
 The "Explore by Category" section is the `[lookdog_category_grid]` shortcode
