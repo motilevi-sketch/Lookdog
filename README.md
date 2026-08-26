@@ -148,6 +148,30 @@ Verify a change actually reached the front end rather than trusting the admin:
 \SureRank\Inc\Functions\Settings::prep_post_meta( $post_id, 'post' )['page_title'];
 ```
 
+## Social profiles
+
+The brand's social accounts live in one place — `lookdog_social_profiles()` in
+`scripts/lookdog-social-schema.php`. Add a network there and everything that
+consumes it updates: the Organization `sameAs`, the `og:see_also` tags, and the
+Instagram follow block's link.
+
+Two things it drives:
+
+- **`sameAs` on the Organization schema**, so Google associates lookdog.club with
+  `@lookdog435`. SureRank ships this field empty. The value has to be set on the
+  schema *definitions* via the `surerank_default_schemas` filter — despite the
+  name, `surerank_set_schema` receives an empty array and is not the output hook.
+- **A follow block at the end of blog posts** (`lookdog-instagram-cta.php`), styled
+  from the Astra global palette (`#14213D` navy, `#F97316` orange, Poppins). Posts
+  only: product pages already push the reader to AliExpress, and a competing call
+  to action there costs affiliate clicks.
+
+Astra's own social icons are configured separately, in `astra-settings` under
+`header-social-icons-N` / `footer-social-icons-N`. Each is an array of items with
+an `enabled` flag and a `url`. **An enabled item with an empty `url` still renders
+a live icon with `href=""`** — Twitter, Facebook and LinkedIn are in that state and
+should be given URLs or disabled.
+
 ## Blog content
 
 See `content/` for records of published articles: structure, the basis for any
