@@ -119,6 +119,35 @@ drift, so this ranking needs re-running periodically to stay honest.
 
 See `data/` for a manifest of each import batch.
 
+## SureRank SEO metadata — read this before writing any
+
+SureRank stores per-page SEO in a **single serialized array** under one meta key:
+
+```php
+update_post_meta( $post_id, 'surerank_settings_general', [
+    'page_title'                => 'Title | LookDog',
+    'page_description'          => 'One-sentence description.',
+    'auto_generate_description' => false,
+] );
+```
+
+Writing separate `surerank_settings_page_title` / `surerank_settings_page_description`
+keys does **nothing**. SureRank's `Get::all_post_meta()` only reads the group keys
+returned by `Defaults::get_post_meta_keys()` — `general`, `post_no_index`,
+`post_no_follow`, `post_no_archive`, `social`, `schemas` — each prefixed with
+`surerank_settings_`. Anything else is ignored, `all_post_meta()` returns an empty
+array, and every page silently falls back to the default `%title% - %site_name%`
+template while the admin screens still show the values as saved.
+
+This was live on all 67 products, both posts and the homepage until 2026-08-26.
+Term (category) SEO uses the same key via `Get::all_term_meta()`.
+
+Verify a change actually reached the front end rather than trusting the admin:
+
+```php
+\SureRank\Inc\Functions\Settings::prep_post_meta( $post_id, 'post' )['page_title'];
+```
+
 ## Blog content
 
 See `content/` for records of published articles: structure, the basis for any

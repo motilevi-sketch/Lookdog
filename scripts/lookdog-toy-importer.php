@@ -121,8 +121,19 @@ function lookdog_toy_create( $d ) {
 	update_post_meta( $post_id, '_manage_stock', 'no' );
 	update_post_meta( $post_id, '_stock_status', 'instock' );
 	update_post_meta( $post_id, '_lookdog_ae_id', $ae_id );
-	update_post_meta( $post_id, 'surerank_settings_page_title', $d['seo_title'] );
-	update_post_meta( $post_id, 'surerank_settings_page_description', $d['seo_desc'] );
+	// SureRank reads per-post SEO from ONE serialized array under this key.
+	// Writing separate surerank_settings_page_title / _page_description keys does
+	// nothing: SureRank never reads them and every page silently falls back to the
+	// default "%title% - %site_name%" template.
+	update_post_meta(
+		$post_id,
+		'surerank_settings_general',
+		array(
+			'page_title'                => $d['seo_title'],
+			'page_description'          => $d['seo_desc'],
+			'auto_generate_description' => false,
+		)
+	);
 
 	$urls = array();
 	if ( ! empty( $src['imgs'] ) ) {
