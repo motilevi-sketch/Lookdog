@@ -194,6 +194,30 @@ falls back to the first 16 words of the description.
 Ordering is the shortcode's `order` attribute (a list of slugs); anything not
 listed falls in alphabetically after it.
 
+### Category page copy
+
+Each product category carries 200–310 words of buying guidance in its term
+`description`, which WooCommerce renders at the top of the archive page. Category
+archives are the most valuable commercial pages on an affiliate site — a bare
+product grid gives Google nothing to rank — so these are written as real guidance
+(how to choose, what suits which dog, what to avoid) rather than keyword filler.
+
+Term SEO titles and descriptions use the **same serialized key as posts**,
+`surerank_settings_general`, read via `Get::all_term_meta()`. Set them the same way:
+
+```php
+wp_update_term( $term_id, 'product_cat', [ 'description' => $long_copy ] );
+update_term_meta( $term_id, 'surerank_settings_general', [
+    'page_title'                => 'Dog Toys | … | LookDog',
+    'page_description'          => 'One sentence.',
+    'auto_generate_description' => false,
+] );
+```
+
+Keep the two copy fields distinct: `description` is the long archive copy,
+`lookdog_card_blurb` is the one-line homepage card. Putting the long copy in the
+blurb field would dump 300 words into a card.
+
 ## Social profiles
 
 The brand's social accounts live in one place — `lookdog_social_profiles()` in
