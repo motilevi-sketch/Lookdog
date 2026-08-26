@@ -118,3 +118,18 @@ drift, so this ranking needs re-running periodically to stay honest.
 ## Import records
 
 See `data/` for a manifest of each import batch.
+
+## Blog content
+
+See `content/` for records of published articles: structure, the basis for any
+figures quoted, and the positions taken on contested topics. Article bodies live in
+WordPress and are covered by post revisions; these files exist so a claim can be
+re-checked rather than re-guessed.
+
+Posts are written as **core Gutenberg blocks** in `post_content`, matching the
+existing site style: inline block comments, `&mdash;` in list items, `h2` section
+headings, a closing italic veterinary disclaimer, and SureRank SEO meta. Block
+markup can be written directly with `wp_insert_post`; the Block Editor Queue
+finalizer is only needed for third-party blocks that require editor JS to
+serialize. After writing, validate that block comments balance — an unbalanced
+`<!-- /wp:… -->` renders acceptably but corrupts the document in the editor.
