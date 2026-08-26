@@ -50,8 +50,38 @@ HMAC-SHA256 using the app secret and uppercased. `lookdog_ae_call()` handles thi
 
 - `aliexpress.affiliate.category.get` — first and second level categories
 - `aliexpress.affiliate.product.query` — keyword search (Pet Products is `100006664`)
-- `aliexpress.affiliate.productdetail.get` — full detail plus `promotion_link`,
-  accepts up to ~20 comma-separated IDs per call
+- `aliexpress.affiliate.productdetail.get` — full detail plus `promotion_link`
+
+**Batch size matters.** `productdetail.get` accepts comma-separated IDs, but large
+batches intermittently return an empty result set with no error — a 13-ID call
+failed this way while the same IDs succeeded in chunks. Request **three to six IDs
+per call and retry on an empty result**:
+
+```php
+foreach ( array_chunk( $ids, 3 ) as $chunk ) {
+    for ( $try = 0; $try < 3; $try++ ) {
+        $raw   = lookdog_ae_call( 'aliexpress.affiliate.productdetail.get', [ /* … */ ] );
+        $prods = $raw['aliexpress_affiliate_productdetail_get_response']['resp_result']['result']['products']['product'] ?? [];
+        if ( $prods ) { break; }
+        usleep( 400000 );
+    }
+    // …
+}
+```
+
+### Product category term IDs
+
+| Category | `term_id` |
+| --- | --- |
+| Dog Toys | 68 |
+| Travel Gear | 69 |
+| Feeding & Care | 70 |
+| Grooming | 71 |
+| Smart Accessories | 72 |
+| Best Sellers | 73 |
+| Beds & Comfort | 74 |
+
+Pass `cat_id` in the product array to target a category; it defaults to 68.
 
 ## Import workflow
 
@@ -65,7 +95,25 @@ HMAC-SHA256 using the app secret and uppercased. `lookdog_ae_call()` handles thi
 5. Call `lookdog_toy_create()` per product in batches of three or four; larger
    batches risk hitting PHP's max execution time during image sideloading.
 6. Verify: confirm every affiliate link 302-redirects to the expected item ID and
-   still carries `aff_trace_key` / `aff_fcid`.
+   still carries `aff_trace_key` / `aff_fcid`. Also check for duplicate slugs and
+   duplicate `_lookdog_ae_id` values, and count the category afterwards — it is
+   easy to lose an item between batches.
+7. Purge the LiteSpeed cache and WooCommerce transients so the new products show.
+
+## Best Sellers
+
+Best Sellers is a **curation** category, not a source of new products. Populate it
+by adding `term_id` 73 as an *additional* `product_cat` on existing products, so
+each keeps its original category:
+
+```php
+wp_set_object_terms( $post_id, [ 73 ], 'product_cat', true ); // true = append
+```
+
+Rank by live `lastest_volume` from the API rather than by anything stored locally,
+and cap the number taken from each source category — an uncapped ranking fills the
+category entirely with whichever section happens to be largest. Order volumes
+drift, so this ranking needs re-running periodically to stay honest.
 
 ## Import records
 

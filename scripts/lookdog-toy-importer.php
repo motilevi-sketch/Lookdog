@@ -57,6 +57,7 @@ function lookdog_toy_find_existing( $ae_id ) {
 /**
  * $d expects: ae_id, title, slug, short, intro, benefits[], best_for[], how,
  * pros, cons, consider[], seo_title, seo_desc.
+ * Optional: cat_id (product_cat term id; defaults to 68 = Dog Toys).
  */
 function lookdog_toy_create( $d ) {
 	$details = get_option( 'lookdog_toy_details', array() );
@@ -110,7 +111,8 @@ function lookdog_toy_create( $d ) {
 		return array( 'ae_id' => $ae_id, 'status' => 'error', 'msg' => $post_id->get_error_message() );
 	}
 
-	wp_set_object_terms( $post_id, array( 68 ), 'product_cat' );
+	$cat_id = isset( $d['cat_id'] ) ? (int) $d['cat_id'] : 68;
+	wp_set_object_terms( $post_id, array( $cat_id ), 'product_cat' );
 	wp_set_object_terms( $post_id, 'external', 'product_type' );
 
 	update_post_meta( $post_id, '_product_url', $src['promo'] );

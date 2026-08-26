@@ -1,0 +1,42 @@
+{
+  "import_date": "2026-08-26",
+  "site": "https://lookdog.club",
+  "woocommerce_category": { "name": "Beds & Comfort", "term_id": 74 },
+  "product_type": "external",
+  "count": 25,
+  "source": "AliExpress Portals API (aliexpress.affiliate.productdetail.get)",
+  "notes": [
+    "Prices, ratings and order counts are a snapshot taken on the import date and will drift.",
+    "No price is stored in WooCommerce by design; the button links out to AliExpress instead.",
+    "Live affiliate links are stored per product in the _product_url post meta key.",
+    "Source item IDs are stored in _lookdog_ae_id, which makes re-running the import idempotent.",
+    "Curated for distinct archetypes: plush beds, orthopedic, enclosed dens, cooling, warmth, blankets and waterproof protectors."
+  ],
+  "products": [
+    { "post_id": 3602, "aliexpress_id": "3256806229498796", "name": "Round Plush Dog Bed (6 Sizes, 40-90cm)", "slug": "round-plush-dog-bed-6-sizes", "price_usd": "7.89", "rating": "91.3%", "orders": 3535 },
+    { "post_id": 3609, "aliexpress_id": "3256809197650123", "name": "Extra Large Plush Dog Sofa and Crate Mat", "slug": "extra-large-plush-dog-sofa-crate-mat", "price_usd": "21.86", "rating": "98.0%", "orders": 3219 },
+    { "post_id": 3616, "aliexpress_id": "3256810466910161", "name": "Faux Fur Calming Donut Bed for Dogs", "slug": "faux-fur-calming-donut-bed", "price_usd": "5.08", "rating": "98.0%", "orders": 1241 },
+    { "post_id": 3623, "aliexpress_id": "3256807368053025", "name": "Orthopedic Foam Dog Bed with Waterproof Washable Cover", "slug": "orthopedic-foam-dog-bed-waterproof-cover", "price_usd": "8.52", "rating": "92.4%", "orders": 977 },
+    { "post_id": 3630, "aliexpress_id": "3256806491964344", "name": "Indoor Dog House Tent with Washable Cushion", "slug": "indoor-dog-house-tent-washable-cushion", "price_usd": "6.20", "rating": "98.0%", "orders": 798 },
+    { "post_id": 3637, "aliexpress_id": "3256810079643153", "name": "All-Season Dog House Bed with Removable Cover", "slug": "all-season-dog-house-bed-removable-cover", "price_usd": "34.60", "rating": "98.0%", "orders": 1404 },
+    { "post_id": 3644, "aliexpress_id": "3256807338813554", "name": "Enclosed Triangle Nest Bed for Deep Sleep", "slug": "enclosed-triangle-nest-bed", "price_usd": "9.36", "rating": "92.3%", "orders": 293 },
+    { "post_id": 3651, "aliexpress_id": "3256805968725751", "name": "Portable Pet Teepee Tent with Washable Cover", "slug": "portable-pet-teepee-tent", "price_usd": "34.49", "rating": "95.5%", "orders": 222 },
+    { "post_id": 3658, "aliexpress_id": "3256805600005011", "name": "Self-Cooling Summer Mat for Dogs", "slug": "self-cooling-summer-mat", "price_usd": "2.60", "rating": "91.3%", "orders": 24851 },
+    { "post_id": 3665, "aliexpress_id": "3256812463850508", "name": "Water-Fill Ice Gel Cooling Cushion", "slug": "water-fill-ice-gel-cooling-cushion", "price_usd": "5.75", "rating": "98.0%", "orders": 1237 },
+    { "post_id": 3672, "aliexpress_id": "3256812252253786", "name": "Woven Rattan Self-Cooling Mat for Dogs", "slug": "woven-rattan-self-cooling-mat", "price_usd": "4.63", "rating": "98.0%", "orders": 882 },
+    { "post_id": 3679, "aliexpress_id": "3256812188299348", "name": "Ice Silk Cooling Bed with Raised Sides", "slug": "ice-silk-cooling-bed-raised-sides", "price_usd": "11.13", "rating": "98.0%", "orders": 2046 },
+    { "post_id": 3686, "aliexpress_id": "3256808061803702", "name": "Thickened Flannel Winter Cushion for Dogs", "slug": "thickened-flannel-winter-cushion", "price_usd": "3.57", "rating": "98.0%", "orders": 1827 },
+    { "post_id": 3693, "aliexpress_id": "3256810042599479", "name": "Heated Waterproof Pet Blanket with Temperature Control", "slug": "heated-waterproof-pet-blanket", "price_usd": "11.72", "rating": "98.0%", "orders": 383 },
+    { "post_id": 3700, "aliexpress_id": "3256805348589880", "name": "Soft Fluffy Pet Blanket with Cartoon Print", "slug": "soft-fluffy-pet-blanket-cartoon", "price_usd": "3.07", "rating": "90.9%", "orders": 3566 },
+    { "post_id": 3707, "aliexpress_id": "3256810573340389", "name": "Flannel Throw Blanket for Dogs and Puppies", "slug": "flannel-throw-blanket-dogs-puppies", "price_usd": "2.82", "rating": "98.0%", "orders": 2236 },
+    { "post_id": 3714, "aliexpress_id": "3256810190071780", "name": "Double-Sided Reversible Plush Pet Mat", "slug": "double-sided-reversible-plush-mat", "price_usd": "2.65", "rating": "98.0%", "orders": 423 },
+    { "post_id": 3721, "aliexpress_id": "3256809508499647", "name": "Paw Print Flannel Dog Blankets (2-Pack)", "slug": "paw-print-flannel-dog-blankets-2-pack", "price_usd": "5.76", "rating": "92.6%", "orders": 232 },
+    { "post_id": 3728, "aliexpress_id": "3256806951775610", "name": "Waterproof Anti-Leak Dog Bed Cover and Mattress Protector", "slug": "waterproof-anti-leak-bed-cover-protector", "price_usd": "10.87", "rating": "95.6%", "orders": 508 },
+    { "post_id": 3735, "aliexpress_id": "3256808746381538", "name": "Double-Sided Waterproof Sofa and Furniture Protector", "slug": "double-sided-waterproof-furniture-protector", "price_usd": "9.21", "rating": "98.0%", "orders": 356 },
+    { "post_id": 3742, "aliexpress_id": "3256812679421147", "name": "Sofa Bed Mat with Side Bolsters", "slug": "sofa-bed-mat-side-bolsters", "price_usd": "8.86", "rating": "98.5%", "orders": 461 },
+    { "post_id": 3749, "aliexpress_id": "3256805629813499", "name": "Waterproof Anti-Slip Outdoor Dog Mattress", "slug": "waterproof-anti-slip-outdoor-mattress", "price_usd": "14.33", "rating": "94.9%", "orders": 326 },
+    { "post_id": 3756, "aliexpress_id": "3256810386439646", "name": "Four-Season Kennel Bed with Removable Cover", "slug": "four-season-kennel-bed-removable-cover", "price_usd": "9.10", "rating": "98.0%", "orders": 269 },
+    { "post_id": 3763, "aliexpress_id": "3256805909644800", "name": "Fluffy Winter Basket Bed for Dogs", "slug": "fluffy-winter-basket-bed", "price_usd": "12.88", "rating": "92.1%", "orders": 358 },
+    { "post_id": 3770, "aliexpress_id": "3256804346859201", "name": "Square Nest Kennel Bed for Small to Large Dogs", "slug": "square-nest-kennel-bed", "price_usd": "6.34", "rating": "90.3%", "orders": 1298 }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "selection_date": "2026-08-26",
+  "site": "https://lookdog.club",
+  "woocommerce_category": { "name": "Best Sellers", "term_id": 73 },
+  "count": 16,
+  "method": [
+    "Best Sellers is a curation category, not a source of new products.",
+    "No products were imported for it. Existing catalogue products were given Best Sellers as an ADDITIONAL product_cat, so each keeps its original category.",
+    "Ranked by live AliExpress order volume (lastest_volume) pulled for all 67 catalogue products.",
+    "Capped at the top 3 per source category so the category represents the whole shop rather than only Dog Toys and Beds & Comfort.",
+    "Products below 90% positive feedback were excluded.",
+    "Re-run this ranking periodically; order volumes drift and the selection will go stale."
+  ],
+  "selection": [
+    { "post_id": 3427, "name": "Automatic Rolling Smart Ball for Dogs", "source_category": "Dog Toys", "orders": 9990 },
+    { "post_id": 3434, "name": "Cuddle Duck Plush Companion Toy for Dogs", "source_category": "Dog Toys", "orders": 8644 },
+    { "post_id": 3441, "name": "Novelty Cigar Plush Squeaky Dog Toy", "source_category": "Dog Toys", "orders": 8141 },
+    { "post_id": 3658, "name": "Self-Cooling Summer Mat for Dogs", "source_category": "Beds & Comfort", "orders": 24851 },
+    { "post_id": 3700, "name": "Soft Fluffy Pet Blanket with Cartoon Print", "source_category": "Beds & Comfort", "orders": 3566 },
+    { "post_id": 3602, "name": "Round Plush Dog Bed (6 Sizes, 40-90cm)", "source_category": "Beds & Comfort", "orders": 3535 },
+    { "post_id": 3390, "name": "Adjustable Elevated Dog Feeder with Steel Bowls", "source_category": "Feeding & Care", "orders": 379 },
+    { "post_id": 3397, "name": "Gravity Pet Feeder and Water Dispenser Set", "source_category": "Feeding & Care", "orders": 163 },
+    { "post_id": 3383, "name": "Ceramic Double Pet Bowl with Wooden Stand", "source_category": "Feeding & Care", "orders": 104 },
+    { "post_id": 3309, "name": "Rounded-Tip Dog Grooming Scissors (4-Piece Set)", "source_category": "Grooming", "orders": 2510 },
+    { "post_id": 3316, "name": "Wooden-Handle Shedding Comb for Short-Haired Dogs", "source_category": "Grooming", "orders": 332 },
+    { "post_id": 3323, "name": "High-Power Pet Grooming Dryer with Variable Speed", "source_category": "Grooming", "orders": 223 },
+    { "post_id": 3368, "name": "Truelove Breathable Pet Carrier Handbag", "source_category": "Travel Gear", "orders": 97 },
+    { "post_id": 3347, "name": "Anti-Collapse Pet Carrier Bag with Storage Pockets", "source_category": "Travel Gear", "orders": 48 },
+    { "post_id": 3375, "name": "Centre Console Dog Car Seat for Small Dogs", "source_category": "Travel Gear", "orders": 15 },
+    { "post_id": 3412, "name": "Smart Self-Rolling Bounce Ball for Dogs", "source_category": "Smart Accessories", "orders": 23 }
+  ]
+}
