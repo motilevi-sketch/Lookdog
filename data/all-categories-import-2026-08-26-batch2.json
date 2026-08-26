@@ -1,0 +1,565 @@
+{
+  "import_date": "2026-08-26",
+  "site": "https://lookdog.club",
+  "count": 50,
+  "product_type": "external",
+  "source": "AliExpress Portals API (aliexpress.affiliate.productdetail.get)",
+  "allocation_method": "Levelling. Each category was topped up towards a common target rather than split evenly, so the smallest categories took the largest share. The spread across the six product categories narrows from 13-26 to 26-29.",
+  "quality_filter": {
+    "requested": "4 stars and above",
+    "applied": "evaluate_rate >= 80% positive feedback, the conventional 4/5 equivalent",
+    "also_applied": "lastest_volume >= 50 orders, and listings with no evaluate_rate field were excluded outright",
+    "actual_distribution": {
+      "80-85%": 1,
+      ">=95%": 34,
+      "85-90%": 3,
+      "90-95%": 12
+    },
+    "lowest_accepted": "83.8%",
+    "note": "The affiliate API exposes positive-feedback percentage, not a star rating. Four of the fifty sit below 90% (83.8%, 85.0%, 86.5%, 89.0%) and each of those product pages says so explicitly in its Things to Consider list."
+  },
+  "distribution": {
+    "Dog Toys": {
+      "before": 26,
+      "added": 2,
+      "after": 28
+    },
+    "Beds & Comfort": {
+      "before": 25,
+      "added": 2,
+      "after": 27
+    },
+    "Grooming": {
+      "before": 18,
+      "added": 11,
+      "after": 29
+    },
+    "Travel Gear": {
+      "before": 18,
+      "added": 10,
+      "after": 28
+    },
+    "Feeding & Care": {
+      "before": 17,
+      "added": 12,
+      "after": 29
+    },
+    "Smart Accessories": {
+      "before": 13,
+      "added": 13,
+      "after": 26
+    }
+  },
+  "best_sellers": "Not touched by this batch. Best Sellers (term 73) is a curation layer of dual-tagged products, so it takes no new imports; it is still ranked on the 117-product catalogue and is now stale.",
+  "notes": [
+    "Curated for distinct product types. Keyword pools return many near-identical listings of the same item, so the shortlist was cut to one representative per type rather than the top N by order volume.",
+    "Electric shock training collars were excluded on welfare and legal grounds - they are restricted in parts of the UK and Europe. The one remote training collar listed (post 4174) is a no-shock model limited to tone and vibration.",
+    "Topical ear-treatment drops surfaced in the search and were excluded: unregulated medication from an unidentified manufacturer is not something to recommend to dog owners.",
+    "A foldable pet ramp (1005012263114232) was shortlisted but productdetail.get returned empty for it across four retries, so it was replaced with a booster car seat (post 4452).",
+    "SEO titles for this batch drop the '| Review' framing used in earlier imports. Nobody has physically tested these products, and a title promising a review that the page does not contain is an E-E-A-T liability.",
+    "Product 4163 lost its images when an API gateway 502 cut the response mid-sideload; the write had already committed. Images were re-imported separately.",
+    "Verified after import: no duplicate slugs, no duplicate _lookdog_ae_id, no slug collisions, every product external type with an affiliate URL and SureRank meta, all 50 with a thumbnail and gallery, and a sample of five affiliate links 302-redirecting to the correct item ID with aff_ tracking intact."
+  ],
+  "products": [
+    {
+      "post_id": 4142,
+      "aliexpress_id": "1005012227878140",
+      "name": "Google Find My Tracker Collar for Android Owners",
+      "slug": "google-find-my-dog-tracker-collar",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "83.8%",
+      "orders": 367
+    },
+    {
+      "post_id": 4149,
+      "aliexpress_id": "1005010272546781",
+      "name": "Padded AirTag Collar with Built-In Holder",
+      "slug": "padded-airtag-dog-collar-built-in-holder",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "97.4%",
+      "orders": 376
+    },
+    {
+      "post_id": 4156,
+      "aliexpress_id": "1005011797964399",
+      "name": "Real-Time GPS Collar with Movement Alerts",
+      "slug": "real-time-gps-dog-collar-movement-alerts",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "85.0%",
+      "orders": 847
+    },
+    {
+      "post_id": 4163,
+      "aliexpress_id": "1005007038161891",
+      "name": "Handheld Ultrasonic Barking Deterrent",
+      "slug": "handheld-ultrasonic-barking-deterrent",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 1565
+    },
+    {
+      "post_id": 4167,
+      "aliexpress_id": "1005010089115709",
+      "name": "Pocket Ultrasonic Bark Deterrent with LED Torch",
+      "slug": "pocket-ultrasonic-bark-deterrent-led",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 2312
+    },
+    {
+      "post_id": 4174,
+      "aliexpress_id": "1005011942776643",
+      "name": "No-Shock Training Collar with Tone and Vibration",
+      "slug": "no-shock-training-collar-tone-vibration",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 547
+    },
+    {
+      "post_id": 4181,
+      "aliexpress_id": "1005009831300959",
+      "name": "Automatic Tennis Ball Launcher for Dogs",
+      "slug": "automatic-tennis-ball-launcher-dogs",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "94.3%",
+      "orders": 187
+    },
+    {
+      "post_id": 4188,
+      "aliexpress_id": "1005007016201721",
+      "name": "High-Frequency Recall Whistle for Dog Training",
+      "slug": "high-frequency-recall-whistle",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 421
+    },
+    {
+      "post_id": 4195,
+      "aliexpress_id": "1005005539043322",
+      "name": "Two-in-One Training Clicker and Whistle Keyring",
+      "slug": "training-clicker-whistle-keyring",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "93.1%",
+      "orders": 545
+    },
+    {
+      "post_id": 4202,
+      "aliexpress_id": "1005007857170274",
+      "name": "Clip-On LED Safety Pendant for Dog Collars",
+      "slug": "clip-on-led-safety-pendant-collar",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 802
+    },
+    {
+      "post_id": 4209,
+      "aliexpress_id": "1005012702898897",
+      "name": "Duck-Shaped Treat Dispensing Slow Feeder Toy",
+      "slug": "duck-treat-dispensing-slow-feeder-toy",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "92.8%",
+      "orders": 876
+    },
+    {
+      "post_id": 4216,
+      "aliexpress_id": "1005007905077186",
+      "name": "Silicone Light-Up Collar with Three Flash Modes",
+      "slug": "silicone-light-up-collar-three-modes",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 460
+    },
+    {
+      "post_id": 4223,
+      "aliexpress_id": "1005006860833985",
+      "name": "Waterproof Bark Control Collar with Sound and Vibration",
+      "slug": "bark-control-collar-sound-vibration",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 1794
+    },
+    {
+      "post_id": 4230,
+      "aliexpress_id": "1005006966181969",
+      "name": "Clip-On Training Treat Pouch",
+      "slug": "clip-on-training-treat-pouch",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 2794
+    },
+    {
+      "post_id": 4237,
+      "aliexpress_id": "1005011940273101",
+      "name": "Waterproof Treat Waist Bag with Drawstring Top",
+      "slug": "waterproof-treat-waist-bag-drawstring",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 794
+    },
+    {
+      "post_id": 4244,
+      "aliexpress_id": "1005007288003363",
+      "name": "Leash-Mounted Waste Bag Dispenser",
+      "slug": "leash-mounted-waste-bag-dispenser",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "96.2%",
+      "orders": 3090
+    },
+    {
+      "post_id": 4251,
+      "aliexpress_id": "1005011839812584",
+      "name": "Washable Reusable Puppy Training Pad",
+      "slug": "washable-reusable-puppy-training-pad",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "86.5%",
+      "orders": 2191
+    },
+    {
+      "post_id": 4258,
+      "aliexpress_id": "1005008256905783",
+      "name": "Washable Artificial Grass Toilet Mat",
+      "slug": "washable-artificial-grass-toilet-mat",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "89.0%",
+      "orders": 524
+    },
+    {
+      "post_id": 4264,
+      "aliexpress_id": "1005010180488040",
+      "name": "Reusable Belly Bands for Male Dogs (3-Pack)",
+      "slug": "reusable-belly-bands-male-dogs",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "96.5%",
+      "orders": 361
+    },
+    {
+      "post_id": 4271,
+      "aliexpress_id": "1005009308121858",
+      "name": "Two-in-One Tick Removal Tool",
+      "slug": "two-in-one-tick-removal-tool",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "97.7%",
+      "orders": 1625
+    },
+    {
+      "post_id": 4278,
+      "aliexpress_id": "1005007330235029",
+      "name": "Dog Dental Care Kit with Toothbrush and Paste",
+      "slug": "dog-dental-care-kit-toothbrush-paste",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "93.0%",
+      "orders": 566
+    },
+    {
+      "post_id": 4285,
+      "aliexpress_id": "1005006995414775",
+      "name": "Foraging Snuffle Mat for Slow Feeding",
+      "slug": "foraging-snuffle-mat-slow-feeding",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 2371
+    },
+    {
+      "post_id": 4292,
+      "aliexpress_id": "1005008618215704",
+      "name": "Inflatable Recovery Collar for After Surgery",
+      "slug": "inflatable-recovery-collar-after-surgery",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "95.0%",
+      "orders": 580
+    },
+    {
+      "post_id": 4299,
+      "aliexpress_id": "1005008557769248",
+      "name": "All-Weather Waterproof Dog Boots (Set of Four)",
+      "slug": "all-weather-waterproof-dog-boots",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 531
+    },
+    {
+      "post_id": 4306,
+      "aliexpress_id": "1005010706296296",
+      "name": "Measured Dog Food Scoops (Half Cup and One Cup)",
+      "slug": "measured-dog-food-scoops",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "100.0%",
+      "orders": 89
+    },
+    {
+      "post_id": 4313,
+      "aliexpress_id": "1005010430450488",
+      "name": "Silicone Bath Brush with Built-In Shampoo Reservoir",
+      "slug": "silicone-bath-brush-shampoo-reservoir",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "92.5%",
+      "orders": 303
+    },
+    {
+      "post_id": 4320,
+      "aliexpress_id": "1005010127273951",
+      "name": "Long-Handled Silicone Bathing Brush",
+      "slug": "long-handled-silicone-bathing-brush",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "96.7%",
+      "orders": 100
+    },
+    {
+      "post_id": 4327,
+      "aliexpress_id": "1005012712936273",
+      "name": "Silicone Bath Sprayer Head for Dog Washing",
+      "slug": "silicone-bath-sprayer-head-dog",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "90.0%",
+      "orders": 324
+    },
+    {
+      "post_id": 4334,
+      "aliexpress_id": "1005010555464465",
+      "name": "Thick Quick-Drying Microfibre Dog Towel",
+      "slug": "thick-quick-drying-microfibre-dog-towel",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "92.1%",
+      "orders": 1087
+    },
+    {
+      "post_id": 4341,
+      "aliexpress_id": "1005007751329838",
+      "name": "Absorbent Dog Bathrobe for Post-Bath Drying",
+      "slug": "absorbent-dog-bathrobe-drying",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "95.8%",
+      "orders": 806
+    },
+    {
+      "post_id": 4348,
+      "aliexpress_id": "1005007308292332",
+      "name": "Stainless Steel Flea Combs (4-Pack)",
+      "slug": "stainless-steel-flea-combs-4-pack",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 1408
+    },
+    {
+      "post_id": 4355,
+      "aliexpress_id": "1005002676028444",
+      "name": "Stainless Steel Finishing Comb for Long Coats",
+      "slug": "stainless-steel-finishing-comb-long-coats",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "96.5%",
+      "orders": 1650
+    },
+    {
+      "post_id": 4362,
+      "aliexpress_id": "1005007791654989",
+      "name": "Face and Eye Comb Set for Tear Stains",
+      "slug": "face-eye-comb-set-tear-stains",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "93.4%",
+      "orders": 1340
+    },
+    {
+      "post_id": 4369,
+      "aliexpress_id": "1005009398897719",
+      "name": "Foldable Bathing Basin for Small Dogs",
+      "slug": "foldable-bathing-basin-small-dogs",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "97.3%",
+      "orders": 113
+    },
+    {
+      "post_id": 4376,
+      "aliexpress_id": "1005012434195721",
+      "name": "Foldable Dog Paddling Pool",
+      "slug": "foldable-dog-paddling-pool",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 59
+    },
+    {
+      "post_id": 4383,
+      "aliexpress_id": "1005009111150623",
+      "name": "Self-Cleaning Deshedding Brush with Retractable Pins",
+      "slug": "self-cleaning-deshedding-brush-retractable-pins",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "94.8%",
+      "orders": 1398
+    },
+    {
+      "post_id": 4390,
+      "aliexpress_id": "1005006850095280",
+      "name": "Front-Clip No-Pull Harness with Control Handle",
+      "slug": "front-clip-no-pull-harness-handle",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "93.9%",
+      "orders": 3461
+    },
+    {
+      "post_id": 4397,
+      "aliexpress_id": "1005010228792709",
+      "name": "Tactical 1000D Nylon Harness for Large Dogs",
+      "slug": "tactical-1000d-nylon-harness-large-dogs",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 2557
+    },
+    {
+      "post_id": 4404,
+      "aliexpress_id": "1005007011741441",
+      "name": "Automatic Retractable Dog Leash",
+      "slug": "automatic-retractable-dog-leash",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 7303
+    },
+    {
+      "post_id": 4411,
+      "aliexpress_id": "1005006807226688",
+      "name": "Long Nylon Training Lead (3m and 5m)",
+      "slug": "long-nylon-training-lead",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "92.8%",
+      "orders": 5994
+    },
+    {
+      "post_id": 4418,
+      "aliexpress_id": "1005007635558390",
+      "name": "Wheeled Pet Trolley Carrier with Detachable Bag",
+      "slug": "wheeled-pet-trolley-carrier-detachable",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 142
+    },
+    {
+      "post_id": 4425,
+      "aliexpress_id": "1005011938723658",
+      "name": "Three-Wheel Folding Dog Stroller",
+      "slug": "three-wheel-folding-dog-stroller",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 58
+    },
+    {
+      "post_id": 4432,
+      "aliexpress_id": "1005007527189810",
+      "name": "Car Seat Barrier Net with Storage Pocket",
+      "slug": "car-seat-barrier-net-storage",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "96.2%",
+      "orders": 77
+    },
+    {
+      "post_id": 4439,
+      "aliexpress_id": "1005009460487791",
+      "name": "Expandable Bike Basket and Backpack Carrier",
+      "slug": "expandable-bike-basket-backpack-carrier",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 209
+    },
+    {
+      "post_id": 4445,
+      "aliexpress_id": "1005010007430485",
+      "name": "Waterproof Car Door Protectors (Pair)",
+      "slug": "waterproof-car-door-protectors",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "95.7%",
+      "orders": 70
+    },
+    {
+      "post_id": 4452,
+      "aliexpress_id": "1005007306027162",
+      "name": "Booster Car Seat with Storage Pockets",
+      "slug": "booster-car-seat-storage-pockets",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "94.6%",
+      "orders": 80
+    },
+    {
+      "post_id": 4459,
+      "aliexpress_id": "1005011812410220",
+      "name": "Battery-Powered Walking and Barking Plush Toy",
+      "slug": "walking-barking-plush-dog-toy",
+      "category": "Dog Toys",
+      "term_id": 68,
+      "rating": "100.0%",
+      "orders": 52
+    },
+    {
+      "post_id": 4466,
+      "aliexpress_id": "1005007170136200",
+      "name": "Snail-Shaped Sniffing Puzzle Toy",
+      "slug": "snail-shaped-sniffing-puzzle-toy",
+      "category": "Dog Toys",
+      "term_id": 68,
+      "rating": "98.0%",
+      "orders": 1758
+    },
+    {
+      "post_id": 4473,
+      "aliexpress_id": "1005012374614100",
+      "name": "Ice-Silk Cooling Bed with Raised Oval Rim",
+      "slug": "ice-silk-cooling-bed-oval-rim",
+      "category": "Beds & Comfort",
+      "term_id": 74,
+      "rating": "98.0%",
+      "orders": 2046
+    },
+    {
+      "post_id": 4480,
+      "aliexpress_id": "1005012650165260",
+      "name": "Water-Fill Gel Cooling Cushion",
+      "slug": "water-fill-gel-cooling-cushion",
+      "category": "Beds & Comfort",
+      "term_id": 74,
+      "rating": "98.0%",
+      "orders": 1237
+    }
+  ]
+}

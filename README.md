@@ -130,6 +130,54 @@ Two things learned across batches worth repeating:
   bottles), so curating for distinct *product types* matters more than taking the
   top N by volume. Check what a category already holds before adding to it.
 
+## Deciding where new products go
+
+Do not split a batch evenly across categories. Level them instead: pick a target
+count and top each category up towards it, so the thinnest categories take the
+largest share. The August 2026 batch of 50 was allocated this way and narrowed the
+spread from 13-26 products per category to 26-29.
+
+```php
+$terms = get_terms( [ 'taxonomy' => 'product_cat', 'hide_empty' => false ] );
+// count per term, then deficit = target - count, capped at 0
+```
+
+Two things constrain the arithmetic:
+
+- **Best Sellers (term 73) takes no new imports.** It is a curation layer of
+  dual-tagged products, so it fills from the other categories. Exclude it from the
+  levelling maths or the numbers will not add up.
+- **A category can only absorb as many distinct product types as exist.** Smart
+  Accessories is genuinely narrow - trackers, lights, training electronics - and
+  ran out of distinct types before it hit the levelling target. Shifting the
+  surplus to a category with a deeper pool is better than listing three variants of
+  the same LED collar.
+
+## What we do not list
+
+Curation includes leaving things out. Three exclusions applied consistently:
+
+- **Electric shock training collars.** Restricted or banned in parts of the UK and
+  Europe, and contested on welfare grounds elsewhere. Remote training collars are
+  listed only in no-shock form (tone and vibration).
+- **Topical and ingestible treatments** - ear drops, medicated washes, supplements.
+  Unregulated medication from an unidentified manufacturer is not something to
+  recommend to dog owners, whatever its rating.
+- **Listings with no `evaluate_rate` field.** The API omits it on some products.
+  No rating data means the item cannot clear a rating filter, so it is excluded
+  rather than assumed good.
+
+Where a listing is accepted but sits below roughly 90% positive feedback, the
+product page says so in its Things to Consider list rather than staying quiet
+about it.
+
+## Product page titles
+
+Earlier batches used a `| Review` suffix on SEO titles. That framing has been
+dropped for new imports: nobody has physically tested these products, and a title
+promising a review the page does not contain is an E-E-A-T liability, not a
+ranking win. Titles now describe the product and who it suits.
+
 ## SureRank SEO metadata — read this before writing any
 
 SureRank stores per-page SEO in a **single serialized array** under one meta key:
