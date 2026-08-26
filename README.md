@@ -159,6 +159,41 @@ Verify a change actually reached the front end rather than trusting the admin:
 \SureRank\Inc\Functions\Settings::prep_post_meta( $post_id, 'post' )['page_title'];
 ```
 
+## Homepage category grid
+
+The "Explore by Category" section is the `[lookdog_category_grid]` shortcode
+(`scripts/lookdog-category-grid.php`). It reads product categories live, so a new
+category appears on the homepage automatically and a changed category image takes
+effect without touching the page.
+
+It replaced a hand-written HTML block that hardcoded six `<img>` tags and six
+blurbs. Two bugs came from that:
+
+- **Beds & Comfort showed a grey gradient and a dog emoji**, because the category
+  was empty when the block was written and there was no product image to point at.
+  Setting the WooCommerce category thumbnail had no effect, since the block never
+  read it.
+- **The last card sat orphaned and centred.** The container used `flex-wrap` with
+  `justify-content:center`, so any width where the cards did not divide evenly
+  left the final card floating mid-row, out of line with the columns above. The
+  grid now uses `repeat(auto-fit, minmax(280px, 1fr))`, which keeps columns
+  aligned and starts short rows at the left.
+
+Two term-level fields drive each card:
+
+| Field | Where | Purpose |
+| --- | --- | --- |
+| `thumbnail_id` | term meta (WooCommerce) | Card image. Set it in the category editor. |
+| `lookdog_card_blurb` | term meta | One-line card copy. |
+
+The blurb is deliberately **not** the term `description`. The description is
+reserved for the longer category copy that belongs on the archive page for SEO,
+which would be far too long inside a card. If the blurb is empty the shortcode
+falls back to the first 16 words of the description.
+
+Ordering is the shortcode's `order` attribute (a list of slugs); anything not
+listed falls in alphabetically after it.
+
 ## Social profiles
 
 The brand's social accounts live in one place — `lookdog_social_profiles()` in
