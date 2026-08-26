@@ -1,0 +1,41 @@
+{
+  "import_date": "2026-08-26",
+  "site": "https://lookdog.club",
+  "woocommerce_category": { "name": "Dog Toys", "term_id": 68 },
+  "product_type": "external",
+  "count": 25,
+  "source": "AliExpress Portals API (aliexpress.affiliate.productdetail.get)",
+  "notes": [
+    "Prices, ratings and order counts are a snapshot taken on the import date and will drift.",
+    "No price is stored in WooCommerce by design; the button links out to AliExpress instead.",
+    "Live affiliate links are stored per product in the _product_url post meta key.",
+    "Source item IDs are stored in _lookdog_ae_id, which makes re-running the import idempotent."
+  ],
+  "products": [
+    { "post_id": 3427, "aliexpress_id": "3256808675661610", "name": "Automatic Rolling Smart Ball for Dogs", "slug": "automatic-rolling-smart-ball-for-dogs", "price_usd": "3.98", "rating": "91.2%", "orders": 9990 },
+    { "post_id": 3434, "aliexpress_id": "3256808816826072", "name": "Cuddle Duck Plush Companion Toy for Dogs", "slug": "cuddle-duck-plush-companion-toy", "price_usd": "2.18", "rating": "94.9%", "orders": 8644 },
+    { "post_id": 3441, "aliexpress_id": "3256808722701542", "name": "Novelty Cigar Plush Squeaky Dog Toy", "slug": "novelty-cigar-plush-squeaky-dog-toy", "price_usd": "1.93", "rating": "98.0%", "orders": 8141 },
+    { "post_id": 3448, "aliexpress_id": "3256807636277521", "name": "Squeaky Octopus Plush Toy with Crinkle Tentacles", "slug": "squeaky-octopus-plush-crinkle-toy", "price_usd": "2.81", "rating": "98.0%", "orders": 7032 },
+    { "post_id": 3455, "aliexpress_id": "3256809509726324", "name": "Bite-Resistant Plush Squeak Doll for Dogs", "slug": "bite-resistant-plush-squeak-doll", "price_usd": "2.62", "rating": "98.0%", "orders": 6410 },
+    { "post_id": 3462, "aliexpress_id": "3256806852078676", "name": "No-Stuffing Crinkle Animal Dog Toy (45cm)", "slug": "no-stuffing-crinkle-animal-dog-toy", "price_usd": "4.13", "rating": "98.0%", "orders": 6093 },
+    { "post_id": 3469, "aliexpress_id": "3256811753668929", "name": "Latex Shark Squeaky Ball for Aggressive Chewers", "slug": "latex-shark-squeaky-ball-chewers", "price_usd": "2.35", "rating": "98.0%", "orders": 1331 },
+    { "post_id": 3476, "aliexpress_id": "3256808333375883", "name": "Soft Silicone Flying Disc for Dogs", "slug": "soft-silicone-flying-disc-for-dogs", "price_usd": "2.02", "rating": "91.2%", "orders": 3766 },
+    { "post_id": 3483, "aliexpress_id": "3256809396270383", "name": "Carrot Cotton Rope Chew Toy for Small Dogs", "slug": "carrot-cotton-rope-chew-toy", "price_usd": "1.54", "rating": "98.0%", "orders": 3753 },
+    { "post_id": 3490, "aliexpress_id": "3256806824208365", "name": "Soft TPR Squeaky Ball for Teeth Cleaning", "slug": "soft-tpr-squeaky-ball-teeth-cleaning", "price_usd": "1.69", "rating": "98.0%", "orders": 3309 },
+    { "post_id": 3497, "aliexpress_id": "3256807158469078", "name": "Double-Knot Cotton Bite Rope for Dogs", "slug": "double-knot-cotton-bite-rope", "price_usd": "1.08", "rating": "98.0%", "orders": 2905 },
+    { "post_id": 3504, "aliexpress_id": "3256809348832434", "name": "Treat-Hiding Bite-Resistant Chew Toy", "slug": "treat-hiding-bite-resistant-chew-toy", "price_usd": "3.75", "rating": "91.2%", "orders": 2440 },
+    { "post_id": 3511, "aliexpress_id": "3256807983600482", "name": "EVA Dog Toy Bundle: Flying Disc, Ball and Tug Rope", "slug": "eva-dog-toy-bundle-disc-ball-rope", "price_usd": "2.97", "rating": "95.5%", "orders": 2355 },
+    { "post_id": 3518, "aliexpress_id": "3256807670950343", "name": "Jute Bite Pillow Tug Trainer for Large Dogs", "slug": "jute-bite-pillow-tug-trainer", "price_usd": "5.10", "rating": "98.0%", "orders": 947 },
+    { "post_id": 3525, "aliexpress_id": "3256810301001749", "name": "Snail Snuffle Puzzle Mat for Dogs", "slug": "snail-snuffle-puzzle-mat", "price_usd": "2.60", "rating": "98.0%", "orders": 2345 },
+    { "post_id": 3532, "aliexpress_id": "3256806852093271", "name": "Teething Chew Stick with Treat Cavity", "slug": "teething-chew-stick-treat-cavity", "price_usd": "1.64", "rating": "98.0%", "orders": 2205 },
+    { "post_id": 3539, "aliexpress_id": "3256810253069668", "name": "Natural Rubber Squeaky Ball for Aggressive Chewers", "slug": "natural-rubber-squeaky-ball-chewers", "price_usd": "2.54", "rating": "98.0%", "orders": 961 },
+    { "post_id": 3546, "aliexpress_id": "3256806984660699", "name": "Mop-Style Dental Chew Toy for Dogs", "slug": "mop-style-dental-chew-toy", "price_usd": "4.35", "rating": "98.0%", "orders": 1057 },
+    { "post_id": 3553, "aliexpress_id": "3256807158430190", "name": "Suction Cup Treat-Dispensing Tug Toy", "slug": "suction-cup-treat-dispensing-tug-toy", "price_usd": "3.98", "rating": "98.0%", "orders": 785 },
+    { "post_id": 3560, "aliexpress_id": "3256811467689108", "name": "Heavy-Duty Tug Rope with Treat Dispenser Ball", "slug": "heavy-duty-tug-rope-treat-ball", "price_usd": "23.74", "rating": "98.0%", "orders": 2103 },
+    { "post_id": 3567, "aliexpress_id": "3256807605897133", "name": "Giggle Ball for Dog IQ Training", "slug": "giggle-ball-dog-iq-training", "price_usd": "6.08", "rating": "98.0%", "orders": 1938 },
+    { "post_id": 3574, "aliexpress_id": "3256809088603293", "name": "Mini Turtle Plush Teething Toy for Puppies", "slug": "mini-turtle-plush-teething-toy", "price_usd": "1.16", "rating": "98.0%", "orders": 1937 },
+    { "post_id": 3581, "aliexpress_id": "3256807619260961", "name": "Beer Bottle Squeaky Chew Toy with Tennis Ball", "slug": "beer-bottle-squeaky-chew-tennis-ball", "price_usd": "3.56", "rating": "98.0%", "orders": 1923 },
+    { "post_id": 3588, "aliexpress_id": "3256810253088623", "name": "Donkey Plush Squeaky Toy for Dogs", "slug": "donkey-plush-squeaky-toy", "price_usd": "2.87", "rating": "98.0%", "orders": 1832 },
+    { "post_id": 3595, "aliexpress_id": "3256809396323261", "name": "Rubber Bone Molar Stick for Dogs", "slug": "rubber-bone-molar-stick", "price_usd": "2.31", "rating": "98.0%", "orders": 1765 }
+  ]
+}
