@@ -119,6 +119,17 @@ drift, so this ranking needs re-running periodically to stay honest.
 
 See `data/` for a manifest of each import batch.
 
+Two things learned across batches worth repeating:
+
+- **Rating filter.** The affiliate API exposes `evaluate_rate`, a positive-feedback
+  percentage, not a star rating. "4 stars and above" maps conventionally to 80%.
+  In practice the pools are far better than that floor — filtering the pet
+  category at 80% with a volume threshold leaves almost nothing under 90%.
+- **Category balance beats raw count.** Keyword pools skew heavily toward
+  whatever AliExpress sells most of (feeders, fountains, seat belts, water
+  bottles), so curating for distinct *product types* matters more than taking the
+  top N by volume. Check what a category already holds before adding to it.
+
 ## SureRank SEO metadata — read this before writing any
 
 SureRank stores per-page SEO in a **single serialized array** under one meta key:

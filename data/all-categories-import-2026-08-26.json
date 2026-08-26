@@ -1,0 +1,535 @@
+{
+  "import_date": "2026-08-26",
+  "site": "https://lookdog.club",
+  "count": 50,
+  "product_type": "external",
+  "source": "AliExpress Portals API (aliexpress.affiliate.productdetail.get)",
+  "quality_filter": {
+    "requested": "4 stars and above",
+    "applied": "evaluate_rate >= 80% positive feedback, the conventional 4/5 equivalent",
+    "actual_distribution": {
+      ">=95%": 36,
+      "90-95%": 10,
+      "85-90%": 4,
+      "80-85%": 0,
+      "below_80%": 0
+    },
+    "lowest_accepted": "85.0%",
+    "note": "The AliExpress affiliate API exposes positive-feedback percentage, not a star rating. Nothing below 85% cleared the other filters, so the batch sits comfortably above the requested floor."
+  },
+  "distribution": {
+    "Feeding & Care": 12,
+    "Grooming": 13,
+    "Travel Gear": 13,
+    "Smart Accessories": 12
+  },
+  "notes": [
+    "Weighted to the thin categories. Dog Toys (26) and Beds & Comfort (25) were already well stocked and got nothing.",
+    "Aversive devices were excluded by filter: shock collars, e-collars and anti-bark devices are not listed.",
+    "Prices are not stored in WooCommerce; the button links out to AliExpress instead.",
+    "Ratings and order counts are a snapshot on the import date and will drift.",
+    "Best Sellers was rebuilt after this import: top 3 per category by live order volume, 18 products."
+  ],
+  "products": [
+    {
+      "post_id": 3785,
+      "aliexpress_id": "3256808473807082",
+      "name": "Collapsible Silicone Travel Bowl for Dogs",
+      "slug": "collapsible-silicone-travel-bowl",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 4157
+    },
+    {
+      "post_id": 3792,
+      "aliexpress_id": "3256807605678402",
+      "name": "Puzzle Slow Feeder Bowl for Dogs",
+      "slug": "puzzle-slow-feeder-bowl",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 1558
+    },
+    {
+      "post_id": 3799,
+      "aliexpress_id": "3256809916762874",
+      "name": "Lick Mat for Dogs with Suction Base",
+      "slug": "lick-mat-for-dogs",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "90.6%",
+      "orders": 1382
+    },
+    {
+      "post_id": 3806,
+      "aliexpress_id": "3256810190169458",
+      "name": "Portable Dog Water Bottle with Food Container",
+      "slug": "portable-water-bottle-food-container",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 1601
+    },
+    {
+      "post_id": 3813,
+      "aliexpress_id": "3256806851870024",
+      "name": "Non-Slip Anti-Gulping Slow Feeder Dish",
+      "slug": "non-slip-anti-gulping-slow-feeder",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 1849
+    },
+    {
+      "post_id": 3820,
+      "aliexpress_id": "3256807891332616",
+      "name": "Gravity Water Dispenser for Dogs (No Power Needed)",
+      "slug": "gravity-water-dispenser-no-power",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 1022
+    },
+    {
+      "post_id": 3827,
+      "aliexpress_id": "3256812248034474",
+      "name": "Large-Capacity Food and Water Station for Dogs",
+      "slug": "large-capacity-food-water-station",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 1435
+    },
+    {
+      "post_id": 3834,
+      "aliexpress_id": "3256809779975210",
+      "name": "Airtight Dog Food Storage Container with Scoop",
+      "slug": "airtight-dog-food-storage-container",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "90.4%",
+      "orders": 633
+    },
+    {
+      "post_id": 3841,
+      "aliexpress_id": "3256811845296545",
+      "name": "Absorbent Non-Slip Mat for Dog Bowls",
+      "slug": "absorbent-non-slip-bowl-mat",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "88.4%",
+      "orders": 761
+    },
+    {
+      "post_id": 3848,
+      "aliexpress_id": "3256809396079780",
+      "name": "Timed Automatic Dog Feeder with Portion Control",
+      "slug": "timed-automatic-dog-feeder",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 1743
+    },
+    {
+      "post_id": 3855,
+      "aliexpress_id": "3256811390408643",
+      "name": "Bone-Shaped Slow Licking Bowl for Wet Food",
+      "slug": "bone-shaped-slow-licking-bowl",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "93.2%",
+      "orders": 719
+    },
+    {
+      "post_id": 3862,
+      "aliexpress_id": "3256811506227636",
+      "name": "Activated Carbon Filters for Pet Water Fountains",
+      "slug": "activated-carbon-fountain-filters",
+      "category": "Feeding & Care",
+      "term_id": 70,
+      "rating": "98.0%",
+      "orders": 1543
+    },
+    {
+      "post_id": 3869,
+      "aliexpress_id": "3256810386313137",
+      "name": "Electric Nail Grinder for Dogs",
+      "slug": "electric-nail-grinder-for-dogs",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 2565
+    },
+    {
+      "post_id": 3876,
+      "aliexpress_id": "3256806984951496",
+      "name": "Circular-Hole Nail Clippers for Dogs",
+      "slug": "circular-hole-nail-clippers",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 2862
+    },
+    {
+      "post_id": 3883,
+      "aliexpress_id": "3256810573147965",
+      "name": "Rechargeable Dog Grooming Clippers",
+      "slug": "rechargeable-dog-grooming-clippers",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 2389
+    },
+    {
+      "post_id": 3890,
+      "aliexpress_id": "3256810189123657",
+      "name": "Slicker Brush for Dogs with Fine Bent Pins",
+      "slug": "slicker-brush-fine-bent-pins",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "93.3%",
+      "orders": 2378
+    },
+    {
+      "post_id": 3897,
+      "aliexpress_id": "3256806824221347",
+      "name": "Dematting Comb and Knot Cutter for Dogs",
+      "slug": "dematting-comb-knot-cutter",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 4605
+    },
+    {
+      "post_id": 3904,
+      "aliexpress_id": "3256810620376345",
+      "name": "Deshedding Tool for Double-Coated Dogs",
+      "slug": "deshedding-tool-double-coated-dogs",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 4181
+    },
+    {
+      "post_id": 3911,
+      "aliexpress_id": "3256806985001374",
+      "name": "Silicone Paw Cleaner Cup for Dogs",
+      "slug": "silicone-paw-cleaner-cup",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 1606
+    },
+    {
+      "post_id": 3918,
+      "aliexpress_id": "3256811494061831",
+      "name": "Electrostatic Grooming Glove for Pet Hair",
+      "slug": "electrostatic-grooming-glove",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 8101
+    },
+    {
+      "post_id": 3925,
+      "aliexpress_id": "3256811557419687",
+      "name": "Reusable Lint Roller for Pet Hair",
+      "slug": "reusable-lint-roller-pet-hair",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "98.0%",
+      "orders": 2812
+    },
+    {
+      "post_id": 3932,
+      "aliexpress_id": "3256807979800180",
+      "name": "360 Silicone Finger Toothbrush for Dogs",
+      "slug": "silicone-finger-toothbrush-dogs",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "96.6%",
+      "orders": 1005
+    },
+    {
+      "post_id": 3939,
+      "aliexpress_id": "3256806634344824",
+      "name": "Ear Cleaning Wipes for Dogs",
+      "slug": "ear-cleaning-wipes-dogs",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "97.2%",
+      "orders": 1840
+    },
+    {
+      "post_id": 3946,
+      "aliexpress_id": "3256806747507826",
+      "name": "Tear Stain Wipes for Dogs",
+      "slug": "tear-stain-wipes-dogs",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "95.3%",
+      "orders": 2287
+    },
+    {
+      "post_id": 3953,
+      "aliexpress_id": "3256806353390894",
+      "name": "Reusable Pet Hair Remover Ball for the Washing Machine",
+      "slug": "pet-hair-remover-laundry-ball",
+      "category": "Grooming",
+      "term_id": 71,
+      "rating": "87.2%",
+      "orders": 1897
+    },
+    {
+      "post_id": 3960,
+      "aliexpress_id": "3256810386376030",
+      "name": "Retractable Car Seat Belt Tether for Dogs",
+      "slug": "retractable-car-seat-belt-tether",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 4359
+    },
+    {
+      "post_id": 3967,
+      "aliexpress_id": "3256806780093617",
+      "name": "Adjustable Dog Car Seat Belt Strap",
+      "slug": "adjustable-dog-car-seat-belt-strap",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 1281
+    },
+    {
+      "post_id": 3974,
+      "aliexpress_id": "3256806778843096",
+      "name": "Breakaway Safety Car Tether for Dogs",
+      "slug": "breakaway-safety-car-tether",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "96.7%",
+      "orders": 1209
+    },
+    {
+      "post_id": 3981,
+      "aliexpress_id": "3256807353534177",
+      "name": "Heavy-Duty Harness and Car Belt Combination",
+      "slug": "heavy-duty-harness-car-belt",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 848
+    },
+    {
+      "post_id": 3988,
+      "aliexpress_id": "3256806810776010",
+      "name": "Foldable Hammock Car Seat Cover for Dogs",
+      "slug": "foldable-hammock-car-seat-cover",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 686
+    },
+    {
+      "post_id": 3995,
+      "aliexpress_id": "3256808608411473",
+      "name": "Waterproof Scratch-Proof Car Hammock with Side Flaps",
+      "slug": "waterproof-scratch-proof-car-hammock",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "94.7%",
+      "orders": 1049
+    },
+    {
+      "post_id": 4002,
+      "aliexpress_id": "3256806677615384",
+      "name": "Hands-Free Front Chest Carrier for Small Dogs",
+      "slug": "hands-free-front-chest-carrier",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 1441
+    },
+    {
+      "post_id": 4009,
+      "aliexpress_id": "3256806768094209",
+      "name": "Breathable Mesh Sling Carrier for Dogs",
+      "slug": "breathable-mesh-sling-carrier",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "91.1%",
+      "orders": 1536
+    },
+    {
+      "post_id": 4016,
+      "aliexpress_id": "3256811467463031",
+      "name": "Dog Backpack Carrier with Safety Tether",
+      "slug": "dog-backpack-carrier-safety-tether",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 1215
+    },
+    {
+      "post_id": 4023,
+      "aliexpress_id": "3256808858971683",
+      "name": "Squeeze Travel Water Bottle with Flip-Out Trough",
+      "slug": "squeeze-travel-water-bottle-trough",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 2208
+    },
+    {
+      "post_id": 4030,
+      "aliexpress_id": "3256811556863845",
+      "name": "Compact Leak-Proof Water Bottle for Small Dogs",
+      "slug": "compact-leak-proof-bottle-small-dogs",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 2252
+    },
+    {
+      "post_id": 4037,
+      "aliexpress_id": "3256812117974696",
+      "name": "Large-Capacity Leak-Proof Dog Water Bottle",
+      "slug": "large-capacity-leak-proof-bottle",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 857
+    },
+    {
+      "post_id": 4044,
+      "aliexpress_id": "3256811681355866",
+      "name": "Insulated Steel Water Cup with Foldable Bowl",
+      "slug": "insulated-steel-cup-foldable-bowl",
+      "category": "Travel Gear",
+      "term_id": 69,
+      "rating": "98.0%",
+      "orders": 631
+    },
+    {
+      "post_id": 4051,
+      "aliexpress_id": "3256807449251069",
+      "name": "USB Rechargeable LED Light-Up Dog Collar",
+      "slug": "usb-rechargeable-led-dog-collar",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 1373
+    },
+    {
+      "post_id": 4058,
+      "aliexpress_id": "3256811376318056",
+      "name": "Fibre Optic Glowing Dog Collar",
+      "slug": "fibre-optic-glowing-dog-collar",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "93.9%",
+      "orders": 720
+    },
+    {
+      "post_id": 4065,
+      "aliexpress_id": "3256811611649647",
+      "name": "Waterproof Real-Time GPS Tracker for Dogs",
+      "slug": "waterproof-real-time-gps-tracker",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "85.0%",
+      "orders": 847
+    },
+    {
+      "post_id": 4072,
+      "aliexpress_id": "3256809923387300",
+      "name": "Find My Compatible Bluetooth Tracker for Dogs",
+      "slug": "find-my-bluetooth-tracker-dogs",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 324
+    },
+    {
+      "post_id": 4079,
+      "aliexpress_id": "3256804742578438",
+      "name": "Silicone Tracker Holder for Dog Collars",
+      "slug": "silicone-tracker-holder-collar",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "95.2%",
+      "orders": 411
+    },
+    {
+      "post_id": 4086,
+      "aliexpress_id": "3256810344878514",
+      "name": "Tracker Collar with Personalised Name Tag",
+      "slug": "tracker-collar-personalised-name-tag",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "85.9%",
+      "orders": 442
+    },
+    {
+      "post_id": 4093,
+      "aliexpress_id": "3256808131352553",
+      "name": "Stainless Steel Pet Water Fountain (2.2L)",
+      "slug": "stainless-steel-water-fountain-2l",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "93.8%",
+      "orders": 4849
+    },
+    {
+      "post_id": 4100,
+      "aliexpress_id": "3256809968673827",
+      "name": "Wireless Rechargeable Sensor Water Fountain (3L)",
+      "slug": "wireless-rechargeable-sensor-fountain",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 2435
+    },
+    {
+      "post_id": 4107,
+      "aliexpress_id": "3256808389235077",
+      "name": "Compact USB Water Fountain for Dogs (1.2L)",
+      "slug": "compact-usb-water-fountain",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "94.4%",
+      "orders": 862
+    },
+    {
+      "post_id": 4114,
+      "aliexpress_id": "3256810343675094",
+      "name": "Infrared Motion-Activated Water Dispenser",
+      "slug": "infrared-motion-water-dispenser",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "98.0%",
+      "orders": 468
+    },
+    {
+      "post_id": 4121,
+      "aliexpress_id": "3256806568292510",
+      "name": "Launcher-Compatible Tennis Balls for Dogs (2 Inch)",
+      "slug": "launcher-compatible-tennis-balls",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "94.3%",
+      "orders": 692
+    },
+    {
+      "post_id": 4128,
+      "aliexpress_id": "3256806107166513",
+      "name": "Tennis Launcher Ball Multipack (6 Balls, 5cm)",
+      "slug": "tennis-launcher-ball-multipack",
+      "category": "Smart Accessories",
+      "term_id": 72,
+      "rating": "95.0%",
+      "orders": 324
+    }
+  ]
+}
