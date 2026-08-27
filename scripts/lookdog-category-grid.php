@@ -92,16 +92,21 @@ function lookdog_category_grid( $atts = array() ) {
 			<?php
 			if ( $thumb_id ) {
 				// The wrapping link is aria-hidden, so this alt is for image search
-				// rather than screen readers. Passing an empty string does not work:
-				// wp_get_attachment_image falls back to the attachment title, which
-				// here is a filename like "Lookdog 3658 1 300x300".
+				// rather than screen readers.
+				//
+				// This used to pass 'title' => '' to stop a junk tooltip appearing,
+				// with a comment blaming wp_get_attachment_image for falling back to
+				// the attachment filename. That was wrong: the function adds no title
+				// at all. SureRank's Image_Seo was rewriting the rendered HTML and
+				// building titles from the page title, which is why every card here
+				// read "Home". It is switched off in lookdog-image-attrs.php, so no
+				// title argument is needed.
 				echo wp_get_attachment_image(
 					$thumb_id,
 					'woocommerce_thumbnail',
 					false,
 					array(
 						'alt'     => $name,
-						'title'   => '',
 						'loading' => 'lazy',
 					)
 				);

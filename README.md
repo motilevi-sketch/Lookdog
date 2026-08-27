@@ -543,6 +543,64 @@ schema. That is deliberate on two counts:
 
 Revisit if the site ever collects its own reviews.
 
+## Two bugs that only appear later
+
+Both of these worked when written and broke silently when the site grew. Worth
+knowing the shape of them.
+
+### A hardcoded quote outlives the post it came from
+
+The homepage guide band picks the newest post, but its pull quote was a shortcode
+*default*. Publishing four new guides therefore put the tracker guide's headline
+above the feeding guide's line about chocolate — a mismatch nobody would notice
+in code review, because both halves were individually correct.
+
+The quote now lives in `lookdog_pull_quote` post meta on the guide it came from,
+so the two cannot separate. Give every new guide one, taken **verbatim** from the
+article — the point of a pull quote is that the reader meets it again on arrival.
+The band renders without a quote rather than borrowing another post's.
+
+The same class of bug was in the `/start` page: the featured product was a
+filter, but its description and its `/go/tug` link were typed into the markup
+beside it. Changing the featured product would have kept the old sales copy and
+the old link. Both now derive from the product — `lookdog_bio_featured_line()`
+for the copy, `lookdog_go_url_for_post()` for the link, which falls back to the
+permalink when no short link points at that product.
+
+**The rule:** if one value is configurable, everything shown next to it has to be
+derived, not typed.
+
+### SureRank rewrites your image attributes
+
+`SureRank\Inc\Frontend\Image_Seo` runs on `the_content` and fills in `alt` and
+`title` on every image, building them from the **page** title. On a homepage
+titled "Home" that put `title="Home"` on all ten product photographs.
+
+It is off, in `scripts/lookdog-image-attrs.php`:
+
+```php
+add_filter( 'surerank_auto_set_image_title_and_alt', '__return_false' );
+```
+
+Three reasons, in order of weight:
+
+- It **overwrote deliberate empty alt.** The `/start` category rows use `alt=""`
+  because the name sits right beside the thumbnail; filling those in makes a
+  screen reader announce every row twice. That is an accessibility regression
+  sold as an improvement.
+- The image `title` attribute carries no SEO weight at all. It renders a tooltip,
+  and "Home" over a photo of a dog lead is worse than nothing.
+- Every image here already gets deliberate alt at the point it is created.
+
+Measured before and after across four page types: **no image lost its alt**, and
+the four intentional `alt=""` came back. If something ever does lack alt, fix it
+at the source — an alt built from the page title is not a description.
+
+This one also cost a wrong comment. `lookdog-category-grid.php` used to pass
+`'title' => ''` with a note blaming `wp_get_attachment_image` for falling back to
+the attachment filename. That was never true; the function adds no title at all.
+Verify which layer is actually rewriting your HTML before commenting a cause.
+
 ## Social profiles
 
 The brand's social accounts live in one place — `lookdog_social_profiles()` in

@@ -54,6 +54,28 @@ function lookdog_go_resolve( $slug ) {
 	return add_query_arg( $utm, $url );
 }
 
+/**
+ * The short-link slug pointing at a given post, or '' when none does.
+ *
+ * Lets a page link to /go/tug without hardcoding "tug" next to a product id
+ * that a filter can change underneath it.
+ */
+function lookdog_go_slug_for_post( $post_id ) {
+	$post_id = (int) $post_id;
+	foreach ( lookdog_go_targets() as $slug => $t ) {
+		if ( ! empty( $t['post'] ) && (int) $t['post'] === $post_id ) {
+			return (string) $slug;
+		}
+	}
+	return '';
+}
+
+/** The best URL for a post: its short link when one exists, else the permalink. */
+function lookdog_go_url_for_post( $post_id ) {
+	$slug = lookdog_go_slug_for_post( $post_id );
+	return $slug ? home_url( '/go/' . $slug ) : (string) get_permalink( $post_id );
+}
+
 /** Count the hit. Per-day, trimmed to 120 days so the option cannot grow forever. */
 function lookdog_go_count( $slug ) {
 	$stats = (array) get_option( 'lookdog_go_stats', array() );

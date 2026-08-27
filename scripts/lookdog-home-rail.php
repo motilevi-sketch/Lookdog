@@ -76,7 +76,6 @@ function lookdog_product_rail( $atts = array() ) {
 								false,
 								array(
 									'alt'     => $name,
-									'title'   => '',
 									'loading' => 'lazy',
 								)
 							);
@@ -84,7 +83,7 @@ function lookdog_product_rail( $atts = array() ) {
 						?>
 					</span>
 					<span class="ld-pcard__name"><?php echo esc_html( $name ); ?></span>
-					<span class="ld-pcard__cta">Read the guide</span>
+					<span class="ld-pcard__cta">See the write-up</span>
 				</a>
 			</li>
 			<?php endforeach; ?>

@@ -14,9 +14,28 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/** The product the current campaign is running. Change this, not the markup. */
+/**
+ * The product the current campaign is running. Change this, not the markup.
+ *
+ * Everything below follows from it: the name, the photograph, the one-line
+ * description and the link all come from the product itself, so swapping the id
+ * swaps the whole card. An earlier version had the description and the /go/tug
+ * link written into the markup beside this filter, which meant changing the
+ * featured product would have left the old sales copy pointing at the old item.
+ */
 function lookdog_bio_featured_id() {
 	return (int) apply_filters( 'lookdog_bio_featured_id', 3553 );
+}
+
+/** The product's own short description, minus the affiliate boilerplate. */
+function lookdog_bio_featured_line( $post_id ) {
+	$text = wp_strip_all_tags( (string) get_post_field( 'post_excerpt', $post_id ) );
+	$text = str_replace(
+		'Affiliate notice: LookDog may earn a commission if you purchase through this link, at no additional cost to you.',
+		'',
+		$text
+	);
+	return wp_trim_words( trim( $text ), 30, '&hellip;' );
 }
 
 function lookdog_bio_term_image( $term_id, $size = 'medium' ) {
@@ -45,7 +64,7 @@ function lookdog_bio_links_shortcode() {
 		<?php if ( 'publish' === get_post_status( $featured ) ) : ?>
 		<section class="ld-bio__feature">
 			<p class="ld-bio__eyebrow">From the post you just saw</p>
-			<a class="ld-bio__featurecard" href="<?php echo esc_url( home_url( '/go/tug' ) ); ?>">
+			<a class="ld-bio__featurecard" href="<?php echo esc_url( lookdog_go_url_for_post( $featured ) ); ?>">
 				<?php if ( has_post_thumbnail( $featured ) ) : ?>
 					<span class="ld-bio__shot">
 						<?php echo get_the_post_thumbnail( $featured, 'medium_large', array( 'alt' => get_the_title( $featured ), 'loading' => 'eager' ) ); ?>
@@ -53,7 +72,7 @@ function lookdog_bio_links_shortcode() {
 				<?php endif; ?>
 				<span class="ld-bio__featurebody">
 					<span class="ld-bio__featurename"><?php echo esc_html( get_the_title( $featured ) ); ?></span>
-					<span class="ld-bio__featurenote">Suckers onto a hard floor so a dog can tug against it alone, with a treat cavity to keep them at it.</span>
+					<span class="ld-bio__featurenote"><?php echo esc_html( lookdog_bio_featured_line( $featured ) ); ?></span>
 					<span class="ld-bio__btn">Read the full write-up</span>
 				</span>
 			</a>

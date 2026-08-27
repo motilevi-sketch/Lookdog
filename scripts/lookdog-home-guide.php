@@ -16,12 +16,20 @@
  * arguments that product pages cannot, so the homepage should send people to
  * one. Deliberately the only asymmetric band on the page: dials put variance at
  * 0.45, which means composed by default with asymmetry used once, on purpose.
+ *
+ * The quote lives in `lookdog_pull_quote` post meta, on the guide it came from.
+ * It used to be a shortcode default, which broke the moment a newer guide was
+ * published: the band picks the latest post, so the homepage ran the tracker
+ * guide's headline above the feeding guide's line about chocolate. Tying the
+ * quote to the post makes that mismatch impossible. Give every new guide a
+ * quote, and take it verbatim from the article - the whole point of a pull
+ * quote is that the reader meets it again when they arrive.
  */
 function lookdog_featured_guide( $atts = array() ) {
 	$atts = shortcode_atts(
 		array(
 			'post_id' => '0',
-			'quote'   => 'Thirteen grams of dark chocolate is a genuine emergency for a 4kg dog. For a 35kg dog it is very likely nothing.',
+			'quote'   => '',
 			'kicker'  => 'From the guides',
 		),
 		$atts,
@@ -53,12 +61,20 @@ function lookdog_featured_guide( $atts = array() ) {
 	$excerpt = trim( str_replace( 'Affiliate notice: LookDog may earn a commission if you purchase through this link, at no additional cost to you.', '', $excerpt ) );
 	$excerpt = wp_trim_words( $excerpt, 34, '&hellip;' );
 
+	// Attribute wins, then the guide's own stored quote. Never another guide's.
+	$quote = trim( (string) $atts['quote'] );
+	if ( '' === $quote ) {
+		$quote = trim( (string) get_post_meta( $pid, 'lookdog_pull_quote', true ) );
+	}
+
 	ob_start();
 	?>
 <section class="ld-band ld-band--ink">
 	<div class="ld-wrap ld-guide">
 		<figure class="ld-guide__quote">
-			<blockquote><?php echo esc_html( $atts['quote'] ); ?></blockquote>
+			<?php if ( '' !== $quote ) : ?>
+				<blockquote><?php echo esc_html( $quote ); ?></blockquote>
+			<?php endif; ?>
 			<figcaption><?php echo esc_html( number_format_i18n( $words ) ); ?> words, free to read</figcaption>
 		</figure>
 		<div class="ld-guide__body">
