@@ -115,6 +115,18 @@ and cap the number taken from each source category — an uncapped ranking fills
 category entirely with whichever section happens to be largest. Order volumes
 drift, so this ranking needs re-running periodically to stay honest.
 
+The cap is currently 4 per source category, giving 24 products. Re-rank after every
+import batch: the August 2026 batch put twelve new products straight into the top
+24, and half the previous list no longer belonged there.
+
+**Fetching volume for the whole catalogue hits an API limit.** Ranking 167 products
+means ~40 `productdetail.get` calls, and after roughly 160 IDs the endpoint starts
+returning empty for everything, including IDs it answered minutes earlier. Do not
+read that as delisting. Confirm by requesting the affiliate link with
+`redirection => 0` — a 302 to the correct item ID means the product is fine and the
+API is rate limiting. Products with no fresh volume are excluded from the ranking
+rather than ranked on stale numbers, and the count is recorded in the manifest.
+
 ## Import records
 
 See `data/` for a manifest of each import batch.

@@ -1,0 +1,66 @@
+{
+  "date": "2026-08-27",
+  "site": "https://lookdog.club",
+  "action": "Re-ranked Best Sellers (term 73) against live order volume after the catalogue grew to 167 products",
+  "method": {
+    "signal": "lastest_volume from aliexpress.affiliate.productdetail.get, fetched fresh at rank time rather than read from stored values",
+    "cap": "4 per source category, raised from 3",
+    "size": "18 -> 24",
+    "why_capped": "An uncapped ranking fills the category with whichever section sells hardest. Leashes and harnesses would have taken most of the slots."
+  },
+  "coverage": {
+    "products_ranked": 155,
+    "products_unranked": 12,
+    "unranked_reason": "productdetail.get returned empty for these across repeated single-ID retries, after roughly 160 detail calls in the same session. All 12 affiliate links were checked directly and every one still 302-redirects to the correct live item, so this is an API limit rather than delisted products. They were excluded from ranking rather than ranked on stale numbers.",
+    "unranked_post_ids": [3323, 3330, 3354, 3560, 3588, 3609, 3742, 3918, 3925, 4037, 4044, 4216]
+  },
+  "churn": {
+    "kept": 12,
+    "added": 12,
+    "removed": 6,
+    "added_products": [
+      {"post_id": 4404, "name": "Automatic Retractable Dog Leash", "orders": 7303},
+      {"post_id": 3448, "name": "Squeaky Octopus Plush Toy with Crinkle Tentacles", "orders": 7004},
+      {"post_id": 4411, "name": "Long Nylon Training Lead (3m and 5m)", "orders": 5994},
+      {"post_id": 4390, "name": "Front-Clip No-Pull Harness with Control Handle", "orders": 3461},
+      {"post_id": 4244, "name": "Leash-Mounted Waste Bag Dispenser", "orders": 3090},
+      {"post_id": 3876, "name": "Circular-Hole Nail Clippers for Dogs", "orders": 2862},
+      {"post_id": 4230, "name": "Clip-On Training Treat Pouch", "orders": 2794},
+      {"post_id": 3869, "name": "Electric Nail Grinder for Dogs", "orders": 2593},
+      {"post_id": 4285, "name": "Foraging Snuffle Mat for Slow Feeding", "orders": 2371},
+      {"post_id": 4167, "name": "Pocket Ultrasonic Bark Deterrent with LED Torch", "orders": 2312},
+      {"post_id": 3707, "name": "Flannel Throw Blanket for Dogs and Puppies", "orders": 2243},
+      {"post_id": 4223, "name": "Waterproof Bark Control Collar with Sound and Vibration", "orders": 1794}
+    ],
+    "removed_products": [
+      {"post_id": 4051, "name": "USB Rechargeable LED Light-Up Dog Collar"},
+      {"post_id": 4030, "name": "Compact Leak-Proof Water Bottle for Small Dogs"},
+      {"post_id": 4023, "name": "Squeeze Travel Water Bottle with Flip-Out Trough"},
+      {"post_id": 3918, "name": "Electrostatic Grooming Glove for Pet Hair"},
+      {"post_id": 3848, "name": "Timed Automatic Dog Feeder with Portion Control"},
+      {"post_id": 3813, "name": "Non-Slip Anti-Gulping Slow Feeder Dish"}
+    ],
+    "note": "Removed products keep their source category. Only term 73 was detached, and no product was left with Best Sellers as its only category."
+  },
+  "top_of_list": [
+    {"post_id": 3658, "name": "Self-Cooling Summer Mat for Dogs", "category": "Beds & Comfort", "orders": 24862},
+    {"post_id": 3427, "name": "Automatic Rolling Smart Ball for Dogs", "category": "Dog Toys", "orders": 9974},
+    {"post_id": 3434, "name": "Cuddle Duck Plush Companion Toy for Dogs", "category": "Dog Toys", "orders": 8607}
+  ],
+  "composition_after": {
+    "Beds & Comfort": 4, "Dog Toys": 4, "Feeding & Care": 4,
+    "Grooming": 4, "Smart Accessories": 4, "Travel Gear": 4
+  },
+  "seo_title_cleanup": {
+    "action": "Removed the '| Review' framing from every product SEO title and replaced it with '| LookDog'",
+    "why": "No product on the site has been physically tested. A title promising a review the page does not contain is an E-E-A-T liability, not a ranking win.",
+    "bulk_replaced": 107,
+    "hand_rewritten": 8,
+    "hand_rewritten_reason": "Five had 'Review' embedded mid-title rather than as a trailing suffix, and the rest exceeded 60 characters once the suffix was swapped",
+    "suffix_added_to": [3347, 3323, 3316],
+    "suffix_added_reason": "These three never carried the Review suffix and so had no brand suffix at all",
+    "blog_index_page": "Post 3280 title and description both advertised reviews the blog does not contain; retitled to 'LookDog Blog | Dog Care Guides and Buying Advice'",
+    "left_alone": "Post 3275 (contact page) uses 'review' as a verb in an invitation to suggest topics, which is accurate",
+    "verified_after": "167 of 167 products carry an SEO title, none contains the word review, none exceeds 60 characters, and all end in '| LookDog'"
+  }
+}
