@@ -320,6 +320,65 @@ Keep the two copy fields distinct: `description` is the long archive copy,
 `lookdog_card_blurb` is the one-line homepage card. Putting the long copy in the
 blurb field would dump 300 words into a card.
 
+## Instagram: campaign links and the /start page
+
+**An Instagram image post has no clickable link.** Not in the picture, not in the
+caption. The only clickable destinations an account has are the bio link, a Story
+link sticker, and the CTA button on a paid ad. Everything below is built around
+that constraint.
+
+### Short campaign links
+
+`scripts/lookdog-go-links.php` registers `/go/{slug}`, which 302-redirects to a
+product or category page with UTM parameters attached:
+
+```
+https://lookdog.club/go/tug
+  -> /product/suction-cup-treat-dispensing-tug-toy/
+     ?utm_source=instagram&utm_medium=social&utm_campaign=tug
+```
+
+Short enough to print on an image and be typed by hand from a phone screen, which
+is the only mechanism that works for an organic feed post.
+
+Targets live in the `lookdog_go_links` option, so a new campaign needs no code:
+
+```php
+update_option( 'lookdog_go_links', [
+    'tug' => [ 'post' => 3553 ],            // resolves the permalink at redirect time
+    'best'=> [ 'url'  => 'https://…' ],     // or a literal URL
+] );
+flush_rewrite_rules( false );               // required after adding the first rule
+```
+
+Two deliberate behaviours:
+
+- **An unknown slug redirects to the homepage, not a 404.** A typo printed into a
+  published image cannot be corrected afterwards, so the fallback has to be soft.
+- **Hits are counted per day** in `lookdog_go_stats`, trimmed to 120 days. Without
+  this there is no way to know whether a post sent anybody, since Instagram
+  reports impressions and the site reports sessions and neither joins the two.
+
+Redirects carry `X-Robots-Tag: noindex, nofollow`.
+
+### The /start page
+
+Page 4493, `[lookdog_bio_links]`. This is what the Instagram bio link points at,
+and it is built for a phone: one 520px column, the current campaign's product
+first, then category shortcuts with live product counts.
+
+It is deliberately `noindex` — a social landing page competing in search with the
+category pages it links to would be working against them.
+
+The featured product is one filterable function, not markup:
+
+```php
+add_filter( 'lookdog_bio_featured_id', fn() => 4181 );  // or edit the default
+```
+
+Category counts and images are read live, so the page cannot drift from the
+catalogue the way hand-written link pages do.
+
 ## Social profiles
 
 The brand's social accounts live in one place — `lookdog_social_profiles()` in
