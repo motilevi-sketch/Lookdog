@@ -379,6 +379,63 @@ add_filter( 'lookdog_bio_featured_id', fn() => 4181 );  // or edit the default
 Category counts and images are read live, so the page cannot drift from the
 catalogue the way hand-written link pages do.
 
+## Internal linking
+
+Product pages had no editorial outbound links at all. WooCommerce's related
+products block was rendering, but it only sends people sideways to more
+products, and the category links on a product page come from the header nav,
+which is identical everywhere. Neither is an editorial link, and neither carries
+anchor text that says anything.
+
+Two directions were added.
+
+**Guide to product.** The feeding guide (post 3777, 4,157 words) linked to
+nothing at all. It now carries five in-content links, placed where the article
+has already told the reader they need the thing:
+
+| Anchor | Target | Section |
+| --- | --- | --- |
+| slow-feeder bowl | anti-gulping slow feeder | Bloat |
+| training rewards | clip-on treat pouch | The Ten Per Cent Rule |
+| marked scoops | measured food scoops | How Much Food Per Day |
+| brushing their teeth | dental care kit | Small-breed cons |
+| airtight container | food storage container | Big-dog cons |
+
+Roughly one link per 830 words. Over-linking a guide destroys the credibility
+that makes it worth reading, which is the whole asset.
+
+Watch the anchor text. The dental link first read `periodontal disease`, which
+tells Google the destination is a page about the disease — it is a toothbrush.
+Anchor text has to describe what is on the other end.
+
+No link was placed in the raised-bowl passage, which reports the Purdue finding
+that elevated feeders were associated with *increased* bloat risk. The article
+already says this is a conversation for a vet "rather than a decision to make
+from a product description, including ours". Linking a feeder there would sell
+against our own advice.
+
+**Product to guide.** `scripts/lookdog-related-reading.php` appends a "Before you
+buy" link to product pages, mapping category to guide:
+
+```php
+add_filter( 'lookdog_reading_map', fn( $m ) => $m + [ 71 => [ 4501, 'Blurb.' ] ] );
+```
+
+Coverage is deliberately partial — 57 of 167 products. A category appears only
+when a guide genuinely covers it; the rest get nothing. A link to something
+loosely related is worth less than no link and reads as filler.
+
+The 110 products with no guide name the gap exactly: Travel Gear, Grooming,
+Beds & Comfort and Smart Accessories have no article behind them. Add the guide,
+add the row, and those products gain the link automatically.
+
+**Watch what the linking exposes.** Pointing 28 product pages at "Safe Play Tips
+for Small Dogs" made it obvious that the article was a 226-word stub. It was
+rewritten to 1,992 words (see `content/safe-play-guide-2026-08-27.md`) — the
+slug still says `small-dogs` while the article now covers all sizes, kept
+deliberately so the URL does not break. Internal links are only worth building
+when the destination deserves them.
+
 ## Social profiles
 
 The brand's social accounts live in one place — `lookdog_social_profiles()` in
