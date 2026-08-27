@@ -24,6 +24,10 @@ function lookdog_reading_map() {
 	return apply_filters( 'lookdog_reading_map', array(
 		70 => array( 3777, 'How much to feed, what is never safe, and why the same food is riskier for a small dog.' ),
 		68 => array( 3344, 'Sizing a toy safely, playing tug without the risks, and when a toy has to go in the bin.' ),
+		71 => array( 4497, 'Which tools your dog\'s coat actually needs, and the brushing order that stops mats forming.' ),
+		69 => array( 4498, 'What restrains a dog in a car and what only contains one, plus fixing travel sickness early.' ),
+		74 => array( 4499, 'Sizing a bed properly, testing whether the foam supports, and which cooling mats work.' ),
+		72 => array( 4500, 'Bluetooth tags versus GPS, why neither replaces a microchip, and what the training tech does.' ),
 	) );
 }
 

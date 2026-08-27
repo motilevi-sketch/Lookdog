@@ -421,13 +421,14 @@ buy" link to product pages, mapping category to guide:
 add_filter( 'lookdog_reading_map', fn( $m ) => $m + [ 71 => [ 4501, 'Blurb.' ] ] );
 ```
 
-Coverage is deliberately partial — 57 of 167 products. A category appears only
-when a guide genuinely covers it; the rest get nothing. A link to something
-loosely related is worth less than no link and reads as filler.
+Coverage is **167 of 167** since the four category guides landed (see
+`content/category-guides-2026-08-27.md`). It was 57 when the block first shipped;
+the 110 products with nothing named the gap exactly, and filling it was a matter
+of writing the article and adding the row.
 
-The 110 products with no guide name the gap exactly: Travel Gear, Grooming,
-Beds & Comfort and Smart Accessories have no article behind them. Add the guide,
-add the row, and those products gain the link automatically.
+Keep the rule if you add categories: a category appears only when a guide
+genuinely covers it. A link to something loosely related is worth less than no
+link and reads as filler.
 
 **Watch what the linking exposes.** Pointing 28 product pages at "Safe Play Tips
 for Small Dogs" made it obvious that the article was a 226-word stub. It was
@@ -435,6 +436,41 @@ rewritten to 1,992 words (see `content/safe-play-guide-2026-08-27.md`) — the
 slug still says `small-dogs` while the article now covers all sizes, kept
 deliberately so the URL does not break. Internal links are only worth building
 when the destination deserves them.
+
+## The guides
+
+Six articles, one behind every product category, all in Buying Guides (term 75).
+
+| Guide | Words | Category | Products linking in |
+| --- | --- | --- | --- |
+| What Small Dogs and Big Dogs Can Eat | 4,243 | Feeding & Care | 29 |
+| Dog Grooming at Home | 1,775 | Grooming | 29 |
+| Safe Play for Dogs | 1,992 | Dog Toys | 28 |
+| Travelling With a Dog | 1,554 | Travel Gear | 28 |
+| Choosing a Dog Bed | 1,828 | Beds & Comfort | 27 |
+| Dog Trackers, Lights and Training Tech | 1,716 | Smart Accessories | 26 |
+
+**The editorial rule they follow:** every guide names at least one thing its
+category cannot do, and at least one case where the honest answer is "not this
+product" — a groomer, a vet, a behaviourist, a crash-tested crate we do not
+sell. An affiliate guide that only says yes is not a guide, and on a site with
+no first-hand testing it is the only thing standing in for authority.
+
+That rule has teeth. The travel guide states that most pet car harnesses have
+never been crash tested and that "safety certified" has no standard behind it —
+about products this site lists. The tech guide explains why we do not stock
+shock collars. Do not quietly soften these passages to sell more; they are the
+reason the guides are worth linking to.
+
+### Writing another one
+
+Build the content with `execute-php` using `$P` / `$H` / `$L` closures rather
+than pasting HTML — `write-file` truncates above roughly 10KB, and hand-written
+Gutenberg comments are where the block-balance bugs come from. Then, before
+`wp_insert_post`, run the validator: opener/closer counts equal per block type,
+HTML tags balanced, `parse_blocks()` returning no loose HTML, and every product
+slug resolving. Publish, then add the row to `lookdog_reading_map` — the
+products pick up the link with no further work.
 
 ## Social profiles
 
