@@ -430,6 +430,35 @@ Keep the rule if you add categories: a category appears only when a guide
 genuinely covers it. A link to something loosely related is worth less than no
 link and reads as filler.
 
+**Guide to guide, and guide to archive.** Products and guides pointed at each
+other, but the guides were dead ends to one another and — worse — nothing linked
+to the category archives at all. Those archives carry 270–350 words of buying
+guidance each and are the most commercially valuable pages on an affiliate site,
+so leaving them as link sinks was the largest remaining hole.
+
+| Direction | How many | Where |
+| --- | --- | --- |
+| Product → guide | 167 | "Before you buy" block |
+| Guide → product | 34 | in-content, at the point of need |
+| Guide → guide | 6 | one per guide, at a real topical bridge |
+| Guide → its archive | 6 | closing line before the disclaimer |
+| Archive → its guide | 6 | closing line of the term description |
+
+The guide-to-guide links go where two articles genuinely meet, not where a
+crosslink would be convenient:
+
+- Safe play → Feeding on "take the food out of the **daily ration**"
+- Feeding → Grooming on small-breed dental disease, which the grooming guide
+  covers as a habit to build
+- Beds → Grooming on "a **flea comb** is how you confirm you have one", since
+  fleas live in bedding but are diagnosed on the dog
+- Travel → Beds on "pack their own **bed or blanket**, unwashed"
+- Grooming → Feeding on periodontal disease arriving earliest in small breeds
+- Tech → Feeding on automatic feeders and **several small meals a day**
+
+One link out per guide. Six guides that all cross-link to all five others would
+read as an SEO exercise, which is exactly what it would be.
+
 **Watch what the linking exposes.** Pointing 28 product pages at "Safe Play Tips
 for Small Dogs" made it obvious that the article was a 226-word stub. It was
 rewritten to 1,992 words (see `content/safe-play-guide-2026-08-27.md`) — the
