@@ -472,6 +472,48 @@ HTML tags balanced, `parse_blocks()` returning no loose HTML, and every product
 slug resolving. Publish, then add the row to `lookdog_reading_map` — the
 products pick up the link with no further work.
 
+## Analytics
+
+`scripts/lookdog-analytics.php`. Switched on by storing a Measurement ID; with
+none stored it prints nothing at all:
+
+```php
+update_option( 'lookdog_ga4_id', 'G-XXXXXXXXXX' );
+```
+
+**The reason this file exists is the `affiliate_click` event, not the page
+views.** Page views are close to useless here. The only action on the whole site
+that can earn anything is a click on "Check Price on AliExpress", and that click
+leaves for another domain, so nothing records it unless we do. The event carries
+the product, its category and the AliExpress item id, which turns GA4 from a
+visitor counter into a report on which products convert attention into outbound
+clicks — the number that decides what to import next.
+
+The handler is bound on `document` rather than on the button, so it survives any
+markup WooCommerce or Astra changes, and it uses the beacon transport so the
+visitor is never held up. Logged-in users are excluded, so the owner's own
+browsing never enters the reports.
+
+**Consent.** Consent Mode v2 ships as `granted`, which is what makes the reports
+work on day one. For EU or UK visitors the site needs a consent banner; the
+`lookdog_ga4_consent_defaults` filter is where one hooks in — return `denied`
+until the visitor agrees, then have the banner call `gtag('consent','update')`.
+
+### Not adding Product schema, and why
+
+Product pages carry WebPage, Organization and BreadcrumbList but no `Product`
+schema. That is deliberate on two counts:
+
+- Google's product rich result wants `offers.price`, and no price is stored —
+  that is the whole point of the "Check Price on AliExpress" button. Product
+  markup without a price earns very little.
+- Marking up `aggregateRating` from the AliExpress feedback score would breach
+  Google's structured data policy, which permits only ratings collected by the
+  site itself. The downside is a manual action, which is far worse than having
+  no rich result.
+
+Revisit if the site ever collects its own reviews.
+
 ## Social profiles
 
 The brand's social accounts live in one place — `lookdog_social_profiles()` in
