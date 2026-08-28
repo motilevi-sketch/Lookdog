@@ -278,14 +278,27 @@ scans the same rhythm twice:
 | --- | --- | --- |
 | Hero | `[lookdog_hero]` | full-bleed photograph, navy scrim, pill buttons |
 | What people actually buy | `[lookdog_product_rail]` | horizontal scroll of real products |
-| The part other sites leave out | `[lookdog_drawbacks]` | two-column flow of real drawbacks |
 | Browse by what it is | `[lookdog_category_grid]` | image card grid |
-| How we pick | `[lookdog_method]` | three text columns, hairline rules |
-| Featured guide | `[lookdog_featured_guide]` | asymmetric navy band + pull quote |
-| Every guide | `[lookdog_guides_index]` | plain indexed list |
 
-Seven bands, seven layout families, no repeats — which is the constraint that
-makes the page readable as a sequence rather than a template.
+**Three bands, by the owner's decision.** The page ran to seven and was cut back
+on 28 August 2026 because it was too long — the owner's call, made after seeing
+the full version. Four shortcodes came off the page and none were deleted:
+`[lookdog_drawbacks]`, `[lookdog_method]`, `[lookdog_featured_guide]` and
+`[lookdog_guides_index]` all still work, still ship, and print nothing while
+they are not on a page. Putting any of them back is one line in `post_content`.
+
+Two consequences worth knowing before anyone "fixes" this:
+
+- **The guides have no homepage entry point now.** All seven are still reachable
+  from the Blog item in the navigation and from the "Before you buy" block on
+  all 167 product pages, so the internal link graph is intact — but the shortest
+  path from the front door got longer.
+- **The trust content is down to the hero's one line.** The "How things get on
+  this site" band carried the 80% feedback floor and the both-sides-of-it
+  promise at length. The hero trust strip still carries the short version.
+
+The no-repeated-layout-family rule still holds and still matters if bands are
+added back.
 
 **"How we pick" sits fourth on purpose.** It was last, under everything, which is
 where a site puts the thing it does not really mean. It is the strongest reason to
@@ -370,6 +383,11 @@ rather than removed. Never use them on a light background.
 `scripts/lookdog-drawbacks.php`, `[lookdog_drawbacks]`. The one section of this
 homepage a competitor cannot copy by copying the layout, because the layout is
 not the asset.
+
+**Not currently on the homepage** — it was removed on 28 August 2026, the day it
+shipped, because the owner found the page too long. The code is unchanged and
+prints nothing while the shortcode is unused. This section documents it because
+the idea is worth keeping and the shortcode is one line away from returning.
 
 The method band claims every listing says what a product does badly. It claimed
 it and never showed it, which is the weakest form of the claim — any site can

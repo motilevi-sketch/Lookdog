@@ -1,0 +1,40 @@
+{
+  "date": "2026-08-28",
+  "site": "https://lookdog.club",
+  "action": "Cut the homepage from seven bands to three at the owner's request",
+  "reason": "The owner reviewed the full page and found it too long. Their decision, made with the finished version in front of them.",
+  "kept": [
+    "[lookdog_hero] - kept because removing it leaves the page with no H1 and no statement of what the site is",
+    "[lookdog_product_rail] - What people actually buy",
+    "[lookdog_category_grid] - Browse by what it is, six cards, with the one-line link to the problem pages"
+  ],
+  "removed_from_the_page": [
+    "[lookdog_drawbacks] - the band that quoted real Cons lines from real product pages",
+    "[lookdog_method] - How things get on this site",
+    "[lookdog_featured_guide] - the newest guide with its pull quote",
+    "[lookdog_guides_index] - the list of all seven guides"
+  ],
+  "no_code_deleted": "All four shortcodes still ship and still work. Each gates its own CSS on the shortcode being present, so an unused one prints nothing at all. Restoring any of them is one line in post_content.",
+  "consequences": [
+    {
+      "issue": "The guides have no homepage entry point",
+      "checked": "All 7 remain linked from /blog/ (HTTP 200), the Blog nav item is on every page, and the 'Before you buy' block on all 167 product pages still points at them. The link graph is intact; the path from the front door is longer."
+    },
+    {
+      "issue": "Trust content is down to the hero's one line",
+      "note": "The method band carried the 80% feedback floor, the category count and the both-sides promise at length. The hero trust strip still carries the short version, with live numbers."
+    }
+  ],
+  "band_grounds": "The category band was switched from tint to white. With the drawbacks band gone it would otherwise have sat on the same ground as the rail directly above it, and the two sections would have run together.",
+  "verification": {
+    "checks_passed": 10,
+    "list": [
+      "hero present", "one H1", "rail present", "6 category cards",
+      "drawbacks band gone", "method band gone", "featured guide gone", "guides index gone",
+      "drawbacks CSS not printed", "#categories anchor kept for the hero button"
+    ],
+    "page_weight": "body markup 68,793 bytes, down from 74,830 before the audit work began",
+    "links": "26 unique internal links, all 200",
+    "headings": "H1 Dog gear, with the drawbacks written down / H2 What people actually buy / H2 Browse by what it is / six H3 category names / H2 Shop / H2 The small print"
+  }
+}
