@@ -10,7 +10,7 @@
  * allows one accent, and six accents would read as six websites. Each guide
  * instead differs in the shape of its furniture: how the title lands, how a
  * section announces itself, how tables are ruled, and which ground the header
- * sits on. Same palette, same face, six distinct rhythms.
+ * sits on. Same palette, same face, seven distinct rhythms.
  *
  * Style per post lives in `lookdog_article_style` meta, so it survives without
  * code. The map below only seeds it.
@@ -29,6 +29,7 @@ function lookdog_article_styles() {
 		4498 => 'bulletin', // travel: physics and consequences, stated urgently
 		4499 => 'calm',     // beds: rest, so the page should be restful
 		4500 => 'spec',     // trackers: comparison and specification
+		4524 => 'primer',   // puppy: a first-timer being sold thirty things they do not need
 	) );
 }
 

@@ -1,0 +1,53 @@
+{
+  "date": "2026-08-28",
+  "site": "https://lookdog.club",
+  "action": "Added a seventh guide, a seventh article treatment, and a puppy essentials tag",
+  "reviewer_item": "9 - add a Puppy section",
+  "guide": {
+    "id": 4524,
+    "url": "https://lookdog.club/puppy-first-six-months/",
+    "title": "A Puppy's First Six Months: What You Actually Need, and When",
+    "words": 1713,
+    "category": "Buying Guides (75)",
+    "shape": "Arranged by when things become useful rather than as a checklist: before arrival, weeks 8-12, teething, handling, weeks 16-24, what gets replaced, what to skip, when it is a vet question",
+    "pull_quote": "Most puppy checklists are shopping lists with a paragraph on top.",
+    "links": {"products": 3, "guides": 4, "archives": 1},
+    "argues_against_buying": [
+      "Do not buy the proper bed yet - you cannot tell at ten weeks whether the dog curls or sprawls",
+      "Most young puppies do not need a slow feeder",
+      "Nothing sold to stop a puppy biting works - not sprays, gels or deterrents",
+      "Pads teach a puppy that indoors is sometimes acceptable, which you later have to undo",
+      "Starter bundles, teething gels and a second bed: skip",
+      "Diarrhoea, repeated vomiting, lethargy and a persistent cough are vet calls, and nothing on this site treats any of them"
+    ]
+  },
+  "treatment": {
+    "key": "primer",
+    "why": "Written for a first-timer being sold thirty things they do not need, so the furniture is reassurance rather than authority",
+    "furniture": "Oversized opening paragraph, section headings on a tinted band with an accent rule, table ruled only horizontally so it reads as a checklist",
+    "accent": {"base": "#3F6212", "dark": "#365314", "name": "olive"},
+    "accent_note": "Close to the beds guide's sage #4F6152. Sage is a grey-green for a guide about rest, olive a yellow-green for one about growth, and they are never on the same page.",
+    "design_doc": "guidePrimer and guidePrimerDark added to DESIGN.md and the design re-saved and re-activated; check-design then passed with no violations"
+  },
+  "tag": {
+    "term_id": 88,
+    "slug": "puppy",
+    "name": "Puppy essentials",
+    "products": 20,
+    "description_words": 178,
+    "kept_out_of_the_problems_hub": "lookdog_problem_terms() now requires lookdog_problem_order meta rather than accepting every product_tag. A life stage is not a problem, and listing it would put 'Puppy essentials' between 'Barking too much' and 'Chewing everything' as though it were something to fix."
+  },
+  "no_reading_map_row": "lookdog_reading_map is keyed by product_cat and every product already links to its category guide. Adding the puppy guide there would put two 'before you buy' links on 20 product pages selling the same article.",
+  "correction_to_the_readme": {
+    "was": "write-file truncates above roughly 10KB, so build guide content with execute-php closures",
+    "now": "It does not. This guide went in as a single 12,525-byte write-file to a tmp- file in the sandbox, which execute-php then read, validated and published before deleting it."
+  },
+  "verification": {
+    "pre_publish": "42 block openers / 42 closers, 42 named blocks from parse_blocks(), balanced p/h2/table/strong/tr, 1713 words",
+    "live": "HTTP 200, body class ld-art--primer, primer CSS present, accent #3F6212 in the lookdog-article-accent block, three-photo strip with real alt text, one H1, 11 h2, 1 table, index/follow, SEO title 58 chars",
+    "links": "All 8 internal links return 200",
+    "surfaces": "Homepage guides index 7 rows; featured band shows the puppy guide with its verbatim pull quote; problems hub still 10 rows with the puppy paragraph above it; tag archive 200 with 4 paragraphs and 20 products",
+    "sitemap": "Rebuilt with the full class set: 7 posts, 11 product tags",
+    "my_own_errors": "Two first-pass checks reported failures that were not real - the accent regex matched the site's global ember token earlier in the document, and the photo-strip selector used a class name the markup does not use. Both re-checked against the actual accent block and the ld-strip element."
+  }
+}

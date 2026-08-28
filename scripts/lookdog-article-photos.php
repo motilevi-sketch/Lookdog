@@ -30,6 +30,7 @@ function lookdog_article_accents() {
 		'bulletin' => array( '#0369A1', '#075985' ), // signal blue; roads and notices
 		'calm'     => array( '#4F6152', '#3F4E42' ), // sage; the subject is rest
 		'spec'     => array( '#334155', '#1E293B' ), // slate; a technical document
+		'primer'   => array( '#3F6212', '#365314' ), // olive; growing, and not one of the other six
 	) );
 }
 
@@ -42,6 +43,7 @@ function lookdog_article_photo_map() {
 		4498 => array( 4390, 4404, 3960 ), // harness, retractable lead, car tether
 		4499 => array( 3658, 4473, 3602 ), // cooling mat, ice-silk bed, plush bed
 		4500 => array( 4142, 4216, 4181 ), // tracker collar, LED collar, launcher
+		4524 => array( 3574, 4251, 3404 ), // teething turtle, washable pad, steel bowl
 	) );
 }
 

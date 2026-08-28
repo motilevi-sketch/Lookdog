@@ -656,9 +656,10 @@ when the destination deserves them.
 
 ## The guides
 
-Six articles, one behind every product category, all in Buying Guides (term 75).
+Seven articles, all in Buying Guides (term 75). Six sit behind a product
+category; the seventh sits behind a life stage.
 
-| Guide | Words | Category | Products linking in |
+| Guide | Words | Behind | Products linking in |
 | --- | --- | --- | --- |
 | What Small Dogs and Big Dogs Can Eat | 4,243 | Feeding & Care | 29 |
 | Dog Grooming at Home | 1,775 | Grooming | 29 |
@@ -666,6 +667,13 @@ Six articles, one behind every product category, all in Buying Guides (term 75).
 | Travelling With a Dog | 1,554 | Travel Gear | 28 |
 | Choosing a Dog Bed | 1,828 | Beds & Comfort | 27 |
 | Dog Trackers, Lights and Training Tech | 1,716 | Smart Accessories | 26 |
+| A Puppy's First Six Months | 1,713 | the `puppy` tag | — |
+
+The puppy guide has no inbound product links on purpose. `lookdog_reading_map`
+is keyed by category and every product already carries a link to its category's
+guide; adding a second one would put two "before you buy" links on 20 product
+pages to sell the same article. It is reached from the guides index, the
+featured band, the `puppy` tag archive and a line on the problems hub.
 
 **The editorial rule they follow:** every guide names at least one thing its
 category cannot do, and at least one case where the honest answer is "not this
@@ -681,13 +689,34 @@ reason the guides are worth linking to.
 
 ### Writing another one
 
-Build the content with `execute-php` using `$P` / `$H` / `$L` closures rather
-than pasting HTML — `write-file` truncates above roughly 10KB, and hand-written
-Gutenberg comments are where the block-balance bugs come from. Then, before
-`wp_insert_post`, run the validator: opener/closer counts equal per block type,
-HTML tags balanced, `parse_blocks()` returning no loose HTML, and every product
-slug resolving. Publish, then add the row to `lookdog_reading_map` — the
-products pick up the link with no further work.
+**`write-file` no longer truncates at ~10KB.** An earlier note here said it did
+and told you to build content with `execute-php` closures instead. The puppy
+guide went in as a single 12,525-byte `write-file` to a `tmp-` file in the
+sandbox, which `execute-php` then read, validated and published before deleting
+it. That is the easier route now: the HTML is written once, in one piece, where
+you can read it.
+
+Validate before `wp_insert_post`, whichever way you build it: opener and closer
+counts equal per block type, HTML tags balanced, `parse_blocks()` returning no
+loose HTML, and every internal link resolving 200. Then publish and add the row
+to `lookdog_reading_map` if the guide sits behind a category — the products pick
+up the link with no further work.
+
+Every guide needs, at minimum: a `post_excerpt`, a `lookdog_pull_quote` **taken
+verbatim from the article** (the homepage prints it against the newest post),
+`surerank_settings_general` with a title under 60 characters, a
+`lookdog_article_style`, and three product IDs in `lookdog_article_photos`. The
+style needs an entry in `lookdog_article_accents` too, or the guide silently
+falls back to ember and stops being its own colour world.
+
+**A seventh treatment: `primer`.** The puppy guide is written for someone who
+has never done this and is being sold thirty things they do not need, so the
+furniture is reassurance rather than authority: an oversized opening paragraph,
+section headings on a tinted band so the timeline scans at a glance, and a table
+ruled only horizontally so it reads as a checklist. Its accent is olive
+(`#3F6212`), which is close enough to the beds guide's sage to be worth naming —
+sage is a grey-green for a guide about rest, olive a yellow-green for one about
+growth, and the two are never on the same page.
 
 ## Analytics
 

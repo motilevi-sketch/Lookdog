@@ -85,7 +85,28 @@ color:var(--muted);margin-top:2.9em;margin-bottom:1em}
 border-bottom-width:2px}
 .ld-art--spec .entry-content tbody td{border:1px solid var(--line);font-size:14.5px}
 
+/* PRIMER - the puppy guide. Written for someone who has never done this and is
+   being sold thirty things they do not need, so the furniture is reassurance:
+   an oversized opening paragraph that answers before it sells, section headings
+   sitting on a tinted band so the timeline is scannable at a glance, and a
+   table ruled only horizontally so it reads as a checklist rather than a spec. */
+.ld-art--primer .entry-title{font-size:clamp(30px,4.4vw,43px);line-height:1.12}
+.ld-art--primer .entry-header{padding-bottom:22px}
+.ld-art--primer .entry-content>p:first-of-type{font-size:20px;line-height:1.62;
+color:var(--ink)}
+.ld-art--primer .entry-content h2{font-size:21px;margin-top:2.8em;margin-bottom:.9em;
+background:var(--surface);border-left:4px solid var(--accent);
+padding:14px 18px;border-radius:0 4px 4px 0}
+.ld-art--primer .entry-content thead th{background:transparent;color:var(--muted);
+font-size:12px;text-transform:uppercase;letter-spacing:.1em;
+border-bottom:2px solid var(--line2)}
+.ld-art--primer .entry-content tbody td{border-bottom:1px solid var(--line);
+padding-top:14px;padding-bottom:14px}
+
 @media (max-width:600px){
+.ld-art--primer .entry-content>p:first-of-type{font-size:18px}
+.ld-art--primer .entry-content h2{padding:12px 14px;font-size:19px}
+.ld-art--primer .entry-content tbody td{padding-top:12px;padding-bottom:12px}
 .ld-art--bulletin .entry-header{padding:26px 20px 22px}
 .ld-art--sequence .entry-content h2{padding-left:44px}
 .ld-art--sequence .entry-content h2::before{width:32px;height:32px;font-size:13px}

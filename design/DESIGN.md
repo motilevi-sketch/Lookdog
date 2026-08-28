@@ -22,6 +22,8 @@ colors:
   guideCalmDark: "#3F4E42"
   guideSpec: "#334155"
   guideSpecDark: "#1E293B"
+  guidePrimer: "#3F6212"
+  guidePrimerDark: "#365314"
   accent: "#F97316"
   accentDark: "#EA670B"
   bodyOnInk: "#C9D0DC"
@@ -110,11 +112,11 @@ deliberately in one or two places rather than throughout. Generous whitespace at
 
 ## Articles
 
-Guides are the one place where per-page art direction is allowed, because six
-guides that look identical read as generated. The variation is carried by
-furniture, never by palette: how the title lands, how a section announces itself,
-how tables are ruled, which ground the header sits on. Six named treatments -
-ledger, field, sequence, bulletin, calm, spec - each chosen for what its guide is
+Guides are the one place where per-page art direction is allowed, because guides
+that look identical read as generated. The variation is carried by furniture,
+never by palette: how the title lands, how a section announces itself, how tables
+are ruled, which ground the header sits on. Seven named treatments - ledger,
+field, sequence, bulletin, calm, spec, primer - each chosen for what its guide is
 about. A guide may set the header on the navy ground; that is its one heavy band.
 
 Each guide also carries its own accent, which is a deliberate exception to the
@@ -124,12 +126,16 @@ Inside a guide the guide's colour owns headings, rules, markers and links; ember
 owns the homepage, the products, the categories and the nav. No page ever shows
 both.
 
-The six were chosen to sit with the navy rather than to be six bright colours -
+They were chosen to sit with the navy rather than to be a set of bright colours -
 all mid-dark, all at least 4.5:1 on white so headings and links stay readable,
 and each tied to its subject: amber for feeding, signal red for hazards, teal for
-washing, signal blue for roads, sage for rest, slate for a technical document.
-Each ships with a darker pair for links and hover, exactly as ember has
-accentDark.
+washing, signal blue for roads, sage for rest, slate for a technical document,
+olive for a puppy growing out of everything. Each ships with a darker pair for
+links and hover, exactly as ember has accentDark.
+
+Olive sits close enough to sage to be worth a note: sage is a grey-green for a
+guide about rest, olive a yellow-green for one about growth. They are never on
+the same page, which is what makes the pair safe.
 
 Guides open with a three-photograph strip drawn from the products the guide
 actually discusses. The library holds three lifestyle photographs and about a

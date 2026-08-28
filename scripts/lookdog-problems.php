@@ -18,7 +18,7 @@
  * Three term meta keys drive a row:
  *
  *   lookdog_problem_line   one line of card copy
- *   lookdog_problem_order  sort position; unset sorts last, alphabetically
+ *   lookdog_problem_order  sort position, and what makes a tag a problem at all
  *   lookdog_problem_image  attachment ID for the thumbnail
  *
  * The thumbnails default to the highest-selling product carrying the tag, which
@@ -39,6 +39,12 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Every problem tag that has at least one product, in display order.
  *
+ * Membership is `lookdog_problem_order`, not simply "is a product_tag". The
+ * taxonomy also carries tags that are not problems - `puppy` is a life stage,
+ * and listing it here would put "Puppy essentials" between "Barking too much"
+ * and "Chewing everything" as though it were something to fix. Give a new
+ * problem an order and it appears; leave the meta off and it does not.
+ *
  * @return WP_Term[]
  */
 function lookdog_problem_terms() {
@@ -46,6 +52,12 @@ function lookdog_problem_terms() {
 		array(
 			'taxonomy'   => 'product_tag',
 			'hide_empty' => true,
+			'meta_query' => array(
+				array(
+					'key'     => 'lookdog_problem_order',
+					'compare' => 'EXISTS',
+				),
+			),
 		)
 	);
 	if ( is_wp_error( $terms ) || ! $terms ) {
@@ -55,10 +67,8 @@ function lookdog_problem_terms() {
 	usort(
 		$terms,
 		static function ( $a, $b ) {
-			$oa = (int) get_term_meta( $a->term_id, 'lookdog_problem_order', true );
-			$ob = (int) get_term_meta( $b->term_id, 'lookdog_problem_order', true );
-			$oa = $oa ?: PHP_INT_MAX;
-			$ob = $ob ?: PHP_INT_MAX;
+			$oa = (int) get_term_meta( $a->term_id, 'lookdog_problem_order', true ) ?: PHP_INT_MAX;
+			$ob = (int) get_term_meta( $b->term_id, 'lookdog_problem_order', true ) ?: PHP_INT_MAX;
 			return $oa === $ob ? strcasecmp( $a->name, $b->name ) : $oa - $ob;
 		}
 	);
