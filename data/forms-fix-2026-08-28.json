@@ -1,0 +1,55 @@
+{
+  "date": "2026-08-28",
+  "site": "https://lookdog.club",
+  "action": "Repaired both SureForms forms: sender authentication, field type, spam protection, labels and copy",
+  "forms": {
+    "3091": "Newsletter, footer-widget-4, appears on every page",
+    "3086": "Contact, Contact Us page"
+  },
+  "findings": [
+    {
+      "claim_reviewed": "Email subscription is broken",
+      "verdict": "partly wrong, and wrong about the visible symptom",
+      "detail": "The error text a reviewer sees in the page source sits inside a hidden element and is not shown to visitors. The form submits. The real defect was invisible: the notification's From address."
+    },
+    {
+      "issue": "Notification sent as {admin_email}, a gmail.com address, from a Hostinger server",
+      "detail": "lookdog.club publishes v=spf1 include:_spf.mail.hostinger.com ~all. Nothing authorises that server to send as gmail.com, so every notification failed SPF alignment for the From domain and was liable to be filtered.",
+      "fix": "from_email is now noreply@lookdog.club, inside the domain's own SPF record"
+    },
+    {
+      "issue": "Default notification put {admin_email} in to, cc and bcc",
+      "fix": "cc and bcc cleared; one copy per submission"
+    },
+    {
+      "issue": "Reply-To was {admin_email}, so replying to a subscriber notification emailed yourself",
+      "fix": "Reply-To is now the submitter: {form:email} on 3091, {form:srfm-email} on 3086"
+    },
+    {
+      "issue": "Newsletter field was wp:srfm/input, a plain text box",
+      "detail": "No email validation, no type=\"email\", no email keyboard on mobile",
+      "fix": "Replaced with wp:srfm/email, slug 'email'"
+    },
+    {
+      "issue": "No spam protection (_srfm_form_recaptcha = none on both forms)",
+      "fix": "Enabled the global honeypot via srfm_security_settings_options['srfm_honeypot']. Needs no API keys. SureForms rejects a submission that fills the hidden field or strips it."
+    },
+    {
+      "issue": "_srfm_use_label_as_placeholder = 1 rendered no <label> at all",
+      "detail": "The field's only name was a placeholder, which disappears the moment anyone types and is not reliably announced by screen readers",
+      "fix": "Turned off on both forms; real labels now render"
+    }
+  ],
+  "copy": {
+    "footer_heading": "Stay Updated -> One email per guide",
+    "footer_body": "Get new product ideas and useful dog-accessory guides. -> We write a long buying guide every few weeks and send a note when one goes up. That is all this list is for - no daily deals, and your address goes nowhere else.",
+    "button": "SUBSCRIBE -> Subscribe",
+    "confirmation": "Generic 'We'll review your details and get back to you soon' replaced with what the list actually does"
+  },
+  "verification": {
+    "notification_path": "Called Form_Submit::send_email() with wp_mail short-circuited via pre_wp_mail. Captured: To motilevi@gmail.com, Subject 'New newsletter subscriber: test-subscriber@example.com', From 'LookDog <noreply@lookdog.club>', Reply-To the submitter, body carries the address.",
+    "live_markup": "Homepage form renders type=\"email\", a real <label>, the honeypot field and the Subscribe button. Contact page renders 4 labels plus the footer form's.",
+    "real_send": "One test email sent to the admin address; wp_mail returned true with no wp_mail_failed error. Local acceptance only - inbox placement has to be confirmed by the recipient.",
+    "entries_table": "1 row, a July 2026 submission to form 969 (a starter-site demo form that no longer exists). No real subscriber data existed to lose."
+  }
+}

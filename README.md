@@ -672,6 +672,61 @@ This one also cost a wrong comment. `lookdog-category-grid.php` used to pass
 the attachment filename. That was never true; the function adds no title at all.
 Verify which layer is actually rewriting your HTML before commenting a cause.
 
+## Forms
+
+Two SureForms forms: **3091** (newsletter, in `footer-widget-4`, so it is on every
+page) and **3086** (contact, on the Contact Us page). Both were left as the Astra
+starter site created them, which meant several things were quietly wrong.
+
+**The notification was not missing — the From address was.** SureForms registers a
+default `_srfm_email_notification` through `register_post_meta`, and
+`Form_Submit::send_email()` reads it with `get_post_meta( $id, $key )` (no
+`$single`), so an unconfigured form still tries to email `{admin_email}`. The
+problem was the default's `from_email`, also `{admin_email}` — a `gmail.com`
+address. lookdog.club publishes `v=spf1 include:_spf.mail.hostinger.com ~all`;
+Hostinger's mail server has no authority to send as gmail.com, so every
+notification was sent unauthenticated and was liable to be binned. Both forms now
+have a stored notification:
+
+| Field | Value | Why |
+| --- | --- | --- |
+| `from_email` | `noreply@lookdog.club` | Inside the domain's SPF record |
+| `from_name` | `LookDog` | |
+| `email_to` | `{admin_email}` | Survives an admin email change |
+| `email_reply_to` | `{form:email}` / `{form:srfm-email}` | Reply goes to the person who wrote in |
+| `email_cc`, `email_bcc` | empty | The default put `{admin_email}` in to, cc **and** bcc — three copies of every message |
+
+`{form:<slug>}` is the smart tag for a field value; the slug is on the block, not
+the label.
+
+**The newsletter field was a text input.** It was `wp:srfm/input`, not
+`wp:srfm/email` — no format validation, no `type="email"`, and no email keyboard
+on a phone. It is now an email block with slug `email`.
+
+**Spam protection was off.** `_srfm_form_recaptcha` is `none` on both forms and
+reCAPTCHA needs keys nobody has. The honeypot needs none: set
+`srfm_security_settings_options['srfm_honeypot']` and SureForms prints a hidden
+`srfm-honeypot-field` and rejects a submission that fills it *or* omits it.
+
+**Label-as-placeholder left the fields unlabelled.** `_srfm_use_label_as_placeholder`
+was `1`, so no `<label>` was rendered at all and the field's only name was a
+placeholder that vanishes as soon as anyone types. Turned off on both forms.
+
+To test the notification path without sending anything, short-circuit `wp_mail`
+and call the sender directly:
+
+```php
+add_filter( 'pre_wp_mail', fn( $n, $atts ) => $captured[] = $atts ?: true, 1, 2 );
+SRFM\Inc\Form_Submit::send_email( 3091, [ $field_name => 'a@example.com' ], [ 'form-id' => 3091 ] );
+```
+
+`wp_mail()` returning `true` only means the local transport accepted the message.
+Whether Gmail files it in the inbox is a separate question and only the recipient
+can answer it.
+
+The entries table `wp_srfm_entries` holds one row, a July 2026 submission to form
+969 — a starter-site demo form that no longer exists. It is not a real subscriber.
+
 ## Social profiles
 
 The brand's social accounts live in one place — `lookdog_social_profiles()` in
