@@ -190,6 +190,48 @@ dropped for new imports: nobody has physically tested these products, and a titl
 promising a review the page does not contain is an E-E-A-T liability, not a
 ranking win. Titles now describe the product and who it suits.
 
+## Supplier facts on product pages
+
+`scripts/lookdog-product-facts.php` prints a strip above the "Check Price on
+AliExpress" button carrying the three numbers a buyer actually decides on: the
+seller's price, their positive-feedback percentage, and how many recent orders
+the listing has. The values come from `aliexpress.affiliate.productdetail.get`
+and are cached in post meta, so the page costs no API call to render:
+
+| Meta key | From the API field |
+| --- | --- |
+| `_lookdog_price` | `target_sale_price` |
+| `_lookdog_price_was` | `target_original_price` (stored, never displayed) |
+| `_lookdog_currency` | `target_sale_price_currency` |
+| `_lookdog_rate` | `evaluate_rate` |
+| `_lookdog_orders` | `lastest_volume` |
+| `_lookdog_facts_date` | the date of the fetch |
+
+**159 of 167 products have data.** The other 8 fell inside the API rate limit
+described under *Useful API methods* and return nothing; they render no strip at
+all rather than a blank row or a guess. Re-run the fetch to fill them in.
+
+Three decisions here are about honesty, and they are the reason this block looks
+plainer than a typical affiliate page:
+
+1. **No star rating.** `evaluate_rate` is a positive-feedback percentage, not a
+   five-star score. Drawing 92.9% as four and a half stars invents a number the
+   supplier never published. It is shown as a percentage and labelled as the
+   seller's score, not ours.
+2. **No crossed-out "was" price.** 142 of the 159 carry a `target_original_price`
+   above the sale price. A discount that 89% of a catalogue has permanently is
+   marketing, not a saving, and repeating it lends it our credibility. The value
+   is stored in case it is ever useful; nothing renders it.
+3. **A date, not a promise.** Prices move. "Seller's price, 28 August 2026" is
+   still true next month; a bare `$3.67` is not.
+
+**Hook it before the form, not on the summary.** The obvious hook,
+`woocommerce_single_product_summary` at a priority above the button, puts the
+strip *below* it. Astra overrides that summary with a single callback —
+`Astra_Woocommerce::single_product_content_structure` at priority 10 — that
+prints title, description and button in one pass, so every later priority lands
+after all of them. `woocommerce_before_add_to_cart_form` is the hook that works.
+
 ## SureRank SEO metadata — read this before writing any
 
 SureRank stores per-page SEO in a **single serialized array** under one meta key:
@@ -533,9 +575,11 @@ until the visitor agrees, then have the banner call `gtag('consent','update')`.
 Product pages carry WebPage, Organization and BreadcrumbList but no `Product`
 schema. That is deliberate on two counts:
 
-- Google's product rich result wants `offers.price`, and no price is stored —
-  that is the whole point of the "Check Price on AliExpress" button. Product
-  markup without a price earns very little.
+- Google's product rich result wants `offers.price`. A price *is* now cached in
+  post meta for the facts strip, but it is a dated snapshot of what the seller
+  was asking, not a price this site charges or can honour — marking it up as an
+  `offer` would tell Google we sell it at that price. Nothing here is bought
+  from us; that is the whole point of the "Check Price on AliExpress" button.
 - Marking up `aggregateRating` from the AliExpress feedback score would breach
   Google's structured data policy, which permits only ratings collected by the
   site itself. The downside is a manual action, which is far worse than having
