@@ -14,7 +14,8 @@ function lookdog_home_styles() {
 		return;
 	}
 	$content = (string) $post->post_content;
-	$uses = has_shortcode( $content, 'lookdog_product_rail' )
+	$uses = has_shortcode( $content, 'lookdog_hero' )
+		|| has_shortcode( $content, 'lookdog_product_rail' )
 		|| has_shortcode( $content, 'lookdog_featured_guide' )
 		|| has_shortcode( $content, 'lookdog_method' );
 	if ( ! $uses ) {
@@ -30,6 +31,21 @@ function lookdog_home_styles() {
 .ld-h2--lead{margin-bottom:48px;}
 .ld-textlink{color:#14213D;font-size:14px;font-weight:600;text-decoration:none;border-bottom:2px solid #F97316;padding-bottom:2px;white-space:nowrap;}
 .ld-textlink:hover,.ld-textlink:focus{color:#EA670B;}
+
+/* hero */
+.ld-hero{position:relative;display:flex;align-items:center;min-height:580px;padding:80px 40px;overflow:hidden;}
+.ld-hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.ld-hero__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,33,61,.88) 0%,rgba(20,33,61,.74) 46%,rgba(20,33,61,.42) 100%);}
+.ld-hero__inner{position:relative;width:100%;}
+.ld-hero__title{max-width:17ch;margin:0 0 20px;color:#FFFFFF;font-size:52px;line-height:1.08;font-weight:600;letter-spacing:-.01em;}
+.ld-hero__copy{max-width:56ch;margin:0 0 32px;color:#C9D0DC;font-size:17px;line-height:1.6;}
+.ld-hero__actions{display:flex;flex-wrap:wrap;gap:16px;}
+.ld-pill{display:inline-block;background:#FFFFFF;color:#14213D;padding:14px 30px;border:2px solid #FFFFFF;border-radius:30px;text-decoration:none;font-weight:600;font-size:14px;transition:background .18s ease,color .18s ease;}
+.ld-pill:hover,.ld-pill:focus{background:#F8F8F6;color:#14213D;}
+.ld-pill--ghost{background:transparent;color:#FFFFFF;}
+.ld-pill--ghost:hover,.ld-pill--ghost:focus{background:#FFFFFF;color:#14213D;}
+.ld-pill:focus-visible{outline:3px solid #F97316;outline-offset:3px;}
+.ld-hero__trust{max-width:64ch;margin:30px 0 0;color:#AEB6C6;font-size:13.5px;line-height:1.7;}
 
 /* rail */
 .ld-rail__head{display:flex;align-items:baseline;justify-content:space-between;gap:26px;margin-bottom:32px;flex-wrap:wrap;}
@@ -67,8 +83,16 @@ function lookdog_home_styles() {
 	.ld-guide{grid-template-columns:1fr;gap:40px;}
 	.ld-guide__quote blockquote{font-size:24px;}
 }
+@media (max-width:900px){
+	.ld-hero__title{font-size:40px;}
+	.ld-hero__scrim{background:linear-gradient(90deg,rgba(20,33,61,.90) 0%,rgba(20,33,61,.80) 100%);}
+}
 @media (max-width:640px){
 	.ld-band{padding:56px 22px;}
+	.ld-hero{min-height:0;padding:64px 22px;}
+	.ld-hero__title{font-size:32px;max-width:none;}
+	.ld-hero__copy{font-size:16px;}
+	.ld-pill{padding:12px 24px;}
 	.ld-h2{font-size:27px;}
 	.ld-method{gap:34px;}
 }

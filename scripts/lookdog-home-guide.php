@@ -113,22 +113,10 @@ function lookdog_method() {
 	);
 	$cats = is_wp_error( $cats ) ? 0 : count( $cats );
 
-	// The 80% floor is the import rule; the actual worst score on the site is the
-	// stronger number, so read it rather than hardcoding a figure that goes stale
-	// the next time a product lands.
-	$floor = get_transient( 'lookdog_rating_floor' );
-	if ( false === $floor ) {
-		global $wpdb;
-		$min   = $wpdb->get_var(
-			"SELECT MIN( CAST( TRIM( TRAILING '%' FROM meta_value ) AS DECIMAL(5,1) ) )
-			 FROM {$wpdb->postmeta} pm
-			 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
-			 WHERE pm.meta_key = '_lookdog_rate' AND pm.meta_value <> ''
-			   AND p.post_type = 'product' AND p.post_status = 'publish'"
-		);
-		$floor = null === $min ? '' : rtrim( rtrim( number_format( (float) $min, 1, '.', '' ), '0' ), '.' );
-		set_transient( 'lookdog_rating_floor', $floor, DAY_IN_SECONDS );
-	}
+	// Stated as the import rule plus the score the catalogue actually reaches.
+	// See lookdog_rating_floor() in lookdog-product-facts.php, which owns the
+	// `_lookdog_rate` meta this reads.
+	$floor = function_exists( 'lookdog_rating_floor' ) ? lookdog_rating_floor() : '';
 
 	$points = array(
 		array(

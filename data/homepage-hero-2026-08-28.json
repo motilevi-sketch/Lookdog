@@ -1,0 +1,47 @@
+{
+  "date": "2026-08-28",
+  "site": "https://lookdog.club",
+  "action": "Replaced the homepage hero and moved the trust band up the page",
+  "hero": {
+    "was": {
+      "h1": "Smart Accessories for Happy Dogs",
+      "copy": "Discover useful toys, travel gear, feeding essentials and smart products selected to make life better for dogs and their owners.",
+      "source": "wp:cover block with inline styles in post_content",
+      "problem": "Both sentences would sit unchanged on any pet site. Neither said what this site does differently."
+    },
+    "now": {
+      "h1": "Dog gear, with the drawbacks written down",
+      "copy": "Toys, beds, travel kit, feeding gear, grooming tools and trackers, with a buying guide behind each one. Every listing says what the product does badly as well as what it does well - including when that costs us the sale.",
+      "trust_line": "167 products / nothing under 80% seller feedback, lowest is 85.1% / drawbacks written on every listing / we say where the commission comes from",
+      "source": "[lookdog_hero], scripts/lookdog-home-hero.php",
+      "buttons": ["Browse all products -> /store/", "Choose a category -> #categories"]
+    },
+    "live_data": "Product count and feedback floor are read at render via lookdog_rating_floor(), so the copy cannot drift from the catalogue",
+    "design": {
+      "scrim": "Flat black at 55% replaced with a navy gradient. Black is not in the palette; the gradient keeps the left legible and lets the photograph survive on the right.",
+      "buttons": "30px pill, which the design reserves for photographic grounds",
+      "trust_line_shape": "One sentence, not stat columns - [lookdog_method] lower down already uses big-number columns and the brief forbids repeating a layout family",
+      "check_design": "Passed with no violations against lookdog-navy-ember"
+    }
+  },
+  "section_order": {
+    "was": ["hero", "rail", "categories", "featured guide", "guides index", "method"],
+    "now": ["hero", "rail", "categories", "method", "featured guide", "guides index"],
+    "why": "The 'How things get on this site' band is the strongest reason to trust the rest of the page and it was last, below everything - where a site puts what it does not really mean."
+  },
+  "refactor": {
+    "lookdog_rating_floor": "Moved out of lookdog-home-guide.php into lookdog-product-facts.php, which owns the _lookdog_rate meta it reads. Both the hero and the method band call it."
+  },
+  "verification": {
+    "method": "wp_remote_get() from inside WordPress. lookdog.club is not reachable from the dev environment - the egress policy answers 403 to CONNECT lookdog.club:443 - so no screenshot was taken.",
+    "checked": [
+      "HTTP 200",
+      "exactly one <h1>, reading 'Dog gear, with the drawbacks written down'",
+      "old headline absent from the page",
+      "trust line renders with live numbers",
+      "hero image carries real alt text",
+      "section order in the body: hero, rail, categories, method, featured guide, guides index"
+    ],
+    "caveat": "Section order was first checked with a regex that matched class names in the stylesheet rather than in the markup, which proves nothing. Re-checked against the body only."
+  }
+}

@@ -271,19 +271,26 @@ Verify a change actually reached the front end rather than trusting the admin:
 
 ## Homepage layout
 
-The homepage (page 61) is five sections, each a different shape, so the eye never
+The homepage (page 61) is six sections, each a different shape, so the eye never
 scans the same rhythm twice:
 
 | Section | Source | Shape |
 | --- | --- | --- |
-| Hero | cover block in `post_content` | full-bleed image + headline |
+| Hero | `[lookdog_hero]` | full-bleed photograph, navy scrim, pill buttons |
 | Best Sellers rail | `[lookdog_product_rail]` | horizontal scroll of real products |
 | Explore by Category | `[lookdog_category_grid]` | image card grid |
-| Featured guide | `[lookdog_featured_guide]` | asymmetric navy band + pull quote |
 | How we pick | `[lookdog_method]` | three text columns, hairline rules |
+| Featured guide | `[lookdog_featured_guide]` | asymmetric navy band + pull quote |
+| Every guide | `[lookdog_guides_index]` | plain indexed list |
 
-Three files back the new sections:
+**"How we pick" sits fourth on purpose.** It was last, under everything, which is
+where a site puts the thing it does not really mean. It is the strongest reason to
+trust anything else on the page, so it now follows the category grid — a reader
+who has just browsed meets it before the guides rather than after.
 
+Four files back the sections:
+
+- `scripts/lookdog-home-hero.php` — `[lookdog_hero]`. See below.
 - `scripts/lookdog-home-rail.php` — the product rail. Pulls live Best Sellers
   (term 73), so it never shows a product that has been removed.
 - `scripts/lookdog-home-guide.php` — `[lookdog_featured_guide]` and
@@ -298,6 +305,42 @@ typography doing the work.
 
 Because the sections are shortcodes, `post_content` dropped from 4,036 to 2,588
 characters and every one of them reads live data.
+
+### The hero
+
+The hero was a cover block reading **"Smart Accessories for Happy Dogs"** over
+"Discover useful toys, travel gear, feeding essentials and smart products
+selected to make life better for dogs and their owners." Both sentences would sit
+unchanged on any pet site ever built. A hero has one job — say what this site does
+that the next one does not — and neither line attempted it.
+
+It is now `[lookdog_hero]`:
+
+- **H1: "Dog gear, with the drawbacks written down."** That is the actual
+  difference and it is checkable on any product page.
+- The paragraph names the six categories, which the old one half-did, and then
+  states the rule the listings follow, "including when that costs us the sale".
+- A **trust line** under the buttons, assembled from live data:
+  `167 products · nothing under 80% seller feedback, lowest is 85.1% · drawbacks
+  written on every listing · we say where the commission comes from`.
+
+The trust line is one sentence, not a row of stat columns, because
+`[lookdog_method]` further down already uses big-number columns and the design
+brief forbids repeating a layout family down the page. The product count and the
+feedback floor are read at render (see `lookdog_rating_floor()` in
+`scripts/lookdog-product-facts.php`), so the hero cannot drift from the catalogue.
+
+The scrim is a navy gradient rather than the old flat black at 55% — black is not
+in the palette, and the gradient keeps the left side legible while letting the
+photograph survive on the right. Buttons are the 30px pill, which the design
+reserves for photographic grounds.
+
+**Verification note:** this site is not reachable from the dev environment — the
+egress policy answers 403 to `CONNECT lookdog.club:443` — so everything here was
+checked by fetching the page from inside WordPress with `wp_remote_get()` and
+reading the markup. No screenshot was taken. Two earlier "checks" in this repo
+matched CSS in the stylesheet rather than the markup and proved nothing; anchor
+any such check after `</style>` or on the exact element.
 
 ### Design system
 

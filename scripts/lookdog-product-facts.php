@@ -49,6 +49,37 @@ function lookdog_product_facts( $post_id ) {
 }
 
 /**
+ * The lowest positive-feedback score in the published catalogue, as a string
+ * like "85.1", or '' if nothing is scored yet.
+ *
+ * The import rule is a floor of 80%. The score actually reached is always
+ * higher, and it is the more useful number to put in front of a reader - but
+ * only if it is read rather than written down, because it changes every time a
+ * product lands. Cached for a day; delete the transient after an import to see
+ * it move immediately.
+ */
+function lookdog_rating_floor() {
+	$floor = get_transient( 'lookdog_rating_floor' );
+	if ( false !== $floor ) {
+		return (string) $floor;
+	}
+
+	global $wpdb;
+	$min = $wpdb->get_var(
+		"SELECT MIN( CAST( TRIM( TRAILING '%' FROM meta_value ) AS DECIMAL(5,1) ) )
+		 FROM {$wpdb->postmeta} pm
+		 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+		 WHERE pm.meta_key = '_lookdog_rate' AND pm.meta_value <> ''
+		   AND p.post_type = 'product' AND p.post_status = 'publish'"
+	);
+
+	$floor = null === $min ? '' : rtrim( rtrim( number_format( (float) $min, 1, '.', '' ), '0' ), '.' );
+	set_transient( 'lookdog_rating_floor', $floor, DAY_IN_SECONDS );
+
+	return (string) $floor;
+}
+
+/**
  * Hooked immediately before the add-to-cart form rather than on
  * woocommerce_single_product_summary. Astra replaces that summary with a single
  * callback at priority 10 that prints the title, description and button in one
