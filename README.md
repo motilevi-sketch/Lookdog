@@ -869,8 +869,13 @@ SRFM\Inc\Form_Submit::send_email( 3091, [ $field_name => 'a@example.com' ], [ 'f
 ```
 
 `wp_mail()` returning `true` only means the local transport accepted the message.
-Whether Gmail files it in the inbox is a separate question and only the recipient
-can answer it.
+Whether Gmail files it anywhere is a separate question and only the recipient can
+answer it. **It does:** a live test send on 2026-08-28 reached the owner's Gmail,
+which closes the loop the SPF change was made to fix. Both forms deliver.
+
+If a later change breaks this, the From address is the first thing to check.
+Sending as an `@lookdog.club` address passes the domain's SPF record; sending as
+anything else — the `{admin_email}` default included — does not.
 
 The entries table `wp_srfm_entries` holds one row, a July 2026 submission to form
 969 — a starter-site demo form that no longer exists. It is not a real subscriber.

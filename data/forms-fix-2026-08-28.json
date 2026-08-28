@@ -49,7 +49,7 @@
   "verification": {
     "notification_path": "Called Form_Submit::send_email() with wp_mail short-circuited via pre_wp_mail. Captured: To motilevi@gmail.com, Subject 'New newsletter subscriber: test-subscriber@example.com', From 'LookDog <noreply@lookdog.club>', Reply-To the submitter, body carries the address.",
     "live_markup": "Homepage form renders type=\"email\", a real <label>, the honeypot field and the Subscribe button. Contact page renders 4 labels plus the footer form's.",
-    "real_send": "One test email sent to the admin address; wp_mail returned true with no wp_mail_failed error. Local acceptance only - inbox placement has to be confirmed by the recipient.",
+    "real_send": "One test email sent to the admin address; wp_mail returned true with no wp_mail_failed error. CONFIRMED BY THE RECIPIENT the same day: it arrived at the owner's Gmail. That closes the loop the SPF change was made to fix - both forms deliver.",
     "entries_table": "1 row, a July 2026 submission to form 969 (a starter-site demo form that no longer exists). No real subscriber data existed to lose."
   }
 }
