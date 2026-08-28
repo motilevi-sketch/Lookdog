@@ -340,13 +340,23 @@ that the next one does not — and neither line attempted it.
 
 It is now `[lookdog_hero]`:
 
-- **H1: "Dog gear, with the drawbacks written down."** That is the actual
-  difference and it is checkable on any product page.
-- The paragraph names the six categories, which the old one half-did, and then
-  states the rule the listings follow, "including when that costs us the sale".
+- **H1: "Dog toys, beds, travel gear and trackers."** Plainly what is sold.
+- The paragraph names the six ranges and carries the affiliate disclosure.
 - A **trust line** under the buttons, assembled from live data:
-  `167 products · nothing under 80% seller feedback, lowest is 85.1% · drawbacks
-  written on every listing · we say where the commission comes from`.
+  `167 products · nothing under 80% seller feedback, lowest is 85.1% · a buying
+  guide behind every category · we say where the commission comes from`.
+
+**The hero used to lead on the editorial promise** — "Dog gear, with the
+drawbacks written down" — and the owner removed that on 28 August 2026, the same
+day the band demonstrating it came off the page. The sentence went from four
+places at once, because a positioning line is never in only one: the H1, the
+SureRank page title, the site tagline (which feeds `slogan` and `description` in
+the JSON-LD) and the footer. **If you change the positioning again, check all
+four.** The word "drawback" now appears zero times on the homepage.
+
+The affiliate disclosure in the hero paragraph and the trust line is not
+editorial flourish and does not come out with the rest — it is the disclosure
+requirement, and it belongs above the fold.
 
 The trust line is one sentence, not a row of stat columns, because
 `[lookdog_method]` further down already uses big-number columns and the design

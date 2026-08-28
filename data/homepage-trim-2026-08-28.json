@@ -29,12 +29,67 @@
   "verification": {
     "checks_passed": 10,
     "list": [
-      "hero present", "one H1", "rail present", "6 category cards",
-      "drawbacks band gone", "method band gone", "featured guide gone", "guides index gone",
-      "drawbacks CSS not printed", "#categories anchor kept for the hero button"
+      "hero present",
+      "one H1",
+      "rail present",
+      "6 category cards",
+      "drawbacks band gone",
+      "method band gone",
+      "featured guide gone",
+      "guides index gone",
+      "drawbacks CSS not printed",
+      "#categories anchor kept for the hero button"
     ],
     "page_weight": "body markup 68,793 bytes, down from 74,830 before the audit work began",
     "links": "26 unique internal links, all 200",
     "headings": "H1 Dog gear, with the drawbacks written down / H2 What people actually buy / H2 Browse by what it is / six H3 category names / H2 Shop / H2 The small print"
+  },
+  "second_pass": {
+    "request": "Remove the 'Dog gear, with the drawbacks written down' sentence wherever it is written",
+    "found_in": 4,
+    "changes": [
+      {
+        "where": "Hero H1",
+        "was": "Dog gear, with the drawbacks written down",
+        "now": "Dog toys, beds, travel gear and trackers"
+      },
+      {
+        "where": "SureRank page title",
+        "was": "LookDog | Dog Gear With the Drawbacks Written Down",
+        "now": "LookDog | Dog Toys, Beds, Travel Gear and Trackers"
+      },
+      {
+        "where": "Site tagline (blogdescription)",
+        "was": "Dog accessory guides and product picks, with the drawbacks written down",
+        "now": "Dog toys, beds, travel gear and trackers",
+        "note": "This option feeds Organization.slogan and WebSite.description in the JSON-LD, so it is a fourth place the positioning line lives."
+      },
+      {
+        "where": "Footer tagline widget",
+        "was": "Dog gear from AliExpress, listed with what each product does badly as well as what it does well...",
+        "now": "Toys, beds, travel kit, feeding gear, grooming tools and trackers for dogs, sourced from AliExpress. We earn a commission if you buy through a link."
+      }
+    ],
+    "also_changed": [
+      {
+        "where": "Hero paragraph",
+        "why": "It repeated the framing directly under the headline - 'Every listing says what the product does badly...' - and would have left the hero incoherent once the H1 changed."
+      },
+      {
+        "where": "Hero trust line",
+        "was": "drawbacks written on every listing",
+        "now": "a buying guide behind every category"
+      }
+    ],
+    "kept_deliberately": "The affiliate disclosure, in both the hero paragraph and the trust line. That is a disclosure requirement rather than editorial framing and belongs above the fold.",
+    "verification": {
+      "occurrences_of_drawback_on_the_homepage": 0,
+      "h1_count": 1,
+      "seo_title_length": 50,
+      "meta_description_length": 129,
+      "internal_links": "26, all 200",
+      "schema": "4 nodes, 0 dangling references; Organization.slogan picked up the new tagline",
+      "body_bytes": 68745
+    }
   }
 }
