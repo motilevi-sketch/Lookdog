@@ -491,6 +491,82 @@ add_filter( 'lookdog_bio_featured_id', fn() => 4181 );  // or edit the default
 Category counts and images are read live, so the page cannot drift from the
 catalogue the way hand-written link pages do.
 
+## Start With the Problem
+
+The catalogue is organised by what a thing **is** — a bowl, a harness, a bed.
+That is how a shop thinks and it is not how anyone arrives. Nobody wakes up
+wanting a front-clip harness; they want their dog to stop dragging them down the
+street. `/shop-by-problem/` (page 4521) is the second axis.
+
+Ten `product_tag` terms, each a problem rather than a product type:
+
+| Tag | Products | Tag | Products |
+| --- | --- | --- | --- |
+| `pulls-on-the-lead` | 6 | `runs-off` | 9 |
+| `chews-everything` | 12 | `walking-in-the-dark` | 4 |
+| `eats-too-fast` | 10 | `hates-the-car` | 10 |
+| `sheds-everywhere` | 10 | `bad-breath` | 4 |
+| `gets-too-hot` | 10 | `barks-too-much` | 9 |
+
+Each carries 130–180 words of real guidance in its term `description` — the same
+standard as a category archive, with the same `\n\n` requirement — plus SureRank
+title and description. Several of them say the answer is training, a vet, or a
+microchip rather than a purchase, because on those pages it is.
+
+**A tag exists only where the catalogue can honestly answer the problem.** Four
+products with a straight explanation beats twelve padded out with anything
+loosely related — the same rule the category-to-guide map follows. `barks-too-much`
+deliberately leads with enrichment toys and says plainly that boredom barking is
+not a deterrent problem; `pulls-on-the-lead` excludes the retractable lead the
+site stocks, and says why.
+
+`scripts/lookdog-problems.php` provides `[lookdog_problems]` (the hub list) and
+`[lookdog_problems_link]` (a one-line link, used under the homepage category
+grid). Three term meta keys drive a row: `lookdog_problem_line`,
+`lookdog_problem_order`, `lookdog_problem_image`.
+
+The thumbnails were seeded from the highest-selling product carrying each tag,
+which was right eight times out of ten and wrong instructively: it put a squeaky
+ball on "bad breath and teeth" and the same training lead on both "pulling" and
+"running off". Those two are set by hand. **Check the picture matches the problem
+when you add a tag.**
+
+Laid out as a list with hairline rules, not a card grid — the homepage already
+spends its card grid on categories.
+
+### Getting a new taxonomy into the sitemap
+
+`product_tag` did not appear in `sitemap_index.xml` after the terms were created,
+and neither the cron hook nor a cache purge fixed it. SureRank builds the sitemap
+from JSON chunk files written by batch processes under
+`SureRank\Inc\BatchProcess`, and the index lists whatever those files describe.
+
+**Do not run one batch class on its own.** Running `Sync_Taxonomies` for
+`product_tag` alone rewrote the index to contain *only* the tag sitemap — products,
+pages, posts and categories all disappeared from it. Run the whole set:
+
+```php
+$sync = SureRank\Inc\Admin\Sync::get_instance();
+$sync->run_batch_synchronously( $sync->generate_classes() );
+$sync->finalize_cache_generation();
+```
+
+Wrap it in an output buffer; the batch logs several megabytes.
+
+### Per-post robots is its own meta key
+
+Titles and descriptions live in the serialized `surerank_settings_general` array.
+Noindex does **not**: it is a separate key, `surerank_settings_post_no_index`, set
+to the string `yes`. That is how `/start` is noindexed. Adding a `post_no_index`
+entry inside the serialized array does nothing at all.
+
+Known and unfixed: the two SureForms form CPT singles (`/form/newsletter-form/`,
+`/form/simple-contact-form/`) are thin duplicates of the pages that embed the
+forms, and both still render `index, follow`. Neither the global `no_index`
+setting nor the per-post key changes that — SureForms renders those singles
+through its own template. The global setting *did* drop the form archive from
+the sitemap, so it is worth keeping. Two thin URLs remain indexed.
+
 ## Internal linking
 
 Product pages had no editorial outbound links at all. WooCommerce's related

@@ -1,0 +1,56 @@
+{
+  "date": "2026-08-28",
+  "site": "https://lookdog.club",
+  "action": "Added a second navigation axis: ten problem-based product tags, a hub page, and links from the homepage and the main menu",
+  "reviewer_item": "3 - add a 'Shop by Problem' entry point",
+  "why": "The catalogue is organised by what a thing is - a bowl, a harness, a bed. Nobody arrives wanting a front-clip harness; they arrive wanting their dog to stop pulling.",
+  "tags": [
+    {"slug": "pulls-on-the-lead", "term_id": 78, "name": "Pulling on the lead", "products": 6},
+    {"slug": "chews-everything", "term_id": 79, "name": "Chewing everything", "products": 12},
+    {"slug": "eats-too-fast", "term_id": 80, "name": "Eating too fast", "products": 10},
+    {"slug": "sheds-everywhere", "term_id": 81, "name": "Shedding everywhere", "products": 10},
+    {"slug": "gets-too-hot", "term_id": 82, "name": "Overheating in summer", "products": 10},
+    {"slug": "barks-too-much", "term_id": 83, "name": "Barking too much", "products": 9},
+    {"slug": "runs-off", "term_id": 84, "name": "Running off and getting lost", "products": 9},
+    {"slug": "walking-in-the-dark", "term_id": 85, "name": "Walking in the dark", "products": 4},
+    {"slug": "hates-the-car", "term_id": 86, "name": "Car journeys", "products": 10},
+    {"slug": "bad-breath", "term_id": 87, "name": "Bad breath and teeth", "products": 4}
+  ],
+  "copy": {
+    "per_tag": "130-180 words of buying guidance in the term description, same standard as a category archive, plus SureRank title and description",
+    "honesty": [
+      "barks-too-much leads with enrichment and says plainly that boredom and separation barking are not deterrent problems",
+      "pulls-on-the-lead excludes the retractable lead the site stocks, and says why",
+      "runs-off says neither tracker type replaces a microchip",
+      "hates-the-car says a seat-belt tether is distraction control, not crash protection",
+      "bad-breath says brushing is the only part that reliably works and that a sudden change of smell is a vet visit"
+    ],
+    "inclusion_rule": "A tag exists only where the catalogue can honestly answer the problem. Four products with a straight explanation beats twelve padded out with anything loosely related."
+  },
+  "surfaces": {
+    "hub_page": {"id": 4521, "url": "https://lookdog.club/shop-by-problem/", "title": "Start With the Problem"},
+    "homepage": "[lookdog_problems_link] under the category grid",
+    "menu": "Added as item 2, after Home. Twelve items now. A complete args array was passed to wp_update_nav_menu_item - it clears every field it is not given, which is how Contact Us lost its URL on an earlier pass."
+  },
+  "thumbnails": {
+    "method": "Seeded from the highest-selling product carrying each tag",
+    "overridden": "runs-off and bad-breath. The seed put a squeaky ball on the dental page and the same training lead on both pulling and running off.",
+    "rule": "Check the picture matches the problem when you add a tag"
+  },
+  "sitemap": {
+    "problem": "product_tag did not appear in sitemap_index.xml after the terms were created. Neither the cron hook nor a cache purge fixed it - SureRank builds the index from JSON chunk files written by batch processes.",
+    "trap": "Running Sync_Taxonomies for product_tag alone rewrote the index to contain ONLY the tag sitemap. Products, pages, posts and categories all vanished from it. Recovered by running the full class set.",
+    "fix": "Sync::get_instance()->run_batch_synchronously( generate_classes() ) then finalize_cache_generation(), inside an output buffer - the batch logs megabytes",
+    "after": {"archives": 1, "pages": 13, "posts": 6, "products": 167, "sureforms_form": 2, "category": 3, "product_cat": 7, "product_tag": 10}
+  },
+  "side_finding": {
+    "per_post_robots": "Noindex is NOT part of the serialized surerank_settings_general array. It is a separate meta key, surerank_settings_post_no_index, set to the string 'yes'. That is how /start is noindexed.",
+    "unfixed": "The two SureForms form CPT singles are thin duplicates of the pages embedding them and still render index, follow. Neither the global no_index list nor the per-post key changes it; SureForms renders those singles through its own template. The global setting did drop the form archive from the sitemap, so it was kept."
+  },
+  "verification": {
+    "hub": "HTTP 200, 10 rows, 10 links, thumbnails and CSS present",
+    "archives": "All 10 tag archives HTTP 200, descriptions render as 3-4 paragraphs, products list (chews-everything shows all 12), correct SEO titles and canonicals",
+    "robots_sweep": "homepage, hub, /store/, a guide, a category archive, a tag archive and a product all index, follow. /start remains noindex, follow.",
+    "menu": "12 items, every title and URL intact"
+  }
+}
