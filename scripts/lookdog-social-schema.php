@@ -16,9 +16,10 @@
  *
  * @return string[]
  */
-function lookdog_social_profiles() {
+function lookdog_social_profiles_map() {
 	$profiles = array(
 		'instagram' => 'https://www.instagram.com/lookdog435/',
+		'tiktok'    => 'https://www.tiktok.com/@lookdog435',
 		// 'facebook' => '',
 		// 'twitter'  => '',
 		// 'linkedin' => '',
@@ -31,7 +32,16 @@ function lookdog_social_profiles() {
 	 */
 	$profiles = apply_filters( 'lookdog_social_profiles', $profiles );
 
-	return array_values( array_filter( array_map( 'trim', $profiles ) ) );
+	return array_filter( array_map( 'trim', (array) $profiles ) );
+}
+
+/**
+ * The same list flattened, for sameAs and og:see_also, which want plain URLs.
+ *
+ * @return string[]
+ */
+function lookdog_social_profiles() {
+	return array_values( lookdog_social_profiles_map() );
 }
 
 /**
