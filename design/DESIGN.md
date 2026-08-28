@@ -10,6 +10,18 @@ colors:
   muted: "#5A5F6B"
   line: "#E6E6E1"
   lineStrong: "#D5D5CE"
+  guideLedger: "#B45309"
+  guideLedgerDark: "#92400E"
+  guideField: "#B91C1C"
+  guideFieldDark: "#991B1B"
+  guideSequence: "#0F766E"
+  guideSequenceDark: "#115E59"
+  guideBulletin: "#0369A1"
+  guideBulletinDark: "#075985"
+  guideCalm: "#4F6152"
+  guideCalmDark: "#3F4E42"
+  guideSpec: "#334155"
+  guideSpecDark: "#1E293B"
   accent: "#F97316"
   accentDark: "#EA670B"
   bodyOnInk: "#C9D0DC"
@@ -105,8 +117,25 @@ how tables are ruled, which ground the header sits on. Six named treatments -
 ledger, field, sequence, bulletin, calm, spec - each chosen for what its guide is
 about. A guide may set the header on the navy ground; that is its one heavy band.
 
-Do not answer "make the articles look different" by giving each one its own
-accent colour. One accent, six rhythms.
+Each guide also carries its own accent, which is a deliberate exception to the
+one-accent rule and the only one on the site. The constraint that replaces it is
+stricter and easier to hold: **one accent per page, never two on the same page**.
+Inside a guide the guide's colour owns headings, rules, markers and links; ember
+owns the homepage, the products, the categories and the nav. No page ever shows
+both.
+
+The six were chosen to sit with the navy rather than to be six bright colours -
+all mid-dark, all at least 4.5:1 on white so headings and links stay readable,
+and each tied to its subject: amber for feeding, signal red for hazards, teal for
+washing, signal blue for roads, sage for rest, slate for a technical document.
+Each ships with a darker pair for links and hover, exactly as ember has
+accentDark.
+
+Guides open with a three-photograph strip drawn from the products the guide
+actually discusses. The library holds three lifestyle photographs and about a
+thousand product shots, so product photography is the only source that is both
+plentiful and guaranteed on-topic. Do not stretch a square product shot into a
+wide hero; the strip exists because those images are square.
 
 ## Elevation & Depth
 
