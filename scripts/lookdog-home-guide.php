@@ -113,11 +113,31 @@ function lookdog_method() {
 	);
 	$cats = is_wp_error( $cats ) ? 0 : count( $cats );
 
+	// The 80% floor is the import rule; the actual worst score on the site is the
+	// stronger number, so read it rather than hardcoding a figure that goes stale
+	// the next time a product lands.
+	$floor = get_transient( 'lookdog_rating_floor' );
+	if ( false === $floor ) {
+		global $wpdb;
+		$min   = $wpdb->get_var(
+			"SELECT MIN( CAST( TRIM( TRAILING '%' FROM meta_value ) AS DECIMAL(5,1) ) )
+			 FROM {$wpdb->postmeta} pm
+			 INNER JOIN {$wpdb->posts} p ON p.ID = pm.post_id
+			 WHERE pm.meta_key = '_lookdog_rate' AND pm.meta_value <> ''
+			   AND p.post_type = 'product' AND p.post_status = 'publish'"
+		);
+		$floor = null === $min ? '' : rtrim( rtrim( number_format( (float) $min, 1, '.', '' ), '0' ), '.' );
+		set_transient( 'lookdog_rating_floor', $floor, DAY_IN_SECONDS );
+	}
+
 	$points = array(
 		array(
 			'stat'  => number_format_i18n( $products ),
 			'label' => 'products listed',
-			'copy'  => 'Every one clears a minimum customer rating before it is listed. Nothing goes up because it pays better.',
+			'copy'  => sprintf(
+				'Nothing is listed below 80%% positive feedback on AliExpress%s. Nothing goes up because it pays better.',
+				$floor ? ', and the lowest score on the site is ' . $floor . '%' : ''
+			),
 		),
 		array(
 			'stat'  => number_format_i18n( $cats ),

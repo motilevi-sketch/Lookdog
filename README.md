@@ -119,6 +119,14 @@ The cap is currently 4 per source category, giving 24 products. Re-rank after ev
 import batch: the August 2026 batch put twelve new products straight into the top
 24, and half the previous list no longer belonged there.
 
+**Say the date on the page.** The term description used to claim the list was
+"ranked by live order volume" and reflected "what people are actually buying now".
+Neither survives contact with how the ranking works: it is a fetch on one day,
+re-run occasionally. The copy now names the ranking date, says plainly that it is
+a snapshot rather than a live feed, and points readers at the per-product order
+count and its own date. **When you re-rank, change the date in the term
+description and in its SureRank `page_description`.** Both carry it.
+
 **Fetching volume for the whole catalogue hits an API limit.** Ranking 167 products
 means ~40 `productdetail.get` calls, and after roughly 160 IDs the endpoint starts
 returning empty for everything, including IDs it answered minutes earlier. Do not
@@ -303,6 +311,17 @@ Two tokens exist only for dark bands: `bodyOnInk` (`#C9D0DC`) and `mutedOnInk`
 real, deliberate values for text on navy, so they were declared in the DESIGN.md
 rather than removed. Never use them on a light background.
 
+### The rating floor on the homepage
+
+The "How things get on this site" band used to say products "clear a minimum
+customer rating", which is true and says nothing. It now states the import rule
+(nothing below **80%** positive feedback) alongside the actual worst score in the
+catalogue, read live from `_lookdog_rate` and cached for a day in the
+`lookdog_rating_floor` transient. The real number is stronger than the rule —
+85.1% at the time of writing — and, more usefully, it cannot go stale the next
+time a product lands. Delete the transient after an import if you want it to
+update immediately.
+
 ## Homepage category grid
 
 The "Explore by Category" section is the `[lookdog_category_grid]` shortcode
@@ -345,6 +364,14 @@ Each product category carries 200–310 words of buying guidance in its term
 archives are the most valuable commercial pages on an affiliate site — a bare
 product grid gives Google nothing to rank — so these are written as real guidance
 (how to choose, what suits which dog, what to avoid) rather than keyword filler.
+
+**Term descriptions need real blank lines.** WooCommerce runs the description
+through `wpautop`, which splits on `\n\n` and nothing else. All seven categories
+had been written with the paragraphs concatenated — `…snapshot from launch.The
+selection is capped…` — so 200–350 words of buying guidance rendered as one
+unbroken block with sentences glued together mid-word-boundary. There is no
+warning: it looks fine in the term editor and only shows on the archive page.
+Separate paragraphs with `\n\n` when you write the copy.
 
 Term SEO titles and descriptions use the **same serialized key as posts**,
 `surerank_settings_general`, read via `Get::all_term_meta()`. Set them the same way:

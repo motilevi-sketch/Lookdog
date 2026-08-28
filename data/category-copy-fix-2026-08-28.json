@@ -1,0 +1,31 @@
+{
+  "date": "2026-08-28",
+  "site": "https://lookdog.club",
+  "action": "Corrected the Best Sellers ranking claim and repaired paragraph breaks in every category description",
+  "ranking_claim": {
+    "was": "These are the products that sell most across every category on LookDog, ranked by live order volume from the supplier rather than by what we would like to promote. The list is rebuilt periodically, so it reflects what people are actually buying now rather than a snapshot from launch.",
+    "problem": "The ranking is a fetch on one day, re-run occasionally. 'Live order volume' and 'what people are actually buying now' both promise a feed the site does not have.",
+    "now": "Names 27 August 2026 as the ranking date, states plainly that it is a snapshot rather than a live feed, and points at the per-product order count and its own check date.",
+    "seo_description_also_updated": true
+  },
+  "rating_claim": {
+    "was": "Everything here also clears a minimum customer rating.",
+    "now": "the lowest in the list is 90.9% positive and sixteen of the twenty-four sit at 96% or above",
+    "measured_from": "_lookdog_rate on the 24 products in term 73"
+  },
+  "unranked_disclosure": {
+    "added": "Twelve products could not be counted on ranking day because the supplier's API stopped answering for them. They were left out rather than placed on stale numbers.",
+    "why": "The page claims to rank the whole catalogue. It ranks 155 of 167."
+  },
+  "paragraph_bug": {
+    "affected_terms": [68, 69, 70, 71, 72, 73, 74],
+    "symptom": "Descriptions were stored with paragraphs concatenated, so wpautop emitted one <p> for 200-350 words and sentences ran together as 'from launch.The selection'.",
+    "fix": "Inserted \\n\\n at every full stop immediately followed by a capital letter or an opening <strong> tag. Closing </strong> boundaries were deliberately not split - those are bolded lead-in sentences, not paragraph breaks.",
+    "verified": "Best Sellers now renders 4 <p> tags, the other six render 4-5 each"
+  },
+  "homepage_rating_floor": {
+    "was": "Every one clears a minimum customer rating before it is listed.",
+    "now": "Nothing is listed below 80% positive feedback on AliExpress, and the lowest score on the site is 85.1%.",
+    "implementation": "The 85.1% is read live via the lookdog_rating_floor transient rather than hardcoded, so it cannot go stale after an import."
+  }
+}
