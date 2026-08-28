@@ -27,12 +27,30 @@ function lookdog_product_rail( $atts = array() ) {
 		return '';
 	}
 
+	/**
+	 * Ordered by recorded order count, descending.
+	 *
+	 * This used to have no `orderby` at all, so it fell back to date and showed
+	 * the ten most recently imported Best Sellers under a heading reading "What
+	 * people actually buy". The single best-selling product on the site, a
+	 * cooling mat with about 24,900 orders, was not on the homepage. A heading
+	 * that makes a claim has to be backed by the query underneath it.
+	 *
+	 * `meta_key` is used rather than a `meta_query` so products with no recorded
+	 * count still appear, sorted last, rather than dropping off the rail
+	 * entirely when the supplier API is rate limiting.
+	 */
 	$ids = get_posts(
 		array(
 			'post_type'      => 'product',
 			'post_status'    => 'publish',
 			'posts_per_page' => absint( $atts['limit'] ),
 			'fields'         => 'ids',
+			'meta_key'       => '_lookdog_orders', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'        => array(
+				'meta_value_num' => 'DESC',
+				'date'           => 'DESC',
+			),
 			'tax_query'      => array(
 				array(
 					'taxonomy' => 'product_cat',

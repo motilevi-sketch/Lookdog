@@ -47,6 +47,10 @@ function lookdog_home_styles() {
 .ld-pill:focus-visible{outline:3px solid #F97316;outline-offset:3px;}
 .ld-hero__trust{max-width:64ch;margin:30px 0 0;color:#AEB6C6;font-size:13.5px;line-height:1.7;}
 
+/* category band head */
+.ld-cats__head{max-width:62ch;margin-bottom:44px}
+.ld-cats__lede{margin:16px 0 0;color:#3A3F4B;font-size:16px;line-height:1.65}
+
 /* rail */
 .ld-rail__head{display:flex;align-items:baseline;justify-content:space-between;gap:26px;margin-bottom:32px;flex-wrap:wrap;}
 .ld-rail{display:flex;gap:26px;list-style:none;margin:0;padding:0 4px 14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}

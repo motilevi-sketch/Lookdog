@@ -277,11 +277,15 @@ scans the same rhythm twice:
 | Section | Source | Shape |
 | --- | --- | --- |
 | Hero | `[lookdog_hero]` | full-bleed photograph, navy scrim, pill buttons |
-| Best Sellers rail | `[lookdog_product_rail]` | horizontal scroll of real products |
-| Explore by Category | `[lookdog_category_grid]` | image card grid |
+| What people actually buy | `[lookdog_product_rail]` | horizontal scroll of real products |
+| The part other sites leave out | `[lookdog_drawbacks]` | two-column flow of real drawbacks |
+| Browse by what it is | `[lookdog_category_grid]` | image card grid |
 | How we pick | `[lookdog_method]` | three text columns, hairline rules |
 | Featured guide | `[lookdog_featured_guide]` | asymmetric navy band + pull quote |
 | Every guide | `[lookdog_guides_index]` | plain indexed list |
+
+Seven bands, seven layout families, no repeats — which is the constraint that
+makes the page readable as a sequence rather than a template.
 
 **"How we pick" sits fourth on purpose.** It was last, under everything, which is
 where a site puts the thing it does not really mean. It is the strongest reason to
@@ -292,7 +296,14 @@ Four files back the sections:
 
 - `scripts/lookdog-home-hero.php` — `[lookdog_hero]`. See below.
 - `scripts/lookdog-home-rail.php` — the product rail. Pulls live Best Sellers
-  (term 73), so it never shows a product that has been removed.
+  (term 73), so it never shows a product that has been removed. **It must carry
+  an explicit `orderby`.** It had none for weeks, so it fell back to date and
+  showed the ten most recently *imported* Best Sellers under a heading reading
+  "What people actually buy" — the single best-selling product on the site, a
+  cooling mat with about 24,900 orders, was not on the homepage at all. It now
+  sorts on `_lookdog_orders`. A heading that makes a claim has to be backed by
+  the query underneath it.
+- `scripts/lookdog-drawbacks.php` — the drawbacks band. See below.
 - `scripts/lookdog-home-guide.php` — `[lookdog_featured_guide]` and
   `[lookdog_method]`. The method stats are read live (product count, category
   count), not typed in, so they cannot drift.
@@ -353,6 +364,50 @@ Two tokens exist only for dark bands: `bodyOnInk` (`#C9D0DC`) and `mutedOnInk`
 (`#AEB6C6`). They were flagged as off-palette on the first pre-flight; they are
 real, deliberate values for text on navy, so they were declared in the DESIGN.md
 rather than removed. Never use them on a light background.
+
+### The drawbacks band
+
+`scripts/lookdog-drawbacks.php`, `[lookdog_drawbacks]`. The one section of this
+homepage a competitor cannot copy by copying the layout, because the layout is
+not the asset.
+
+The method band claims every listing says what a product does badly. It claimed
+it and never showed it, which is the weakest form of the claim — any site can
+write that sentence. This band prints four real "Cons" lines, lifted verbatim
+from four real product pages, each credited and linked so anyone can check.
+**All 167 products carry one**, so there is nothing to curate and nothing to
+fake; the band reads the catalogue.
+
+| Decision | Why |
+| --- | --- |
+| Parses `post_content` for `<strong>Cons:</strong>` | It is then literally the same sentence as the product page, so the two can never disagree |
+| Seeded on `gmdate('Ymd')` | Stable for a day: same for every visitor, cacheable, screenshot-able. Random-per-request would flicker and make the page untestable |
+| One product per category, four categories | Otherwise it can open with four toys and imply toys are the only things with problems |
+| Hides itself below two items | If the copy format ever changes, fewer rows parse and the band disappears rather than inventing one |
+| CSS `columns:2`, not a card grid | The items are different lengths and should look it, and no other band on this page uses a column flow |
+
+Cached for a day in the `lookdog_drawbacks` transient. **Delete it after editing
+product copy.**
+
+### The blog badge, and an mu-plugin this repo cannot reach
+
+`wp-content/mu-plugins/lookdog-blog-badge.php` appends a count of recent posts to
+the Blog menu item. mu-plugins are outside the sandbox the Novamira file tools
+can write to, so `scripts/lookdog-blog-badge.php` corrects its output at priority
+20 instead: it strips whatever the mu-plugin appended and re-adds a correct
+badge. **Delete the mu-plugin by hand and the sandbox file becomes the only
+source.**
+
+Three things were wrong with the original. It matched menu items on the literal
+title `Blog`, so renaming the item would have killed it silently and any other
+menu containing a "Blog" item got one too. `posts_per_page => 20` capped the
+count, so a busy month would have read "20 new" forever. And it ran a post query
+on every nav render, footer menus included. Matching is on the URL now, the count
+is uncapped and cached for an hour, and only `primary` and `mobile_menu` are
+badged.
+
+Worth knowing: the page cache holds HTML for up to seven days, so the number can
+lag by that much. Tolerable for a 30-day window, not for anything shorter.
 
 ### The rating floor on the homepage
 

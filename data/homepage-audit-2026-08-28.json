@@ -1,0 +1,119 @@
+{
+  "date": "2026-08-28",
+  "site": "https://lookdog.club",
+  "action": "Section-by-section homepage audit, and the fixes",
+  "method": "Fetched the rendered homepage from inside WordPress (the site is unreachable from the dev environment), then read the markup section by section: header, hero, rail, categories, method, featured guide, guides index, footer, head and JSON-LD.",
+  "findings": [
+    {
+      "id": "C1", "section": "Product rail", "severity": "high",
+      "problem": "No orderby in the query, so it fell back to date and showed the ten most recently imported Best Sellers under the heading 'What people actually buy'. The best-selling product on the site (24,889 orders) was not on the homepage.",
+      "fix": "Sorts on _lookdog_orders DESC with a date tiebreak. meta_key rather than meta_query so products with no recorded count sort last instead of dropping off."
+    },
+    {
+      "id": "A1", "section": "Header", "severity": "medium",
+      "problem": "Logo alt text was 'chatgpt image jul 5, 2026, 02 48 42 pm' - the raw AI filename, read aloud by screen readers and indexed as the logo's description.",
+      "fix": "Alt is 'LookDog'; attachment retitled."
+    },
+    {
+      "id": "A2", "section": "Header", "severity": "medium",
+      "problem": "A '7 new' badge in the Blog menu label, from an unmirrored mu-plugin. Matched on the literal title 'Blog', capped the count at 20, ran a post query on every nav render including footer menus, and carried inline orange styling.",
+      "fix": "scripts/lookdog-blog-badge.php corrects it at priority 20 - URL matching, uncapped count cached for an hour and busted on publish, site navigation only, class-based styling. The mu-plugin should be deleted by hand."
+    },
+    {
+      "id": "D2", "section": "Categories", "severity": "medium",
+      "problem": "A Best Sellers card sat directly under the Best Sellers rail - the same 24 products, twice, adjacently, with near-identical copy ('What people actually buy' / 'The products people actually buy most').",
+      "fix": "Excluded from the grid. Six cards now."
+    },
+    {
+      "id": "D3", "section": "Categories", "severity": "medium",
+      "problem": "Card blurbs were noun lists - 'Bowls, slow feeders and everyday care essentials' - which is what a shop writes. Every other line of copy on the site tells you how to choose.",
+      "fix": "Rewritten as one piece of real guidance each, drawn from the guide behind the category."
+    },
+    {
+      "id": "D1", "section": "Categories", "severity": "low",
+      "problem": "The section was raw inline-styled HTML in post_content, the only band not using the design system.",
+      "fix": "Now ld-band ld-band--tint with the standard wrap, plus a lede."
+    },
+    {
+      "id": "D4", "section": "Categories", "severity": "low",
+      "problem": "'Explore by Category' is a heading any site could use.",
+      "fix": "'Browse by what it is', paired with 'Or browse by what is going wrong' on the problems link - which names the site's two navigation axes."
+    },
+    {
+      "id": "J", "section": "Whole page", "severity": "high",
+      "problem": "The page stated its differentiator and never demonstrated it. Hero and method band both claim every listing names drawbacks; nothing on the page showed one.",
+      "fix": "New [lookdog_drawbacks] band, third on the page: four real Cons lines from four real product pages, credited and linked, one per category, rotating daily."
+    },
+    {
+      "id": "H1", "section": "Footer", "severity": "medium",
+      "problem": "Tagline still read 'Smart dog accessories, product ideas and buying guides for happy dogs and their owners' - the positioning retired when the hero was rewritten.",
+      "fix": "Replaced with the current positioning plus the commission disclosure."
+    },
+    {
+      "id": "H2", "section": "Footer", "severity": "low",
+      "problem": "'Quick Links' and 'Important Links' render as h2 and competed in the heading outline with real content headings.",
+      "fix": "'Shop' and 'The small print'."
+    },
+    {
+      "id": "H3", "section": "Footer", "severity": "low",
+      "problem": "The Shop menu listed six categories and nothing else - not Best Sellers, not the ten problem pages, not the guides.",
+      "fix": "Three items added."
+    },
+    {
+      "id": "I2", "section": "JSON-LD", "severity": "medium",
+      "problem": "WebSite, WebPage and Article all referenced https://lookdog.club#person for author, contributor and copyrightHolder, and no Person node existed in the graph. Three dangling @id references on every page.",
+      "fix": "All three point at the Organization, which is accurate - the byline is LookDog, there is no named person. The Person schema was removed. Verified: 4 nodes, 0 dangling references."
+    },
+    {
+      "id": "I3", "section": "JSON-LD", "severity": "low",
+      "problem": "Organization.url was 'https://lookdog.club/ ' with a trailing space, shipped in the default schema.",
+      "fix": "Trimmed, and the trim runs across every field so it cannot come back."
+    },
+    {
+      "id": "I4", "section": "JSON-LD", "severity": "low",
+      "problem": "description and slogan read 'Dog Accessory Guides &amp; Product Picks' - an HTML entity stored in the site tagline option, encoded a second time on output.",
+      "fix": "Tagline stored as plain text."
+    },
+    {
+      "id": "I1", "section": "Head", "severity": "medium",
+      "problem": "Title and meta description still sold the retired positioning and did not match the H1.",
+      "fix": "'LookDog | Dog Gear With the Drawbacks Written Down' (50 chars) and a matching description (148)."
+    },
+    {
+      "id": "I5", "section": "Head", "severity": "low",
+      "problem": "og:image was /2.jpg, an Astra starter photo shipped with the theme demo. That is what appeared when anyone shared the homepage.",
+      "fix": "The hero photograph, 1536x1024, with real alt text."
+    }
+  ],
+  "not_fixed": [
+    {
+      "issue": "No search anywhere on the site, with 167 products",
+      "note": "The JSON-LD declares a SearchAction pointing at /?s=, so the endpoint exists and is advertised, but no visible search UI exists. Adding one means touching the Astra header builder, which is a bigger change than an audit fix and was left for a decision."
+    },
+    {
+      "issue": "12 top-level nav items",
+      "note": "Workable but crowded. Grouping the six categories under one 'Shop' parent would halve it. Left alone because it changes how every visitor navigates."
+    },
+    {
+      "issue": "The featured guide band and the first row of the guides index are always the same post",
+      "note": "The band shows the newest post and the index sorts newest-first, so the puppy guide appears twice in a row. Fixing it means the index skipping the featured post, which is a change to lookdog-home-guides.php and was noted rather than made."
+    },
+    {
+      "issue": "20 inline style blocks and 20 stylesheets, 3 Google Fonts requests, no preloads",
+      "note": "Mostly theme and plugin CSS. Our own shortcodes add gated blocks that only print where used."
+    }
+  ],
+  "verification": {
+    "checks_passed": 12,
+    "list": [
+      "one H1", "logo alt LookDog", "old inline badge gone", "ld-badge rendered twice (desktop and mobile nav, not footer)",
+      "drawbacks band renders 4 items", "6 category cards", "no Best Sellers card",
+      "rail leads with the 24,889-order cooling mat", "footer Shop menu", "no Quick Links",
+      "no retired tagline", "problems link reworded"
+    ],
+    "links": "37 unique internal links on the page, all 200",
+    "schema": "4 nodes, 0 dangling @id references",
+    "design": "check-design passes with no violations against lookdog-navy-ember",
+    "caveat": "No screenshot - lookdog.club is unreachable from the dev environment, whose egress policy answers 403 to CONNECT. Everything was verified by reading the rendered markup."
+  }
+}
