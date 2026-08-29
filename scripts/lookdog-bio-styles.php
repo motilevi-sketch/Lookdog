@@ -57,6 +57,20 @@ background:var(--surface)}
 .ld-bio__rowname{display:block;font-size:16px;font-weight:600;color:var(--ink);line-height:1.3}
 .ld-bio__rownote{display:block;margin-top:3px;font-size:13px;line-height:1.45;color:var(--muted)}
 .ld-bio__count{flex:0 0 auto;font-size:13px;font-weight:600;color:var(--muted)}
+
+/* Problems, as chips. A vertical list of ten rows would push the categories
+   off the screen; chips fit the whole set in the height of three rows, which
+   matters on the one page every social visitor lands on. */
+.ld-bio__problems{margin:30px 0 0;padding:26px 20px 0;border-top:1px solid var(--line)}
+.ld-bio__chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 18px}
+.ld-bio__chip{display:inline-flex;align-items:center;gap:7px;
+padding:9px 13px;border:1px solid var(--line2);border-radius:30px;
+color:var(--ink);font-size:14px;font-weight:600;text-decoration:none;
+transition:background .16s ease,border-color .16s ease}
+.ld-bio__chip:hover,.ld-bio__chip:focus{background:var(--surface);border-color:var(--ink)}
+.ld-bio__chip:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ld-bio__chipn{color:var(--muted);font-size:12px;font-weight:600;
+font-variant-numeric:tabular-nums}
 .ld-bio__row:hover .ld-bio__rowname{color:var(--accent-dark)}
 
 .ld-bio__foot{padding:30px 20px 0;text-align:center}

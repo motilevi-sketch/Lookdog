@@ -103,6 +103,58 @@ function lookdog_bio_links_shortcode() {
 			?>
 		</nav>
 
+		<?php
+		/**
+		 * Browse by problem.
+		 *
+		 * This is the section a social post can actually point at. Neither
+		 * Instagram nor TikTok allows a link in a caption, so a post about
+		 * pulling on the lead says "link in bio" and this is what it lands on.
+		 * Each row goes through /go/ so the traffic from each post is
+		 * separable in analytics rather than arriving as one undifferentiated
+		 * lump of "social".
+		 *
+		 * Order and membership come from the same term meta the site uses, so
+		 * a new problem page appears here on its own.
+		 */
+		$problems = function_exists( 'lookdog_problem_terms' ) ? lookdog_problem_terms() : array();
+		$go_for   = array(
+			'pulls-on-the-lead'   => 'pull',
+			'chews-everything'    => 'chew',
+			'eats-too-fast'       => 'gulp',
+			'sheds-everywhere'    => 'shed',
+			'gets-too-hot'        => 'hot',
+			'barks-too-much'      => 'bark',
+			'runs-off'            => 'lost',
+			'walking-in-the-dark' => 'dark',
+			'hates-the-car'       => 'car',
+			'bad-breath'          => 'teeth',
+		);
+		?>
+		<?php if ( $problems ) : ?>
+		<section class="ld-bio__problems">
+			<p class="ld-bio__eyebrow">Start with what is going wrong</p>
+			<nav class="ld-bio__chips" aria-label="Browse by problem">
+				<?php
+				foreach ( $problems as $t ) {
+					$slug = isset( $go_for[ $t->slug ] ) ? $go_for[ $t->slug ] : '';
+					$href = $slug ? home_url( '/go/' . $slug ) : get_term_link( $t );
+					if ( is_wp_error( $href ) ) {
+						continue;
+					}
+					?>
+					<a class="ld-bio__chip" href="<?php echo esc_url( $href ); ?>">
+						<?php echo esc_html( $t->name ); ?>
+						<span class="ld-bio__chipn"><?php echo (int) $t->count; ?></span>
+					</a>
+					<?php
+				}
+				?>
+			</nav>
+			<a class="ld-bio__ghost" href="<?php echo esc_url( home_url( '/go/fix' ) ); ?>">See all ten &rarr;</a>
+		</section>
+		<?php endif; ?>
+
 		<section class="ld-bio__foot">
 			<a class="ld-bio__ghost" href="<?php echo esc_url( home_url( '/' ) ); ?>">Everything on LookDog</a>
 			<p class="ld-bio__disclosure">LookDog lists products sold on AliExpress. We may earn a commission if you buy through our links, at no extra cost to you. We do not sell, ship or handle returns ourselves.</p>
