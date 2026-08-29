@@ -149,7 +149,18 @@ add_filter( 'wp_nav_menu_items', 'lookdog_consent_menu_link', 10, 2 );
  * @return void
  */
 function lookdog_consent_banner() {
-	if ( ! function_exists( 'lookdog_ga4_id' ) || ! lookdog_ga4_id() || is_user_logged_in() ) {
+	if ( ! function_exists( 'lookdog_ga4_id' ) || ! lookdog_ga4_id() ) {
+		return;
+	}
+
+	// The banner is normally suppressed for the owner, who should be neither
+	// tracked nor nagged. That also makes it impossible to check how it looks
+	// without logging out, so ?ld_consent_preview=1 forces it for an admin.
+	$preview = current_user_can( 'manage_options' )
+		&& isset( $_GET['ld_consent_preview'] ) // phpcs:ignore WordPress.Security.NonceVerification
+		&& '1' === $_GET['ld_consent_preview']; // phpcs:ignore WordPress.Security.NonceVerification
+
+	if ( is_user_logged_in() && ! $preview ) {
 		return;
 	}
 
@@ -290,8 +301,12 @@ function lookdog_consent_banner() {
 		el.scrollIntoView({ block: 'nearest' });
 	});
 
+	var PREVIEW = <?php echo $preview ? 'true' : 'false'; ?>;
+
 	var stored = read();
-	if (stored) {
+	if (PREVIEW) {
+		show();
+	} else if (stored) {
 		apply(stored.c);
 	} else if (SCOPE === 'all' || looksEuropean()) {
 		show();
