@@ -28,12 +28,53 @@
   "verification": {
     "checks_passed": 9,
     "list": [
-      "header CSS present", "desktop header override present", "mobile header override present",
-      "breakpoint filter live at 3000.99px", "toggle button in markup", "toggle has aria-expanded",
-      "toggle has aria-label", "panel wrapper present", "panel carries all 12 items"
+      "header CSS present",
+      "desktop header override present",
+      "mobile header override present",
+      "breakpoint filter live at 3000.99px",
+      "toggle button in markup",
+      "toggle has aria-expanded",
+      "toggle has aria-label",
+      "panel wrapper present",
+      "panel carries all 12 items"
     ],
     "page_types": "Homepage, category archive, product page, guide and the problems hub all return 200, all carry the toggle and our CSS. Only the homepage is transparent, so only there is the toggle white.",
     "design": "check-design passes with no violations",
     "caveat": "No screenshot - lookdog.club is unreachable from this environment. The open/close behaviour is Astra's own JavaScript, unchanged, but it is worth clicking the toggle once on a wide screen to confirm the panel opens where you expect."
+  },
+  "second_pass": {
+    "date": "2026-08-29",
+    "reported": "Make the lines white, I don't see nothing inside, and put it 2.5cm lower",
+    "bugs": [
+      {
+        "symptom": "Nothing visible inside the dropdown",
+        "cause": "Astra's transparent-header rule paints every .main-header-menu .menu-link white so the old inline row could sit on the hero photograph. The selector cannot distinguish a link in the header bar from a link inside the dropdown - it is the same menu - so on our white panel the items were white text. Present, clickable, invisible.",
+        "specificity": "Astra's selector is five classes deep; ours was three. It won.",
+        "fix": "!important on the panel link colour, its hover and the current-item colour. Our stylesheet also happens to print after Astra's, so the flag is belt and braces rather than the only thing holding it."
+      },
+      {
+        "symptom": "Hamburger lines not white",
+        "cause": ".menu-toggle picks up Astra's global button rule - the same one that paints the orange pill buttons - and an ast-mobile-menu-trigger-outline treatment on top. The bars are an SVG using fill=currentColor, so whatever wins the colour cascade is the colour of the lines.",
+        "fix": "!important colour and fill on the button and both SVGs, plus a semi-opaque navy plate behind them so the outline holds against a busy photograph."
+      }
+    ],
+    "adjustment": {
+      "request": "2.5cm lower",
+      "applied": "padding-top:2.5cm on the primary header bar, scoped to the transparent header so only the homepage moves. Halved to 1.25cm under 640px, where 2.5cm is roughly a quarter of a phone screen.",
+      "note": "The logo and the toggle travel together, so they stay on one line."
+    },
+    "verification": {
+      "checks_passed": 6,
+      "list": [
+        "toggle forced white",
+        "panel link forced navy",
+        "hover forced ember",
+        "header pushed 2.5cm",
+        "phone offset 1.25cm",
+        "toggle still present"
+      ],
+      "page_types": "Homepage transparent and gets both the white toggle and the 2.5cm push. Category and product pages are not transparent, keep the navy toggle and keep their normal header position.",
+      "source_order": "Our override prints after Astra's white-link rule as well as carrying !important."
+    }
   }
 }

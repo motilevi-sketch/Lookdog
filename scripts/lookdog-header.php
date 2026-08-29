@@ -70,13 +70,31 @@ add_action(
 .menu-toggle .ast-mobile-svg{width:26px;height:26px}
 
 /* On the homepage the header sits on the photograph, so the icon is white and
-   carries a hairline to hold its edge against a busy image. */
+   carries a hairline to hold its edge against a busy image.
+
+   !important, because Astra styles `.menu-toggle` with its global *button*
+   rule - the same one that paints the orange pill buttons - and then layers
+   an `ast-mobile-menu-trigger-outline` treatment on top. The bars are an SVG
+   using fill="currentColor", so whatever wins the `color` cascade is the
+   colour of the three lines. */
+.ast-theme-transparent-header .menu-toggle.main-header-menu-toggle,
+.ast-theme-transparent-header .menu-toggle.main-header-menu-toggle .ast-mobile-svg,
+.ast-theme-transparent-header .menu-toggle.main-header-menu-toggle .ast-close-svg{
+	color:#FFFFFF!important;fill:#FFFFFF!important;
+}
 .ast-theme-transparent-header .menu-toggle.main-header-menu-toggle{
-	color:#FFFFFF;border-color:rgba(255,255,255,.55);
+	border-color:rgba(255,255,255,.6)!important;background:rgba(20,33,61,.28)!important;
 }
 .ast-theme-transparent-header .menu-toggle.main-header-menu-toggle:hover,
 .ast-theme-transparent-header .menu-toggle.main-header-menu-toggle:focus{
-	background:rgba(255,255,255,.16);border-color:#FFFFFF;color:#FFFFFF;
+	background:rgba(255,255,255,.2)!important;border-color:#FFFFFF!important;
+}
+
+/* Move the bar clear of the top edge on the photographic header. The logo and
+   the toggle travel together, so they stay on one line. */
+.ast-theme-transparent-header #ast-mobile-header .ast-primary-header-bar,
+.ast-theme-transparent-header #ast-desktop-header .ast-primary-header-bar{
+	padding-top:2.5cm;
 }
 
 /* ----------------------------------------------------------------- panel */
@@ -93,20 +111,29 @@ add_action(
 	border-bottom:1px solid #EFEFEC;
 }
 .ast-header-break-point .ast-mobile-header-content .menu-item:last-child{border-bottom:0}
+/* THE PANEL WAS RENDERING WHITE-ON-WHITE ON THE HOMEPAGE.
+
+   Astra's transparent-header rule paints every `.main-header-menu .menu-link`
+   white so the old inline row could sit on the hero photograph. That selector
+   does not know the difference between a link in the header bar and a link
+   inside the dropdown - and the dropdown is the same menu. So on a white panel
+   the items were white text: present, clickable, invisible. It beat our colour
+   on specificity (five classes to three), which is why !important is here and
+   not a nicer selector. */
 .ast-header-break-point .ast-mobile-header-content .menu-link{
 	display:block;padding:15px 26px;
-	color:#14213D;font-size:16px;font-weight:600;line-height:1.3;
+	color:#14213D!important;font-size:16px;font-weight:600;line-height:1.3;
 	text-decoration:none;transition:background .16s ease,color .16s ease;
 }
 .ast-header-break-point .ast-mobile-header-content .menu-link:hover,
 .ast-header-break-point .ast-mobile-header-content .menu-link:focus{
-	background:#F8F8F6;color:#EA670B;
+	background:#F8F8F6;color:#EA670B!important;
 }
 .ast-header-break-point .ast-mobile-header-content .menu-link:focus-visible{
 	outline:3px solid #F97316;outline-offset:-3px;
 }
 .ast-header-break-point .ast-mobile-header-content .current-menu-item > .menu-link{
-	color:#EA670B;box-shadow:inset 3px 0 0 #F97316;
+	color:#EA670B!important;box-shadow:inset 3px 0 0 #F97316;
 }
 
 /* Blog is where the shop ends and the rest of the site starts. One rule says
@@ -120,7 +147,10 @@ add_action(
 
 @media (max-width:640px){
 	.ast-header-break-point .ast-mobile-header-content .menu-link{padding:14px 20px;font-size:15.5px}
-	.ast-header-break-point .ast-mobile-header-content{max-height:calc(100vh - 76px)}
+	.ast-header-break-point .ast-mobile-header-content{max-height:70vh}
+	/* 2.5cm is a quarter of a phone screen. Half of it reads the same there. */
+	.ast-theme-transparent-header #ast-mobile-header .ast-primary-header-bar,
+	.ast-theme-transparent-header #ast-desktop-header .ast-primary-header-bar{padding-top:1.25cm}
 }
 @media (prefers-reduced-motion: reduce){
 	.menu-toggle.main-header-menu-toggle,

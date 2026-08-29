@@ -307,6 +307,25 @@ against generated theme output whose source order is not ours to rely on.
 is white with a hairline over the transparent homepage header and navy
 everywhere else, keyed on the `ast-theme-transparent-header` body class.
 
+**The panel rendered white-on-white, and it is worth knowing why.** Astra's
+transparent-header rule paints *every* `.main-header-menu .menu-link` white, so
+the old inline row could sit on the hero photograph. That selector cannot tell a
+link in the header bar from a link inside the dropdown — it is the same menu. On
+a white panel the items were white text: present, clickable, invisible. Astra's
+selector runs five classes deep against our three, so the fix is `!important`
+rather than a nicer selector. The same applies to the toggle: `.menu-toggle`
+picks up Astra's global *button* rule, the one that paints the orange pills, and
+the three bars are an SVG on `fill="currentColor"` — so whatever wins `color`
+wins the bars.
+
+**If you ever restyle this, check both states.** The panel inherits header
+colours it was never designed for, and the failure is invisible rather than
+broken: nothing errors, the links are just the colour of the paper.
+
+The header bar sits `2.5cm` below the top edge on the transparent homepage
+header only, halved to `1.25cm` under 640px where 2.5cm is a quarter of the
+screen. Solid headers on every other page keep their normal position.
+
 Removing `ast-desktop` from the body — which the filter does — was checked
 first: across the theme it is used almost entirely for desktop submenu hover
 animations, which a burger menu does not have.
