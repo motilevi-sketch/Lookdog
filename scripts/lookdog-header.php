@@ -90,12 +90,14 @@ add_action(
 	background:rgba(255,255,255,.2)!important;border-color:#FFFFFF!important;
 }
 
-/* Move the bar clear of the top edge on the photographic header. The logo and
-   the toggle travel together, so they stay on one line. */
-.ast-theme-transparent-header #ast-mobile-header .ast-primary-header-bar,
-.ast-theme-transparent-header #ast-desktop-header .ast-primary-header-bar{
-	padding-top:2.5cm;
-}
+/* NO TOP OFFSET ON THE TRANSPARENT HEADER, and this is the reason.
+   A 2.5cm padding-top was added here on request, to sit the toggle lower. It
+   broke the homepage. The transparent header does not sit *above* the hero, it
+   floats *on* it - so padding does not push anything out of the way, it walks
+   the logo and the toggle straight down into the headline, which is vertically
+   centred in the band. On a phone the logo landed on top of the H1.
+   If the header is ever to sit lower, the hero content has to move down by the
+   same amount in the same change. Moving one without the other collides. */
 
 /* ----------------------------------------------------------------- panel */
 .ast-header-break-point .ast-mobile-header-content{
@@ -148,9 +150,6 @@ add_action(
 @media (max-width:640px){
 	.ast-header-break-point .ast-mobile-header-content .menu-link{padding:14px 20px;font-size:15.5px}
 	.ast-header-break-point .ast-mobile-header-content{max-height:70vh}
-	/* 2.5cm is a quarter of a phone screen. Half of it reads the same there. */
-	.ast-theme-transparent-header #ast-mobile-header .ast-primary-header-bar,
-	.ast-theme-transparent-header #ast-desktop-header .ast-primary-header-bar{padding-top:1.25cm}
 }
 @media (prefers-reduced-motion: reduce){
 	.menu-toggle.main-header-menu-toggle,

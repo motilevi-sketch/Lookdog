@@ -360,9 +360,23 @@ wins the bars.
 colours it was never designed for, and the failure is invisible rather than
 broken: nothing errors, the links are just the colour of the paper.
 
-The header bar sits `2.5cm` below the top edge on the transparent homepage
-header only, halved to `1.25cm` under 640px where 2.5cm is a quarter of the
-screen. Solid headers on every other page keep their normal position.
+**Do not add a top offset to the transparent header.** A `2.5cm` `padding-top`
+was added to sit the toggle lower, and it broke the homepage: the transparent
+header does not sit *above* the hero, it floats *on* it, so padding pushes
+nothing out of the way — it walks the logo and the toggle down into the
+headline, which is vertically centred in the band. On a phone the logo landed
+on top of the H1. Reverted. If the header ever has to sit lower, the hero
+content must move down by the same amount in the same change.
+
+**The header strip has its own scrim.** The top of the hero photograph is a
+bright room — mean luminance about 190 across the top 22% — and the horizontal
+scrim is at its weakest on the right, which is exactly where the menu button
+sits. A white icon there was landing near 3:1. `.ld-hero__scrim` now layers a
+vertical gradient over the horizontal one, dark for the first ~96px and clear
+by 200px, which takes the top-right corner to roughly 9:1 and the top-left to
+15:1. The `max-width:900px` override redeclares both gradients — declaring only
+the horizontal one there silently drops the top strip on tablets and phones,
+which is where it matters most.
 
 Removing `ast-desktop` from the body — which the filter does — was checked
 first: across the theme it is used almost entirely for desktop submenu hover

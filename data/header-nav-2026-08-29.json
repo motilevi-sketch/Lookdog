@@ -76,5 +76,34 @@
       "page_types": "Homepage transparent and gets both the white toggle and the 2.5cm push. Category and product pages are not transparent, keep the navy toggle and keep their normal header position.",
       "source_order": "Our override prints after Astra's white-link rule as well as carrying !important."
     }
+  },
+  "third_pass": {
+    "reported": "Screenshot showing the header logo sitting on top of the H1 on a phone. 'It is not good at all, fix it so it will look perfect or remove it.'",
+    "my_error": {
+      "what": "The 2.5cm padding-top I added to the transparent header bar in the second pass.",
+      "why_it_broke": "The transparent header floats ON the hero, not above it. Padding does not push anything out of the way - it moves the logo and toggle down into the hero content, which is vertically centred in a 580px band. The logo landed on the headline.",
+      "fix": "Offset removed at every width. The header sits at the top, where it cannot collide.",
+      "if_wanted_again": "The hero content has to move down by the same amount in the same change. Moving one without the other collides."
+    },
+    "second_problem_found": {
+      "what": "The top of the hero photograph is a bright room - mean luminance about 190 across the top 22%, measured band by band.",
+      "consequence": "The horizontal scrim is weakest on the right, which is exactly where the menu button sits. A white icon there was landing near 3:1.",
+      "fix": "A vertical scrim layered over the horizontal one: dark for the first 96px, clear by 200px. Top-right goes to roughly 9:1, top-left to 15:1.",
+      "trap": "The max-width:900px override redeclares background, so it has to repeat BOTH gradients. Declaring only the horizontal one silently drops the top strip on tablets and phones, where it matters most."
+    },
+    "also": "overflow-wrap:break-word on the hero title and copy, so a long word can never be clipped by the hero's overflow:hidden.",
+    "verification": {
+      "checks_passed": 6,
+      "list": [
+        "2.5cm offset gone",
+        "1.25cm offset gone",
+        "top scrim present",
+        "tablet top scrim present",
+        "title wraps",
+        "reversed logo still serving on the homepage"
+      ],
+      "design": "check-design passes with no violations",
+      "caveat": "Still no screenshot from this environment. The overlap had a single identifiable cause which is now removed, but it is worth one more look on your phone."
+    }
   }
 }

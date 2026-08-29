@@ -35,10 +35,16 @@ function lookdog_home_styles() {
 /* hero */
 .ld-hero{position:relative;display:flex;align-items:center;min-height:580px;padding:80px 40px;overflow:hidden;}
 .ld-hero__bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-.ld-hero__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,33,61,.88) 0%,rgba(20,33,61,.74) 46%,rgba(20,33,61,.42) 100%);}
+/* Two scrims, not one. The horizontal gradient carries the headline; the
+   vertical one exists for the header, because the top of this photograph is a
+   bright room - mean luminance about 190 - and the top RIGHT corner, where the
+   menu button sits, was the lightest point of the whole band. A white icon
+   there was landing on roughly 3:1. With the top strip darkened it clears 5:1,
+   and the logo top left gains as well. */
+.ld-hero__scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,33,61,.6) 0%,rgba(20,33,61,.28) 96px,rgba(20,33,61,0) 200px),linear-gradient(90deg,rgba(20,33,61,.88) 0%,rgba(20,33,61,.74) 46%,rgba(20,33,61,.42) 100%);}
 .ld-hero__inner{position:relative;width:100%;}
-.ld-hero__title{max-width:17ch;margin:0 0 20px;color:#FFFFFF;font-size:52px;line-height:1.08;font-weight:600;letter-spacing:-.01em;}
-.ld-hero__copy{max-width:56ch;margin:0 0 32px;color:#C9D0DC;font-size:17px;line-height:1.6;}
+.ld-hero__title{max-width:17ch;margin:0 0 20px;color:#FFFFFF;font-size:52px;line-height:1.08;font-weight:600;letter-spacing:-.01em;overflow-wrap:break-word;}
+.ld-hero__copy{max-width:56ch;margin:0 0 32px;color:#C9D0DC;font-size:17px;line-height:1.6;overflow-wrap:break-word;}
 .ld-hero__actions{display:flex;flex-wrap:wrap;gap:16px;}
 .ld-pill{display:inline-block;background:#FFFFFF;color:#14213D;padding:14px 30px;border:2px solid #FFFFFF;border-radius:30px;text-decoration:none;font-weight:600;font-size:14px;transition:background .18s ease,color .18s ease;}
 .ld-pill:hover,.ld-pill:focus{background:#F8F8F6;color:#14213D;}
@@ -89,7 +95,9 @@ function lookdog_home_styles() {
 }
 @media (max-width:900px){
 	.ld-hero__title{font-size:40px;}
-	.ld-hero__scrim{background:linear-gradient(90deg,rgba(20,33,61,.90) 0%,rgba(20,33,61,.80) 100%);}
+	/* Keep the top strip when the horizontal gradient flattens out, or the
+	   header loses its contrast again on tablets and phones. */
+	.ld-hero__scrim{background:linear-gradient(180deg,rgba(20,33,61,.55) 0%,rgba(20,33,61,0) 170px),linear-gradient(90deg,rgba(20,33,61,.90) 0%,rgba(20,33,61,.80) 100%);}
 }
 @media (max-width:640px){
 	.ld-band{padding:56px 22px;}
