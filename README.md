@@ -278,9 +278,10 @@ scans the same rhythm twice:
 | --- | --- | --- |
 | Hero | `[lookdog_hero]` | full-bleed photograph, navy scrim, pill buttons |
 | What people actually buy | `[lookdog_product_rail]` | horizontal scroll of real products |
+| Cheaper than when we last looked | `[lookdog_price_drops]` | two-column price board, tight rows |
 | Browse by what it is | `[lookdog_category_grid]` | image card grid |
 
-**Three bands, by the owner's decision.** The page ran to seven and was cut back
+**Four bands.** The page ran to seven and was cut back
 on 28 August 2026 because it was too long — the owner's call, made after seeing
 the full version. Four shortcodes came off the page and none were deleted:
 `[lookdog_drawbacks]`, `[lookdog_method]`, `[lookdog_featured_guide]` and
@@ -387,6 +388,47 @@ Two tokens exist only for dark bands: `bodyOnInk` (`#C9D0DC`) and `mutedOnInk`
 (`#AEB6C6`). They were flagged as off-palette on the first pre-flight; they are
 real, deliberate values for text on navy, so they were declared in the DESIGN.md
 rather than removed. Never use them on a light background.
+
+### Price watch, and why there is no coupon box
+
+`scripts/lookdog-price-watch.php`, `[lookdog_price_drops]`.
+
+**The Portals API has no coupons.** Asked for a window of live AliExpress
+coupon codes, I checked before building: `aliexpress.affiliate.coupon.get`,
+`.coupon.query`, `.promotion.get` and `.promo.coupon.get` all return
+`InvalidApiPath`, and `hotproduct.query` returns `InsufficientPermission` for
+this app. A product record carries no code, no voucher and no expiry. The only
+promo-shaped things that exist are:
+
+| Available | What it actually is |
+| --- | --- |
+| `featuredpromo.get` | 139 named product feeds — `promo_name`, `promo_desc`, `product_num`. No codes, no dates, not our products. |
+| `discount` on a product | A percentage against `target_original_price` — the same permanently-inflated figure the product pages already refuse to print |
+
+So the band reports the one discount the site can stand behind: **a price that
+has fallen since we ourselves last checked it.** Both figures are ours, both
+are dated, and either can be checked against the listing. It sorts by money
+saved rather than percentage — 40% off a $3 toy is not the news that 25% off a
+$60 bed is — and it hides itself entirely when nothing has dropped.
+
+**The first run proved the point.** Comparing 29 August against the 28 August
+snapshot: 20 prices fell, **56 rose**, 86 held. Any static "deal" would have
+been wrong about a third of the catalogue within a day.
+
+Meta written per product: `_lookdog_price` and `_lookdog_facts_date` (current),
+`_lookdog_price_prev` and `_lookdog_price_prev_date` (the observation being
+compared against). The previous figure is written **once** and only cleared when
+the price rises again, so a price sliding down over a week reports the whole
+fall rather than yesterday's sliver.
+
+`lookdog_refresh_prices()` runs daily at 04:00 on the `lookdog_price_watch`
+cron hook and chunks at five IDs with a retry — see the rate-limit note under
+*Useful API methods*. The first full run answered 162 of 167 in 57 seconds.
+
+**WP-Cron is not a real cron.** It fires on an uncached page load, and this site
+serves HTML from a seven-day page cache, so the 04:00 slot is a target rather
+than a promise. If the refresh starts drifting, add a real cron in hPanel
+hitting `wp-cron.php` and set `DISABLE_WP_CRON` — it is not set today.
 
 ### The drawbacks band
 

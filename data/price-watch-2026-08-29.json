@@ -1,0 +1,70 @@
+{
+  "date": "2026-08-29",
+  "site": "https://lookdog.club",
+  "request": "A window on the homepage showing live AliExpress coupons, checked and updated all the time",
+  "finding": {
+    "verdict": "The AliExpress Portals API exposes no coupons at all. The literal request cannot be built from real data.",
+    "methods_tested": [
+      {"method": "aliexpress.affiliate.coupon.get", "result": "InvalidApiPath"},
+      {"method": "aliexpress.affiliate.coupon.query", "result": "InvalidApiPath"},
+      {"method": "aliexpress.affiliate.promotion.get", "result": "InvalidApiPath"},
+      {"method": "aliexpress.affiliate.promo.coupon.get", "result": "InvalidApiPath"},
+      {"method": "aliexpress.affiliate.hotproduct.query", "result": "InsufficientPermission - this app is not granted it"},
+      {"method": "aliexpress.affiliate.featuredpromo.get", "result": "Works. Returns 139 named product feeds with promo_name, promo_desc and product_num. No codes, no discount values, no dates, and not our products."}
+    ],
+    "product_record": "Full field dump of productdetail.get shows no coupon, code, voucher or expiry field. The only discount-shaped value is `discount`, a percentage computed against target_original_price - the permanently inflated figure the product pages already refuse to print, because 142 of 159 products carry one."
+  },
+  "built_instead": {
+    "what": "A price-drop band: products whose price has fallen since we ourselves last recorded it, showing both figures and both dates",
+    "why": "It is the one discount the site can stand behind. Both numbers are ours, both are dated, and a reader can check either against the live listing.",
+    "shortcode": "[lookdog_price_drops]",
+    "file": "scripts/lookdog-price-watch.php",
+    "sorting": "By money saved, not percentage. 40% off a $3 toy is not the news that 25% off a $60 bed is.",
+    "empty_state": "The band removes itself when nothing has dropped. An empty deals section beats a full one that invents deals."
+  },
+  "first_run": {
+    "ran": "2026-08-29 09:38:49",
+    "requested": 167,
+    "answered": 162,
+    "unanswered": 0,
+    "fell": 20,
+    "rose": 56,
+    "unchanged": 86,
+    "duration_seconds": 57,
+    "note": "56 prices ROSE in a single day. That is the argument for the whole approach: any static coupon or fixed discount would have been wrong about a third of the catalogue within 24 hours.",
+    "biggest_drops": [
+      {"product": "Automatic Tennis Ball Launcher for Dogs", "from": "52.65", "to": "37.81"},
+      {"product": "Truelove Breathable Pet Carrier Handbag", "from": "33.45", "to": "24.99"},
+      {"product": "Smart Self-Rolling Bounce Ball for Dogs", "from": "22.31", "to": "18.06"},
+      {"product": "Waterproof Bark Control Collar with Sound and Vibration", "from": "18.60", "to": "16.77"},
+      {"product": "Waterproof Anti-Leak Dog Bed Cover and Mattress Protector", "from": "11.55", "to": "9.82"},
+      {"product": "Dog Dental Care Kit with Toothbrush and Paste", "from": "6.73", "to": "5.16"}
+    ]
+  },
+  "meta_keys": {
+    "_lookdog_price": "current price",
+    "_lookdog_facts_date": "date the current price was recorded",
+    "_lookdog_price_prev": "the observation being compared against - written once, cleared only when the price rises again, so a slow slide reports the whole fall",
+    "_lookdog_price_prev_date": "date of that observation"
+  },
+  "schedule": {
+    "hook": "lookdog_price_watch",
+    "frequency": "daily at 04:00 site time",
+    "next": "2026-08-30 04:00",
+    "chunking": "5 IDs per productdetail.get call with up to 3 retries on an empty result, per the documented rate limit",
+    "caveat": "WP-Cron fires on an uncached page load and this site serves HTML from a seven-day page cache, so 04:00 is a target rather than a guarantee. DISABLE_WP_CRON is not set. If the refresh drifts, add a real cron in hPanel hitting wp-cron.php."
+  },
+  "placement": {
+    "homepage_order": ["hero", "What people actually buy", "Cheaper than when we last looked", "Browse by what it is"],
+    "grounds": "photo, tint, white, tint - so no two adjacent bands share a background",
+    "layout_family": "Two-column board of tight rows. Distinct from the rail's horizontal cards and the category grid's cards."
+  },
+  "verification": {
+    "band": "6 rows, biggest saving first, both prices and both dates on each",
+    "css": "gated on the shortcode being present; band returns empty string when there are no drops",
+    "links": "32 unique internal links on the homepage, all 200",
+    "design": "check-design passes with no violations; thumbnail radius corrected from an off-scale 6px to 4px",
+    "entity": "The arrow between dates is &rarr; in source and renders as an arrow - an earlier draft passed it through esc_html and would have printed the entity literally",
+    "my_own_error": "A verification check reported the arrow as broken because it searched the raw source for the decoded character. The markup was correct; the check was not."
+  }
+}
