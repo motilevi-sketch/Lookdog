@@ -25,18 +25,40 @@ function lookdog_ga4_id() {
 /**
  * Consent Mode v2 defaults.
  *
- * Shipped as granted, which is what "install GA4" normally means and what makes
- * the reports work on day one. If this site serves EU or UK visitors it needs a
- * consent banner, and this filter is where that banner hooks in: return
- * 'denied' until the visitor has agreed, then call gtag('consent','update').
+ * Returns a LIST of default calls, not one call, because Consent Mode is
+ * region-scoped: a site serving both the EEA and the rest of the world needs a
+ * denied default carrying a `region` key and a separate unscoped default for
+ * everyone else. Google picks whichever matches the visitor, using its own
+ * view of their location rather than anything this server can see.
+ *
+ * The base value here is granted with no region, which is what "install GA4"
+ * normally means. lookdog-consent.php filters this to put the EEA, the UK and
+ * Switzerland behind a banner.
+ *
+ * @return array<int,array<string,mixed>> One entry per gtag consent default call.
+ */
+function lookdog_ga4_consent_calls() {
+	$base = apply_filters(
+		'lookdog_ga4_consent_defaults',
+		array(
+			'ad_storage'         => 'granted',
+			'ad_user_data'       => 'granted',
+			'ad_personalization' => 'granted',
+			'analytics_storage'  => 'granted',
+		)
+	);
+
+	return apply_filters( 'lookdog_ga4_consent_calls', array( $base ) );
+}
+
+/**
+ * Back-compat shim for anything still expecting a single flat array.
+ *
+ * @return array<string,mixed>
  */
 function lookdog_ga4_consent_defaults() {
-	return apply_filters( 'lookdog_ga4_consent_defaults', array(
-		'ad_storage'             => 'granted',
-		'ad_user_data'           => 'granted',
-		'ad_personalization'     => 'granted',
-		'analytics_storage'      => 'granted',
-	) );
+	$calls = lookdog_ga4_consent_calls();
+	return end( $calls ) ?: array();
 }
 
 add_action( 'wp_head', static function () {
@@ -44,13 +66,15 @@ add_action( 'wp_head', static function () {
 	if ( ! $id || is_admin() || is_user_logged_in() ) {
 		return; // never count the owner's own browsing
 	}
-	$consent = wp_json_encode( lookdog_ga4_consent_defaults() );
+	$calls = lookdog_ga4_consent_calls();
 	?>
 <script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo esc_attr( $id ); ?>"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
-gtag('consent','default',<?php echo $consent; // phpcs:ignore ?>);
+<?php foreach ( $calls as $call ) : ?>
+gtag('consent','default',<?php echo wp_json_encode( $call ); // phpcs:ignore ?>);
+<?php endforeach; ?>
 gtag('js', new Date());
 gtag('config', '<?php echo esc_js( $id ); ?>');
 </script>
