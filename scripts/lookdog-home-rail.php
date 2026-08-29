@@ -41,23 +41,30 @@ function lookdog_product_rail( $atts = array() ) {
 	 * entirely when the supplier API is rate limiting.
 	 */
 	$ids = get_posts(
-		array(
-			'post_type'      => 'product',
-			'post_status'    => 'publish',
-			'posts_per_page' => absint( $atts['limit'] ),
-			'fields'         => 'ids',
-			'meta_key'       => '_lookdog_orders', // phpcs:ignore WordPress.DB.SlowDBQuery
-			'orderby'        => array(
-				'meta_value_num' => 'DESC',
-				'date'           => 'DESC',
-			),
-			'tax_query'      => array(
-				array(
-					'taxonomy' => 'product_cat',
-					'field'    => 'term_id',
-					'terms'    => $term->term_id,
+		/**
+		 * Filtered so lookdog-link-check.php can keep withdrawn products off a
+		 * band whose whole claim is that these are the ones people buy.
+		 */
+		apply_filters(
+			'lookdog_rail_query_args',
+			array(
+				'post_type'      => 'product',
+				'post_status'    => 'publish',
+				'posts_per_page' => absint( $atts['limit'] ),
+				'fields'         => 'ids',
+				'meta_key'       => '_lookdog_orders', // phpcs:ignore WordPress.DB.SlowDBQuery
+				'orderby'        => array(
+					'meta_value_num' => 'DESC',
+					'date'           => 'DESC',
 				),
-			),
+				'tax_query'      => array(
+					array(
+						'taxonomy' => 'product_cat',
+						'field'    => 'term_id',
+						'terms'    => $term->term_id,
+					),
+				),
+			)
 		)
 	);
 

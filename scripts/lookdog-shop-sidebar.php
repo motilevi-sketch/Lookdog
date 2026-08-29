@@ -234,7 +234,8 @@ class LookDog_Ordered_Widget extends WP_Widget {
 			);
 		}
 
-		$query = new WP_Query( $query_args );
+		// Filtered so lookdog-link-check.php can drop withdrawn products.
+		$query = new WP_Query( apply_filters( 'lookdog_ordered_widget_args', $query_args ) );
 		// Never render an empty box - that is the failure this widget replaced.
 		if ( ! $query->have_posts() ) {
 			return;

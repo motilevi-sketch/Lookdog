@@ -328,6 +328,75 @@ function lookdog_stats_screen() {
 		</table>
 	<?php endif; ?>
 
+	<h2><?php esc_html_e( 'Daily link check', 'lookdog' ); ?></h2>
+	<?php
+	$lc = get_option( 'lookdog_link_check_report' );
+	if ( ! is_array( $lc ) ) :
+		?>
+		<p><?php esc_html_e( 'Has not run yet. It runs every night at 04:30.', 'lookdog' ); ?></p>
+	<?php else : ?>
+		<p class="description">
+			<?php
+			printf(
+				/* translators: 1: date and time of the last run, 2: products checked, 3: products confirmed live. */
+				esc_html__( 'Last run %1$s — checked %2$s, still listed %3$s.', 'lookdog' ),
+				esc_html( $lc['ran'] ),
+				esc_html( number_format_i18n( (int) $lc['checked'] ) ),
+				esc_html( number_format_i18n( (int) $lc['alive'] ) )
+			);
+			if ( ! empty( $lc['stopped_early'] ) ) {
+				echo ' ';
+				esc_html_e( 'Stopped early because the supplier stopped answering; it resumes where it left off tomorrow.', 'lookdog' );
+			}
+			?>
+		</p>
+		<?php
+		$gone   = function_exists( 'lookdog_unavailable_ids' ) ? lookdog_unavailable_ids() : array();
+		$strike = get_posts(
+			array(
+				'post_type'      => 'product',
+				'post_status'    => 'publish',
+				'posts_per_page' => 50,
+				'fields'         => 'ids',
+				'meta_query'     => array( array( 'key' => '_lookdog_miss', 'compare' => 'EXISTS' ) ),
+			)
+		);
+		?>
+		<?php if ( $gone ) : ?>
+			<h3><?php esc_html_e( 'No longer sold — replace these', 'lookdog' ); ?></h3>
+			<p class="description"><?php esc_html_e( 'The supplier has stopped listing these. The buy button is already hidden and the page says so. They are not swapped automatically, because picking a substitute is a judgement about what a buyer actually wanted.', 'lookdog' ); ?></p>
+			<table class="widefat striped">
+				<thead><tr><th><?php esc_html_e( 'Product', 'lookdog' ); ?></th><th style="width:140px"><?php esc_html_e( 'Gone since', 'lookdog' ); ?></th></tr></thead>
+				<tbody>
+				<?php foreach ( $gone as $gid ) : ?>
+					<tr>
+						<td><a href="<?php echo esc_url( (string) get_edit_post_link( $gid ) ); ?>"><?php echo esc_html( get_the_title( $gid ) ); ?></a></td>
+						<td><?php echo esc_html( (string) get_post_meta( $gid, '_lookdog_unavailable_since', true ) ?: '—' ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif; ?>
+		<?php if ( $strike ) : ?>
+			<h3><?php esc_html_e( 'Watching', 'lookdog' ); ?></h3>
+			<p class="description"><?php esc_html_e( 'Missing from the supplier\'s answer, but not yet confirmed gone. Three consecutive misses are needed, because the API goes quiet under load and one silence proves nothing. These are still on sale meanwhile.', 'lookdog' ); ?></p>
+			<table class="widefat striped">
+				<thead><tr><th><?php esc_html_e( 'Product', 'lookdog' ); ?></th><th style="width:140px"><?php esc_html_e( 'Misses', 'lookdog' ); ?></th></tr></thead>
+				<tbody>
+				<?php foreach ( $strike as $sid ) : ?>
+					<tr>
+						<td><a href="<?php echo esc_url( (string) get_permalink( $sid ) ); ?>"><?php echo esc_html( get_the_title( $sid ) ); ?></a></td>
+						<td><?php echo esc_html( (string) get_post_meta( $sid, '_lookdog_miss', true ) ); ?> <?php esc_html_e( 'of 3', 'lookdog' ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif; ?>
+		<?php if ( ! $gone && ! $strike ) : ?>
+			<p><?php esc_html_e( 'Every product was still listed at the last check.', 'lookdog' ); ?></p>
+		<?php endif; ?>
+	<?php endif; ?>
+
 	<?php
 	require_once ABSPATH . 'wp-admin/includes/plugin.php';
 	$dormant = array();
