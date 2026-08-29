@@ -70,11 +70,48 @@ The line these hold:
   the anxiety rises, which looks like success and is not. The free fix that
   ends most window barking is film on the glass.
 
-## Still to write
+## Batch 3 — the set is complete
 
-Done: pulls-on-the-lead, chews-everything, eats-too-fast, sheds-everywhere,
-gets-too-hot, barks-too-much. Remaining: runs-off, walking-in-the-dark,
-hates-the-car, bad-breath.
+| Article | Problem page | Treatment |
+|---|---|---|
+| My Dog Runs Off and Will Not Come Back | runs-off | spec |
+| Walking a Dog in the Dark: What Drivers Can Actually See | walking-in-the-dark | ledger |
+| My Dog Hates the Car: Sickness, Fear and Safe Restraint | hates-the-car | sequence |
+| My Dog Has Bad Breath: What Actually Fixes It | bad-breath | primer |
+
+- **Running off** separates two problems that get muddled — getting a dog to
+  come back, and finding one already gone. The commercially useful part is a
+  Bluetooth-versus-GPS table: a tag borrows passing phones, so in woodland it
+  reports where the dog was when it last passed a human. Buying one for a dog
+  that bolts in fields is the expensive mistake in this category.
+- **Dark walking** is built on distances, which is why it took the ledger
+  treatment. A car on dipped beams lights ~40m and needs ~73m to stop from
+  60mph, so the target is being seen past 100m. Hi-vis yellow is named as a
+  daytime material that performs no better than a white coat after dark.
+- **Car** splits sickness from fear and gives each its own method. It states
+  the thing most listings omit: a seatbelt tether is a restraint, not crash
+  protection, and must clip to a harness rather than a collar.
+- **Teeth** is the widest gap between what is sold and what works, so it opens
+  by conceding it: brushing is the only thing shown to reliably control plaque,
+  and everything else on the page — including products we sell — is a
+  supplement or a distant second. A breath spray on established disease is
+  called out as worse than nothing, because it removes the signal that would
+  have sent the owner to a vet.
+
+## Result
+
+All ten problem pages now have an article behind them. Seven of the seven
+design treatments are in use across the ten, so no two adjacent pieces read
+the same.
+
+The ratio that prompted this has moved from **237 products : 7 articles** to
+**237 : 17**. Sitemap at 290 URLs.
+
+## One defect fixed on the way
+
+Nine internal links in the final batch were written without a trailing slash
+and were resolving through a 301. They now point at the canonical URL. All
+forty internal links across the ten articles verified 200.
 
 ## Two plugin bugs found while doing this
 
