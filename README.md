@@ -307,6 +307,44 @@ against generated theme output whose source order is not ours to rely on.
 is white with a hairline over the transparent homepage header and navy
 everywhere else, keyed on the `ast-theme-transparent-header` body class.
 
+### The logo, and the 688KB nobody noticed
+
+Asked whether the white LookDog logo should come off the homepage, the answer
+was that the logo was fine and its **background** was the problem. The file was
+a 1774×592 PNG weighing **688KB with a fully opaque white background** — 0%
+transparent — so on the transparent homepage header it was a solid white
+rectangle sitting on the hero photograph. Nothing to do with the mark, which is
+navy `#02244D` and orange `#F3741E`: the site's own palette.
+
+Three assets replaced it, all built from that original:
+
+| File | What it is | Where | Bytes |
+| --- | --- | --- | --- |
+| `lookdog-logo.png` | navy and orange on transparent | every solid header | 63KB |
+| `lookdog-logo-reversed.png` | white and orange on transparent | the transparent homepage header | 31KB |
+| `lookdog-icon.png` | the mark alone, 512×512 square | favicon and `Organization.logo` | 75KB |
+
+The knockout un-composites rather than keying out white: opacity comes from how
+far each pixel is from white, and the original colour is recovered by removing
+the white that was mixed in, so letter edges stay smooth instead of leaving a
+white fringe. The reversed version keeps the orange and turns only the navy
+white — a reversed logo, not a recoloured one. The mark for the icon was found
+by reading the ink profile across the width: there is a clean empty column at
+about 37% where the glyph ends and the wordmark begins.
+
+**Four places pointed at the old file, and only one was the header.** The
+retina-logo setting put the full 688KB original into the `2x` slot of the
+`srcset` on every page, so every visitor downloaded it whatever their screen.
+The footer widget embedded it directly. And the site icon was set to it — a
+1774×592 favicon, which is not square and so was never going to render properly
+— which in turn fed `Organization.logo` in the JSON-LD through `%site.icon%`.
+That schema field now points at the real logo, and the `founder` placeholder
+naming a Person after the site was dropped while there.
+
+**If you replace the logo again**, check all five: `custom_logo`,
+`ast-header-retina-logo`, `transparent-header-logo`, the footer widget block,
+and `site_icon`.
+
 **The panel rendered white-on-white, and it is worth knowing why.** Astra's
 transparent-header rule paints *every* `.main-header-menu .menu-link` white, so
 the old inline row could sit on the hero photograph. That selector cannot tell a

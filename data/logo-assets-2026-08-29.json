@@ -1,0 +1,41 @@
+{
+  "date": "2026-08-29",
+  "site": "https://lookdog.club",
+  "request": "Remove the white LookDog logo from the homepage, or keep it top left if it should stay",
+  "recommendation": "Keep it. The mark is navy #02244D and orange #F3741E - the site's own palette - and it is the home link. It was already top left. The white was not the logo, it was the background it was baked onto.",
+  "root_cause": {
+    "file": "cropped-ChatGPT-Image-Jul-5-2026-02_48_42-PM-1.png",
+    "dimensions": "1774x592",
+    "bytes": 688199,
+    "transparency": "0% - a fully opaque white background",
+    "effect": "On the transparent homepage header the logo was a solid white rectangle on the hero photograph.",
+    "displayed_at": "120x40"
+  },
+  "assets_built": [
+    {"file": "lookdog-logo.png", "size": "480x132", "bytes": 63071, "content": "navy and orange on transparent", "used_for": "custom_logo, every solid header"},
+    {"file": "lookdog-logo-reversed.png", "size": "480x132", "bytes": 31348, "content": "white and orange on transparent", "used_for": "transparent-header-logo, the homepage"},
+    {"file": "lookdog-icon.png", "size": "512x512", "bytes": 74619, "content": "the mark alone, centred on a square", "used_for": "site_icon and Organization.logo"}
+  ],
+  "method": {
+    "trim": "32% of the original area was white margin. Trimmed to the content box before scaling.",
+    "knockout": "Un-composited rather than colour-keyed: opacity from distance to white, original colour recovered by removing the white that was mixed in. Keeps antialiased edges clean instead of leaving a white fringe.",
+    "reverse": "Orange kept, navy turned white. A reversed logo, not a recoloured one.",
+    "icon_crop": "Found by reading the ink profile across the width - a clean empty column at about 37% separates the glyph from the wordmark."
+  },
+  "four_places_pointed_at_the_old_file": [
+    {"where": "ast-header-retina-logo", "effect": "Put the full 688KB original into the 2x srcset slot on every page, so every visitor downloaded it regardless of screen.", "fix": "cleared"},
+    {"where": "footer widget_block[12]", "effect": "Embedded the original directly in the footer.", "fix": "swapped for the colour logo"},
+    {"where": "site_icon", "effect": "A 1774x592 favicon. Favicons must be square, so it was never going to render properly.", "fix": "new 512x512 square icon"},
+    {"where": "Organization.logo in the JSON-LD", "effect": "Set to %site.icon%, so it inherited the same wrong file on every page.", "fix": "points at lookdog-logo.png explicitly"}
+  ],
+  "also_fixed": "The Organization schema carried a founder placeholder naming a Person after the site itself. Removed.",
+  "verification": {
+    "homepage": "reversed logo",
+    "product_category_and_guide_pages": "colour logo",
+    "old_file_referenced_on_any_page": "no",
+    "schema_logo": "lookdog-logo.png",
+    "favicon": "lookdog-icon-100x100.png, generated from the square source",
+    "founder_placeholder": "removed"
+  },
+  "if_you_replace_the_logo_again": ["custom_logo", "ast-header-retina-logo", "transparent-header-logo", "the footer widget block", "site_icon"]
+}
