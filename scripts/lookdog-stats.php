@@ -181,6 +181,37 @@ function lookdog_top_clicked( $limit = 25 ) {
 	return $out;
 }
 
+/**
+ * Plugins switched off because this site does not sell anything directly, and
+ * the condition that would make each one useful again.
+ *
+ * Kept here rather than in a note somewhere, because the reason a plugin was
+ * disabled is exactly the thing nobody remembers eighteen months later, and the
+ * cost of forgetting is either an unnecessary reinstall or a missing feature
+ * nobody can explain.
+ *
+ * @return array<string,array{name:string,does:string,back:string}>
+ */
+function lookdog_dormant_plugins() {
+	return array(
+		'woo-cart-abandonment-recovery/woo-cart-abandonment-recovery.php' => array(
+			'name' => 'Cart Abandonment Recovery',
+			'does' => 'Captures an email address at checkout and chases people who leave without paying.',
+			'back' => 'When lookdog.club has a real checkout of its own. It can do nothing while every product is an outbound affiliate link, because there is no cart to abandon.',
+		),
+		'surecart/surecart.php' => array(
+			'name' => 'SureCart',
+			'does' => 'A separate shop and checkout platform, for selling your own products rather than linking to someone else\'s.',
+			'back' => 'When you sell something you own — a guide, a course, a subscription. Not needed for affiliate products, which WooCommerce already handles as external links.',
+		),
+		'woocommerce-payments/woocommerce-payments.php' => array(
+			'name' => 'WooPayments',
+			'does' => 'Takes card payments through WooCommerce.',
+			'back' => 'When you fulfil an order and take the money yourself. It was never connected to an account, and the site has never processed an order.',
+		),
+	);
+}
+
 add_action(
 	'admin_menu',
 	static function () {
@@ -291,6 +322,36 @@ function lookdog_stats_screen() {
 							? '&mdash;'
 							: esc_html( date_i18n( 'j M Y, H:i', (int) $row['last'] ) );
 					?></td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php endif; ?>
+
+	<?php
+	require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	$dormant = array();
+	foreach ( lookdog_dormant_plugins() as $file => $info ) {
+		if ( ! is_plugin_active( $file ) ) {
+			$dormant[ $file ] = $info;
+		}
+	}
+	if ( $dormant ) :
+		?>
+		<h2><?php esc_html_e( 'Switched off, and when you would need them back', 'lookdog' ); ?></h2>
+		<p class="description"><?php esc_html_e( 'These were deactivated because this site earns from affiliate links rather than selling anything itself. Nothing here is deleted — each one can be switched back on from Plugins.', 'lookdog' ); ?></p>
+		<table class="widefat striped">
+			<thead><tr>
+				<th style="width:190px"><?php esc_html_e( 'Plugin', 'lookdog' ); ?></th>
+				<th><?php esc_html_e( 'What it does', 'lookdog' ); ?></th>
+				<th><?php esc_html_e( 'Switch it back on when', 'lookdog' ); ?></th>
+			</tr></thead>
+			<tbody>
+			<?php foreach ( $dormant as $info ) : ?>
+				<tr>
+					<td><strong><?php echo esc_html( $info['name'] ); ?></strong></td>
+					<td><?php echo esc_html( $info['does'] ); ?></td>
+					<td><?php echo esc_html( $info['back'] ); ?></td>
 				</tr>
 			<?php endforeach; ?>
 			</tbody>
