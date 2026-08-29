@@ -1,0 +1,39 @@
+{
+  "date": "2026-08-29",
+  "site": "https://lookdog.club",
+  "request": "The categories across the top of the homepage are black and the contrast is bad. Put three lines top right with a dropdown of all the categories.",
+  "problem": {
+    "contrast": "The homepage header is transparent and sits on the hero photograph. Astra had the nav links at #2a2a2a - near black - over a navy scrim, and the scrim is a gradient that lightens to the right, so the last items were the worst.",
+    "density": "Twelve top-level items in a row, which was already flagged in the homepage audit as crowded."
+  },
+  "solution": "One navigation at every width: logo left, three-line toggle top right, one panel with all twelve items. Astra's own toggle, ARIA and JavaScript; only the appearance is ours.",
+  "the_two_traps": [
+    {
+      "trap": "Astra's mobile-header-breakpoint setting does nothing",
+      "detail": "With the Header Footer Builder active, astra_header_break_point() reads astra_get_tablet_breakpoint() and ignores the setting entirely. It was set to 3000 first, observed to have no effect, and then deliberately reset to empty so nobody reads a value there and believes it."
+    },
+    {
+      "trap": "The astra_header_break_point filter alone is invisible",
+      "detail": "It moves the body class and the toggle JavaScript, but Astra also generates '@media (max-width:921.99px){#ast-desktop-header{display:none}}' and '@media (min-width:922px){#ast-mobile-header{display:none}}' into its inline CSS with the tablet breakpoint hardcoded. Without overriding those two rules the twelve-item row keeps rendering above 922px and nothing changes on screen."
+    }
+  ],
+  "why_the_filter_and_not_the_tablet_breakpoint": "astra_get_tablet_breakpoint() feeds every responsive rule on the site. astra_header_break_point applies to the header alone, which is the whole intent.",
+  "risk_checked_first": "The filter causes Astra to remove the 'ast-desktop' body class. Across the theme that class is used almost entirely for desktop submenu hover animations - 275 occurrences, the bulk of them in menu-animation CSS - which a burger menu does not have.",
+  "styling": {
+    "toggle": "44px target, 4px radius. White with a hairline border over the transparent homepage header, navy elsewhere, keyed on the ast-theme-transparent-header body class.",
+    "panel": "White ground, navy links at 16px/600, hairline between items, ember on hover, ember rule on the current page, capped at the 1200px content column, scrolls if it outgrows the viewport.",
+    "grouping": "A heavier rule above Blog, where the shop links end and the rest of the site starts.",
+    "reduced_motion": "Transitions disabled under prefers-reduced-motion."
+  },
+  "verification": {
+    "checks_passed": 9,
+    "list": [
+      "header CSS present", "desktop header override present", "mobile header override present",
+      "breakpoint filter live at 3000.99px", "toggle button in markup", "toggle has aria-expanded",
+      "toggle has aria-label", "panel wrapper present", "panel carries all 12 items"
+    ],
+    "page_types": "Homepage, category archive, product page, guide and the problems hub all return 200, all carry the toggle and our CSS. Only the homepage is transparent, so only there is the toggle white.",
+    "design": "check-design passes with no violations",
+    "caveat": "No screenshot - lookdog.club is unreachable from this environment. The open/close behaviour is Astra's own JavaScript, unchanged, but it is worth clicking the toggle once on a wide screen to confirm the panel opens where you expect."
+  }
+}

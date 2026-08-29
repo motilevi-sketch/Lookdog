@@ -269,6 +269,48 @@ Verify a change actually reached the front end rather than trusting the admin:
 \SureRank\Inc\Functions\Settings::prep_post_meta( $post_id, 'post' )['page_title'];
 ```
 
+## The header
+
+One navigation at every width: logo left, a three-line toggle top right, one
+panel with all twelve items. `scripts/lookdog-header.php`.
+
+**What was wrong.** The desktop header laid twelve items in a row across the top
+of the homepage, and the homepage header is *transparent* — it sits on the hero
+photograph. Astra had the links at `#2a2a2a`, near black, over a navy-scrimmed
+photo, and it got worse towards the right because the scrim is a gradient that
+lightens that way. Twelve items was also more than anyone scans.
+
+**Two settings and one filter, and only one of them is obvious.**
+
+Astra has a `mobile-header-breakpoint` setting. **With the Header Footer Builder
+active it is ignored entirely** — `astra_header_break_point()` reads
+`astra_get_tablet_breakpoint()` instead. Setting it does nothing at all, so it
+is deliberately left empty rather than set to a value someone would later
+believe. The `astra_header_break_point` filter is the one that works, and it
+touches the header alone; raising the *tablet* breakpoint would move every
+responsive rule on the site.
+
+**The filter alone still changes nothing you can see.** These two rules are
+generated into Astra's inline CSS with the tablet breakpoint hardcoded:
+
+```css
+@media (max-width:921.99px){#ast-desktop-header{display:none;}}
+@media (min-width:922px){#ast-mobile-header{display:none;}}
+```
+
+So the twelve-item row keeps rendering above 922px no matter what the filter
+says. `lookdog-header.php` overrides both with `!important` — the right tool
+against generated theme output whose source order is not ours to rely on.
+
+**Everything else is Astra's**: its button, its `aria-expanded`, its
+`aria-label`, its open/close JavaScript. Only the appearance is ours. The toggle
+is white with a hairline over the transparent homepage header and navy
+everywhere else, keyed on the `ast-theme-transparent-header` body class.
+
+Removing `ast-desktop` from the body — which the filter does — was checked
+first: across the theme it is used almost entirely for desktop submenu hover
+animations, which a burger menu does not have.
+
 ## Homepage layout
 
 The homepage (page 61) is six sections, each a different shape, so the eye never
