@@ -43,11 +43,38 @@ one real differentiator and the reason the guides can rank at all:
   thing that actually moves the odds, which is a conversation with a vet and
   not a purchase here.
 
+## Batch 2
+
+| Article | Problem page | Treatment |
+|---|---|---|
+| My Dog Sheds Everywhere: What Actually Reduces It | sheds-everywhere | spec |
+| How Hot Is Too Hot to Walk a Dog? | gets-too-hot | bulletin |
+| Why Does My Dog Bark So Much? A Straight Answer | barks-too-much | field |
+
+The line these hold:
+
+- **Shedding** — opens by saying you cannot stop it and anything promising
+  otherwise is selling something. The value is a tool-to-coat table: a
+  deshedding blade does nothing on a poodle and cuts the topcoat on a spaniel,
+  and clipping a double coat to reduce shedding permanently damages it.
+- **Overheating** — the danger is heat plus humidity, not the forecast. Carries
+  the seven-second pavement test, notes that the largest UK study found
+  exertion rather than parked cars to be the usual trigger, and states that
+  cooling gear makes a hot day comfortable without making a hot walk safe. The
+  first-aid section reflects current guidance that cool water is correct and
+  the old tepid-water advice was wrong.
+- **Barking** — the hardest one to write honestly, because the site sells bark
+  deterrents. It says they interrupt a habit and teach nothing, that dogs
+  habituate within a fortnight, and that on a frightened dog they add a second
+  unpleasant thing to a situation already causing fear — barking stops while
+  the anxiety rises, which looks like success and is not. The free fix that
+  ends most window barking is film on the glass.
+
 ## Still to write
 
-pulls-on-the-lead, chews-everything and eats-too-fast are done. Remaining:
-sheds-everywhere, gets-too-hot, barks-too-much, runs-off,
-walking-in-the-dark, hates-the-car, bad-breath.
+Done: pulls-on-the-lead, chews-everything, eats-too-fast, sheds-everywhere,
+gets-too-hot, barks-too-much. Remaining: runs-off, walking-in-the-dark,
+hates-the-car, bad-breath.
 
 ## Two plugin bugs found while doing this
 
