@@ -28,7 +28,9 @@
  * means judging that a snuffle mat is a fair substitute for a slow feeder, and
  * a wrong guess sends a buyer to something they did not want with our
  * recommendation attached to it. Dead products stop being sold and are listed
- * for a person to replace.
+ * for a person to replace. When somebody has made that judgement, the new
+ * product's ID goes in `_lookdog_replaced_by` on the old one and the withdrawn
+ * page offers it by name.
  *
  * Deployed to: wp-content/novamira-sandbox/lookdog-link-check.php
  * Requires:    wp-content/mu-plugins/lookdog-aliexpress.php (API client)
@@ -206,14 +208,45 @@ function lookdog_is_unavailable( $post_id ) {
 }
 
 /**
+ * The product we now list in place of one that is gone, if there is one.
+ *
+ * Set by hand, in `_lookdog_replaced_by`, when somebody has looked at both
+ * items and judged the new one a fair answer to the same question. Nothing
+ * writes it automatically - see the note at the top of this file about why a
+ * swap is not a thing a nightly job should decide on its own.
+ *
+ * @param int $post_id The withdrawn product.
+ * @return ?array{url:string,title:string}
+ */
+function lookdog_replacement_for( $post_id ) {
+	$new = (int) get_post_meta( $post_id, '_lookdog_replaced_by', true );
+	if ( ! $new || 'publish' !== get_post_status( $new ) || lookdog_is_unavailable( $new ) ) {
+		return null;
+	}
+	return array(
+		'url'   => (string) get_permalink( $new ),
+		'title' => get_the_title( $new ),
+	);
+}
+
+/**
  * Stop sending people to something that is not there.
  *
  * The button is removed rather than left pointing at a link that now lands on
  * an AliExpress search page - which looks like a working link and is worse than
  * an honest dead end, because the reader blames us for the wrong product.
+ *
+ * Where a replacement has been chosen, it is offered here as one named link
+ * rather than a row of suggestions: the reader came for a specific thing, and
+ * the useful answer is the closest equivalent we would actually stand behind.
  */
 add_action(
-	'woocommerce_before_add_to_cart_form',
+	// Not woocommerce_before_add_to_cart_form. That hook lives INSIDE the
+	// add-to-cart template, which the block below removes on exactly the
+	// products this notice is for - so the notice rendered on nothing at all.
+	// The summary hook fires either way, immediately above where the button
+	// would have been.
+	'woocommerce_single_product_summary',
 	static function () {
 		if ( ! lookdog_is_unavailable( get_the_ID() ) ) {
 			return;
@@ -233,18 +266,28 @@ add_action(
 		esc_html_e( 'The seller withdrew it, and we have stopped linking to it rather than send you somewhere it is not.', 'lookdog' );
 	}
 	?>
-	<a href="<?php echo esc_url( (string) get_permalink( (int) get_option( 'woocommerce_shop_page_id' ) ) ); ?>"><?php esc_html_e( 'Browse what is still available', 'lookdog' ); ?></a>
+	<?php $swap = lookdog_replacement_for( get_the_ID() ); ?>
+	<?php if ( $swap ) : ?>
+		<span class="ld-gone__swap">
+			<?php esc_html_e( 'We now list', 'lookdog' ); ?>
+			<a href="<?php echo esc_url( $swap['url'] ); ?>"><?php echo esc_html( $swap['title'] ); ?></a>
+			<?php esc_html_e( 'in its place, chosen as the closest thing we would still recommend.', 'lookdog' ); ?>
+		</span>
+	<?php else : ?>
+		<a href="<?php echo esc_url( (string) get_permalink( (int) get_option( 'woocommerce_shop_page_id' ) ) ); ?>"><?php esc_html_e( 'Browse what is still available', 'lookdog' ); ?></a>
+	<?php endif; ?>
 </p>
 <style>
 .ld-gone{background:#FDF3E7;border:1px solid #F0C99B;border-left:4px solid #B45309;
 	border-radius:6px;padding:16px 18px;margin:0 0 22px;font-size:14.5px;line-height:1.6;color:#3A3F4B;max-width:60ch;}
 .ld-gone strong{display:block;margin-bottom:4px;color:#14213D;font-size:15.5px;}
+.ld-gone__swap{display:block;margin-top:10px;}
 .ld-gone a{color:#14213D;text-decoration:underline;}
 .ld-gone a:hover{color:#F97316;}
 </style>
 		<?php
 	},
-	5
+	29
 );
 
 /** Remove the buy button itself on a product that cannot be bought. */

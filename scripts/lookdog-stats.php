@@ -107,6 +107,19 @@ add_action(
 			return;
 		}
 
+		// A withdrawn product still has its old affiliate URL in the database,
+		// and that URL still answers 200 - it just lands somewhere that is not
+		// the product. Sending a buyer there is worse than sending them
+		// nowhere, so they go to the product page instead, which says plainly
+		// that it is gone and names what we list in its place. Archive cards
+		// are the route that matters here: the single page has already had its
+		// button removed, but a category or tag grid still shows one.
+		if ( function_exists( 'lookdog_is_unavailable' ) && lookdog_is_unavailable( $id ) ) {
+			$page = get_permalink( $id );
+			wp_safe_redirect( $page ? $page : home_url( '/' ), 302 );
+			exit;
+		}
+
 		$dest = trim( (string) get_post_meta( $id, '_product_url', true ) );
 
 		// Nothing to send them to: fall back to the product page rather than a

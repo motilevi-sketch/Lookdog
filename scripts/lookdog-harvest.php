@@ -250,6 +250,11 @@ function lookdog_harvest_import( $bucket, $copy ) {
 		update_post_meta( $res['post_id'], '_lookdog_rate', number_format( $store[ $id ]['rate'], 1 ) . '%' );
 		update_post_meta( $res['post_id'], '_lookdog_orders', $store[ $id ]['volume'] );
 		update_post_meta( $res['post_id'], '_lookdog_facts_date', gmdate( 'Y-m-d' ) );
+		// The price came back on this call, so it is minutes old, not a day.
+		// Without the stamp the facts strip falls back to a bare date, which
+		// reads as more authoritative than a figure this supplier moves hourly
+		// deserves. See lookdog-product-facts.php.
+		update_post_meta( $res['post_id'], '_lookdog_price_time', time() );
 		delete_transient( 'lookdog_rating_floor' );
 		delete_transient( 'lookdog_product_count' );
 	}
