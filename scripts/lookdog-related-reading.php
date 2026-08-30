@@ -55,7 +55,55 @@ function lookdog_problem_reading_map() {
 	) );
 }
 
+/**
+ * Comparison article => the products it puts side by side.
+ *
+ * The most specific link of the three. Somebody looking at one slow feeder has
+ * already decided they want a slow feeder; what they do not know is that the
+ * next three bowls along are the same object, or that a lick mat would suit
+ * their dog better. That is worth more to them than the category guide and more
+ * than the problem article, so it is checked first.
+ *
+ * Written this way round - article to products - because that is how a
+ * comparison is edited: add a row to the table, add the id here.
+ */
+function lookdog_compare_reading_map() {
+	return apply_filters( 'lookdog_compare_reading_map', array(
+		5089 => array(
+			'blurb'    => 'Three different products are sold as trackers. What a Bluetooth tag cannot do, and the price test that catches a mislabelled one.',
+			'products' => array( 4065, 4072, 4079, 4086, 4142, 4149, 4900, 4914 ),
+		),
+		5090 => array(
+			'blurb'    => 'Ridged bowls, lick mats, snuffle mats and balls do different jobs. Which suits dry food, which suits wet, and which a flat-faced dog cannot use.',
+			'products' => array( 3419, 3525, 3792, 3799, 3813, 3855, 4209, 4285, 4466, 4697, 4718, 4732, 4760, 4767 ),
+		),
+		5091 => array(
+			'blurb'    => 'None of them refrigerate anything. How long each kind stays cool, and which one is still working in hour six.',
+			'products' => array( 3658, 3665, 3672, 3679, 4536, 4543, 4550, 5005 ),
+		),
+		5092 => array(
+			'blurb'    => 'Where the lead clips changes what happens when your dog leans into it. Front, back, fit, and what a car tether does not do.',
+			'products' => array( 3981, 4390, 4397, 4851, 4942, 4949 ),
+		),
+	) );
+}
+
 function lookdog_reading_for_product( $post_id ) {
+	// A comparison that names this exact product beats everything else.
+	foreach ( lookdog_compare_reading_map() as $article_id => $row ) {
+		if ( ! in_array( (int) $post_id, $row['products'], true ) ) {
+			continue;
+		}
+		if ( 'publish' !== get_post_status( $article_id ) ) {
+			continue;
+		}
+		return array(
+			'url'   => get_permalink( $article_id ),
+			'title' => get_the_title( $article_id ),
+			'blurb' => $row['blurb'],
+		);
+	}
+
 	// The problem the product solves beats the category it sits in.
 	$problems = lookdog_problem_reading_map();
 	$tags     = wp_get_object_terms( $post_id, 'product_tag', array( 'fields' => 'slugs' ) );

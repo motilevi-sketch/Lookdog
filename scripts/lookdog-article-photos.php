@@ -47,6 +47,10 @@ function lookdog_article_photo_map() {
 		// and a guide should not open with a photograph of something the site
 		// has just stopped selling. Check this map whenever a product retires.
 		4524 => array( 3574, 4251, 3404 ), // teething turtle, washable pad, steel bowl
+		5089 => array( 4065, 4149, 4914 ), // GPS collar, AirTag collar, steel ID tag
+		5090 => array( 3792, 4718, 4285 ), // maze bowl, lick mat, snuffle mat
+		5091 => array( 3658, 3665, 4550 ), // gel mat, water cushion, ice silk
+		5092 => array( 4390, 4397, 4949 ), // front-clip, tactical, soft small-dog
 	) );
 }
 
