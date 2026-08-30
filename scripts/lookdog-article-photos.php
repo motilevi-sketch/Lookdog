@@ -42,7 +42,10 @@ function lookdog_article_photo_map() {
 		4497 => array( 3897, 3869, 4334 ), // dematting comb, nail grinder, towel
 		4498 => array( 4390, 4404, 3960 ), // harness, retractable lead, car tether
 		4499 => array( 3658, 4473, 3602 ), // cooling mat, ice-silk bed, plush bed
-		4500 => array( 4142, 4216, 4181 ), // tracker collar, LED collar, launcher
+		4500 => array( 4142, 5041, 4181 ), // tracker collar, LED collar, launcher
+		// 5041 replaced 4216 on 30 August 2026: the seller withdrew that collar,
+		// and a guide should not open with a photograph of something the site
+		// has just stopped selling. Check this map whenever a product retires.
 		4524 => array( 3574, 4251, 3404 ), // teething turtle, washable pad, steel bowl
 	) );
 }
