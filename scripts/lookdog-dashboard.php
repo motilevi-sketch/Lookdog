@@ -193,6 +193,9 @@ function lookdog_dash_render() {
 	// badge at the top. A dashboard whose first screen is decorative gets
 	// checked twice and then never again.
 	$todo = count( $d['gone'] ) + count( array_filter( $d['jobs'], static function ( $j ) { return $j['overdue']; } ) );
+	if ( function_exists( 'lookdog_actions_open' ) ) {
+		$todo += count( lookdog_actions_open() );
+	}
 
 	header( 'Content-Type: text/html; charset=utf-8' );
 	?><!doctype html>
@@ -285,6 +288,14 @@ header .sub{margin:3px 0 0;font-size:13px;color:#A9B4C8}
 		</div>
 	<?php endif; ?>
 <?php endforeach; ?>
+
+<?php
+// The owner's own list, above the numbers. What needs doing outranks what
+// happened. See lookdog-actions.php.
+if ( function_exists( 'lookdog_actions_card' ) ) {
+	lookdog_actions_card();
+}
+?>
 
 <div class="grid">
 	<div class="stat">
