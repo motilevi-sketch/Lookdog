@@ -31,7 +31,51 @@ function lookdog_reading_map() {
 	) );
 }
 
+/**
+ * product_tag slug => [ post id, the sentence that earns the click ].
+ *
+ * Preferred over the category map below, because it is far more specific. A
+ * reader looking at a rope toy in Dog Toys is better served by "how do I stop
+ * my dog chewing everything" than by the general toy-safety guide: it answers
+ * the question that brought them to a chew toy in the first place.
+ */
+function lookdog_problem_reading_map() {
+	return apply_filters( 'lookdog_problem_reading_map', array(
+		'pulls-on-the-lead'   => array( 5027, 'Pulling is a habit your dog was paid for thousands of times. What actually stops it, and what a harness does not do.' ),
+		'chews-everything'    => array( 5028, 'Teething and boredom look identical and need opposite answers. The thumbnail test, and when it is not chewing at all.' ),
+		'eats-too-fast'       => array( 5029, 'Gulping draws air in, and in deep-chested breeds that carries a real risk. What slows a dog down, and what a bowl cannot do.' ),
+		'sheds-everywhere'    => array( 5030, 'You cannot stop shedding, only move where the hair lands. Which tool suits which coat, and which ones cause damage.' ),
+		'gets-too-hot'        => array( 5031, 'The seven-second pavement test, why humidity beats temperature for danger, and the heatstroke signs to know.' ),
+		'barks-too-much'      => array( 5032, 'Six different barks with six different fixes, and an honest account of where deterrents help and where they harm.' ),
+		'runs-off'            => array( 5033, 'Why recall fails, and the difference between a Bluetooth tag and GPS — one of them is useless in woodland.' ),
+		'walking-in-the-dark' => array( 5034, 'A driver on dipped beams cannot stop inside what they can see. What that means for what you buy.' ),
+		'hates-the-car'       => array( 5035, 'Telling sickness from fear, and why a seatbelt tether is a restraint rather than crash protection.' ),
+		'bad-breath'          => array( 5036, 'Bad breath is gum disease, not hygiene. Why brushing is the only thing that reliably works.' ),
+		'puppy'               => array( 4524, 'What a puppy actually needs in the first six months, and when — rather than the thirty things you will be sold.' ),
+	) );
+}
+
 function lookdog_reading_for_product( $post_id ) {
+	// The problem the product solves beats the category it sits in.
+	$problems = lookdog_problem_reading_map();
+	$tags     = wp_get_object_terms( $post_id, 'product_tag', array( 'fields' => 'slugs' ) );
+	if ( ! is_wp_error( $tags ) ) {
+		foreach ( $tags as $slug ) {
+			if ( empty( $problems[ $slug ] ) ) {
+				continue;
+			}
+			list( $article_id, $blurb ) = $problems[ $slug ];
+			if ( 'publish' !== get_post_status( $article_id ) ) {
+				continue;
+			}
+			return array(
+				'url'   => get_permalink( $article_id ),
+				'title' => get_the_title( $article_id ),
+				'blurb' => $blurb,
+			);
+		}
+	}
+
 	$map   = lookdog_reading_map();
 	$terms = wp_get_object_terms( $post_id, 'product_cat', array( 'fields' => 'ids' ) );
 	if ( is_wp_error( $terms ) ) {
