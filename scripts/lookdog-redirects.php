@@ -31,6 +31,18 @@ function lookdog_redirect_map() {
 		// who is doing it and why, and carries everything from the old page
 		// worth keeping. Two "about" destinations competed with each other.
 		'about-us' => 5083,
+
+		// Five products were in the catalogue twice. AliExpress numbers the
+		// same item in two ID spaces that differ by exactly 2^51, the search
+		// API answers in one and the site's own links in the other, and the
+		// import de-duplicated on the ID string - so the same mat came in
+		// twice under two numbers, at two prices. The duplicate is retired
+		// and its URL points at the copy that was kept.
+		'product/water-fill-gel-cooling-cushion'          => 3665,
+		'product/ice-silk-cooling-bed-oval-rim'           => 3679,
+		'product/real-time-gps-dog-collar-movement-alerts' => 4065,
+		'product/two-in-one-tick-removal-tool'            => 4788,
+		'product/lead-mounted-waste-bag-dispenser'        => 4244,
 	) );
 }
 

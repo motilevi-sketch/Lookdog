@@ -46,14 +46,50 @@ function lookdog_harvest_key( $title ) {
 }
 
 /**
- * Every AliExpress product ID already in the catalogue.
+ * The gap between AliExpress's two product ID spaces.
+ *
+ * The same item is numbered twice: the search and detail APIs answer with a
+ * 3256... id, while the site's own item URLs use a 1005... one, and the two
+ * differ by exactly 2^51. Nothing in the API says so.
+ *
+ * This cost five duplicate listings before it was spotted - the same cooling
+ * mat, the same tracker, the same tick tool, each imported twice under its two
+ * numbers and each priced from whenever its copy was read, so the catalogue
+ * offered one product at two prices.
+ */
+const LOOKDOG_AE_ID_OFFSET = 2251799813685248;
+
+/**
+ * Both numbers AliExpress uses for one product.
+ *
+ * @param string $id Either form.
+ * @return string[] Both forms, the given one first.
+ */
+function lookdog_ae_id_variants( $id ) {
+	$id = trim( (string) $id );
+	if ( '' === $id || ! ctype_digit( $id ) ) {
+		return array( $id );
+	}
+	$n     = (int) $id;
+	$other = $n > LOOKDOG_AE_ID_OFFSET ? $n - LOOKDOG_AE_ID_OFFSET : $n + LOOKDOG_AE_ID_OFFSET;
+	return array( $id, (string) $other );
+}
+
+/**
+ * Every AliExpress product ID already in the catalogue, in both numberings.
  *
  * @return array<string,true>
  */
 function lookdog_harvest_existing_ids() {
 	global $wpdb;
-	$ids = $wpdb->get_col( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_lookdog_ae_id'" );
-	return array_fill_keys( array_map( 'strval', $ids ), true );
+	$ids  = $wpdb->get_col( "SELECT meta_value FROM {$wpdb->postmeta} WHERE meta_key = '_lookdog_ae_id'" );
+	$have = array();
+	foreach ( $ids as $id ) {
+		foreach ( lookdog_ae_id_variants( $id ) as $variant ) {
+			$have[ $variant ] = true;
+		}
+	}
+	return $have;
 }
 
 /**
@@ -99,7 +135,9 @@ function lookdog_harvest( $bucket, $keyword, $opts = array() ) {
 	$have_ids = lookdog_harvest_existing_ids();
 	$have_key = lookdog_harvest_existing_titles();
 	foreach ( $store as $id => $rec ) {
-		$have_ids[ (string) $id ] = true;
+		foreach ( lookdog_ae_id_variants( $id ) as $variant ) {
+			$have_ids[ $variant ] = true;
+		}
 		if ( ! empty( $rec['key'] ) ) {
 			$have_key[ $rec['key'] ] = true;
 		}
@@ -180,7 +218,9 @@ function lookdog_harvest( $bucket, $keyword, $opts = array() ) {
 				'imgs'    => $imgs,
 				'kw'      => $keyword,
 			);
-			$have_ids[ $id ] = true;
+			foreach ( lookdog_ae_id_variants( $id ) as $variant ) {
+				$have_ids[ $variant ] = true;
+			}
 			$have_key[ $key ] = true;
 			++$stats['kept'];
 		}

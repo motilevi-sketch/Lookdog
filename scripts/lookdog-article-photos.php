@@ -41,7 +41,7 @@ function lookdog_article_photo_map() {
 		3344 => array( 3427, 3448, 3553 ), // rolling ball, octopus, suction tug
 		4497 => array( 3897, 3869, 4334 ), // dematting comb, nail grinder, towel
 		4498 => array( 4390, 4404, 3960 ), // harness, retractable lead, car tether
-		4499 => array( 3658, 4473, 3602 ), // cooling mat, ice-silk bed, plush bed
+		4499 => array( 3658, 3679, 3602 ), // cooling mat, ice-silk bed, plush bed (3679 replaced 4473, the same bed listed twice)
 		4500 => array( 4142, 5041, 4181 ), // tracker collar, LED collar, launcher
 		// 5041 replaced 4216 on 30 August 2026: the seller withdrew that collar,
 		// and a guide should not open with a photograph of something the site

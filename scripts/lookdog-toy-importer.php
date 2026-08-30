@@ -42,14 +42,30 @@ function lookdog_toy_import_images( $urls, $post_id = 0, $alt = '' ) {
 	return $ids;
 }
 
+/**
+ * Is this product already here, under either of its two AliExpress numbers?
+ *
+ * Matching on the given id alone let the same item in twice - see
+ * lookdog_ae_id_variants() in lookdog-harvest.php for what the two numbers are
+ * and what it cost.
+ */
 function lookdog_toy_find_existing( $ae_id ) {
+	$ids = function_exists( 'lookdog_ae_id_variants' )
+		? lookdog_ae_id_variants( $ae_id )
+		: array( (string) $ae_id );
+
 	$q = get_posts( array(
 		'post_type'   => 'product',
 		'post_status' => 'any',
 		'numberposts' => 1,
 		'fields'      => 'ids',
-		'meta_key'    => '_lookdog_ae_id',
-		'meta_value'  => (string) $ae_id,
+		'meta_query'  => array( // phpcs:ignore WordPress.DB.SlowDBQuery
+			array(
+				'key'     => '_lookdog_ae_id',
+				'value'   => $ids,
+				'compare' => 'IN',
+			),
+		),
 	) );
 	return $q ? $q[0] : 0;
 }

@@ -61,3 +61,43 @@ recorded on the product page. The links go where they claim to.
 The withdrawn pages name their replacement, through a new `_lookdog_replaced_by`
 meta key. Nothing sets it automatically: the nightly job still refuses to choose
 a substitute, because judging one is not a thing a cron job should do alone.
+
+---
+
+# Five duplicate listings removed — same day
+
+Found while gathering data for the comparison articles: the catalogue held five
+products **twice**.
+
+AliExpress numbers the same item in two ID spaces that differ by exactly 2^51 —
+the search and detail APIs answer with a `3256…` id, the site's own item URLs use
+a `1005…` one. The import de-duplicated on the ID string, so an item harvested
+under one number and later under the other came in twice, each copy priced from
+whenever its own data was read. The catalogue was offering one cooling mat at
+$3.48 and $6.66, and one waste-bag dispenser at $2.27 and $4.11.
+
+| Kept | Retired | Was priced |
+|---|---|---|
+| Water-Fill Ice Gel Cooling Cushion (3665) | Water-Fill Gel Cooling Cushion (4480) | $3.48 / $6.66 |
+| Ice Silk Cooling Bed with Raised Sides (3679) | Ice-Silk Cooling Bed with Raised Oval Rim (4473) | $9.37 / $12.81 |
+| Waterproof Real-Time GPS Tracker (4065) | Real-Time GPS Collar with Movement Alerts (4156) | $8.62 / $8.72 |
+| Fine-Tipped Tick Removal Tweezers (4788) | Two-in-One Tick Removal Tool (4271) | $2.83 / $3.31 |
+| Leash-Mounted Waste Bag Dispenser (4244) | Lead-Mounted Waste Bag Dispenser (5012) | $4.11 / $2.27 |
+
+Proof that these were the same item rather than similar ones: refreshing the five
+survivors' prices moved the waste-bag dispenser from $4.11 to **$2.27**, exactly
+what its "duplicate" had been showing. The two prices were one product read at
+two moments, not two products.
+
+Handling: the duplicate is drafted (not deleted) and carries `_lookdog_duplicate_of`;
+its URL 301s to the copy that was kept; the beds guide's photo strip, which
+happened to open with one of the retired records, now points at the keeper. The
+surviving waste-bag dispenser was also in Feeding & Care, which is the wrong
+shelf for it, and is now in Travel Gear alongside Best Sellers.
+
+The durable fix is `lookdog_ae_id_variants()` in `lookdog-harvest.php`: both the
+harvester's duplicate check and `lookdog_toy_find_existing()` now match on both
+numbers, so the same product cannot enter twice under its two names. Verified by
+looking up a product stored under its `3256…` id using its `1005…` one.
+
+Catalogue: 243 → 238 published products, none of them lost.
