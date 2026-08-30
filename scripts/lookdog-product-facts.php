@@ -96,12 +96,38 @@ add_action( 'woocommerce_before_add_to_cart_form', static function () {
 		$ts   = strtotime( $f['date'] );
 		$when = $ts ? date_i18n( 'j F Y', $ts ) : '';
 	}
+
+	/*
+	 * How old the figure is, in words. A date alone reads as authoritative
+	 * whatever the hour, and on this supplier that is misleading: measured over
+	 * twenty products, roughly one in seven moved within seventeen hours of the
+	 * overnight check, two of them by more than 20%. "Checked 4 hours ago" tells
+	 * a reader how much to trust the number; "checked 30 August" does not.
+	 */
+	$stamp = (int) get_post_meta( get_the_ID(), '_lookdog_price_time', true );
+	$fresh = $when;
+	if ( $stamp ) {
+		$age = time() - $stamp;
+		if ( $age < HOUR_IN_SECONDS ) {
+			$fresh = __( 'checked in the last hour', 'lookdog' );
+		} elseif ( $age < DAY_IN_SECONDS ) {
+			$hours = max( 1, (int) round( $age / HOUR_IN_SECONDS ) );
+			/* translators: %d: whole hours since the price was checked. */
+			$fresh = sprintf( _n( 'checked %d hour ago', 'checked %d hours ago', $hours, 'lookdog' ), $hours );
+		} else {
+			$days  = (int) floor( $age / DAY_IN_SECONDS );
+			/* translators: %d: whole days since the price was checked. */
+			$fresh = sprintf( _n( 'checked %d day ago', 'checked %d days ago', $days, 'lookdog' ), $days );
+		}
+	} elseif ( '' !== $when ) {
+		$fresh = sprintf( /* translators: %s: date. */ __( 'checked %s', 'lookdog' ), $when );
+	}
 	?>
 <div class="ld-facts">
 	<?php if ( '' !== $f['price'] ) : ?>
 		<div class="ld-facts__item ld-facts__item--price">
 			<span class="ld-facts__value"><?php echo esc_html( $f['currency'] . ' ' . $f['price'] ); ?></span>
-			<span class="ld-facts__label">seller&rsquo;s price<?php echo $when ? esc_html( ', ' . $when ) : ''; ?></span>
+			<span class="ld-facts__label">seller&rsquo;s price<?php echo $fresh ? esc_html( ', ' . $fresh ) : ''; ?></span>
 		</div>
 	<?php endif; ?>
 
@@ -119,7 +145,9 @@ add_action( 'woocommerce_before_add_to_cart_form', static function () {
 		</div>
 	<?php endif; ?>
 
-	<p class="ld-facts__note">Figures come from the AliExpress listing<?php echo $when ? esc_html( ', checked ' . $when ) : ''; ?>. The seller sets the price and can change it at any time, so check it before you buy. The feedback score is the seller&rsquo;s, not a rating by us &mdash; we have not tested this product.</p>
+	<p class="ld-facts__note"><strong>Treat the price as a guide, not a quote.</strong>
+		AliExpress sellers change prices through the day &mdash; we have watched items here move by more than 20% between one morning and the same evening &mdash; and the figure above is for one option, so a different size or colour usually costs something different again. App-only deals and personal coupons move it again at checkout. Always read the price on AliExpress before you buy.
+		Figures come from the AliExpress listing<?php echo $fresh ? esc_html( ', ' . $fresh ) : ''; ?>. The feedback score is the seller&rsquo;s, not a rating by us &mdash; we have not tested this product.</p>
 </div>
 	<?php
 } );

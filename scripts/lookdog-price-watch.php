@@ -43,10 +43,11 @@ const LOOKDOG_PRICE_WATCH_HOOK = 'lookdog_price_watch';
  * through has hit the rate limit, not found 60 delisted products. Anything not
  * answered for keeps the figures it already had.
  *
- * @param int $limit Stop after this many products. 0 for all.
+ * @param int   $limit Stop after this many products. 0 for all.
+ * @param int[] $only  Restrict to these post IDs. Empty for the whole catalogue.
  * @return array<string,mixed> A report, also stored for the record.
  */
-function lookdog_refresh_prices( $limit = 0 ) {
+function lookdog_refresh_prices( $limit = 0, $only = array() ) {
 	if ( ! function_exists( 'lookdog_ae_call' ) || ! defined( 'ALIEXPRESS_TRACKING_ID' ) ) {
 		return array( 'ok' => false, 'error' => 'API client unavailable' );
 	}
@@ -66,6 +67,15 @@ function lookdog_refresh_prices( $limit = 0 ) {
 		if ( '' !== $ae ) {
 			$by_ae[ $ae ] = $pid;
 		}
+	}
+	if ( $only ) {
+		$only  = array_map( 'intval', (array) $only );
+		$by_ae = array_filter(
+			$by_ae,
+			static function ( $pid ) use ( $only ) {
+				return in_array( (int) $pid, $only, true );
+			}
+		);
 	}
 	if ( $limit > 0 ) {
 		$by_ae = array_slice( $by_ae, 0, $limit, true );
@@ -150,6 +160,10 @@ function lookdog_refresh_prices( $limit = 0 ) {
 
 			update_post_meta( $pid, '_lookdog_price', number_format( $new, 2, '.', '' ) );
 			update_post_meta( $pid, '_lookdog_facts_date', $today );
+			// The date alone cannot say whether a figure is an hour old or
+			// twenty-three, and on a supplier whose prices move intraday that
+			// is the difference between a useful number and a misleading one.
+			update_post_meta( $pid, '_lookdog_price_time', time() );
 			update_post_meta( $pid, '_lookdog_currency', (string) ( $p['target_sale_price_currency'] ?? 'USD' ) );
 
 			if ( isset( $p['target_original_price'] ) ) {
@@ -277,9 +291,74 @@ function lookdog_price_drops_shortcode( $atts = array() ) {
 }
 add_shortcode( 'lookdog_price_drops', 'lookdog_price_drops_shortcode' );
 
+/**
+ * The products worth re-checking between the nightly sweeps.
+ *
+ * Measured over 20 products, roughly one in seven moved within seventeen hours
+ * of the 04:00 run, two of them by more than 20%. Checking everything six times
+ * a day would spend the API allowance on 237 products to keep perhaps thirty of
+ * them accurate, so this refreshes only the ones visitors actually reach:
+ * whatever has been clicked, topped up with the best sellers.
+ *
+ * @param int $limit Maximum products to return.
+ * @return int[]
+ */
+function lookdog_hot_product_ids( $limit = 40 ) {
+	$clicked = get_posts(
+		array(
+			'post_type'      => 'product',
+			'post_status'    => 'publish',
+			'posts_per_page' => $limit,
+			'fields'         => 'ids',
+			'meta_key'       => '_lookdog_clicks', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'        => 'meta_value_num',
+			'order'          => 'DESC',
+		)
+	);
+
+	if ( count( $clicked ) >= $limit ) {
+		return array_map( 'intval', $clicked );
+	}
+
+	$sellers = get_posts(
+		array(
+			'post_type'      => 'product',
+			'post_status'    => 'publish',
+			'posts_per_page' => $limit,
+			'fields'         => 'ids',
+			'meta_key'       => '_lookdog_orders', // phpcs:ignore WordPress.DB.SlowDBQuery
+			'orderby'        => 'meta_value_num',
+			'order'          => 'DESC',
+			'post__not_in'   => $clicked,
+		)
+	);
+
+	return array_map( 'intval', array_slice( array_merge( $clicked, $sellers ), 0, $limit ) );
+}
+
+/**
+ * Refresh the hot list. Reports separately so a failure here is visible rather
+ * than overwriting the record of the nightly sweep.
+ *
+ * @return void
+ */
+function lookdog_refresh_hot_prices() {
+	$report = lookdog_refresh_prices( 0, lookdog_hot_product_ids( 40 ) );
+	update_option( 'lookdog_price_hot_report', $report, false );
+}
+
 /* ---------------------------------------------------------------- schedule */
 
 add_action( LOOKDOG_PRICE_WATCH_HOOK, 'lookdog_refresh_prices' );
+add_action( 'lookdog_price_watch_hot', 'lookdog_refresh_hot_prices' );
+
+add_filter(
+	'cron_schedules', // phpcs:ignore WordPress.WP.CronInterval
+	static function ( $s ) {
+		$s['lookdog_six_hours'] = array( 'interval' => 6 * HOUR_IN_SECONDS, 'display' => 'Every six hours' );
+		return $s;
+	}
+);
 
 add_action(
 	'init',
@@ -287,6 +366,11 @@ add_action(
 		if ( ! wp_next_scheduled( LOOKDOG_PRICE_WATCH_HOOK ) ) {
 			// 04:00 site time: after the day has rolled over, before anyone reads it.
 			wp_schedule_event( strtotime( 'tomorrow 04:00' ), 'daily', LOOKDOG_PRICE_WATCH_HOOK );
+		}
+		if ( ! wp_next_scheduled( 'lookdog_price_watch_hot' ) ) {
+			// Offset from the nightly sweep so the two never compete for the
+			// same rate-limited endpoint.
+			wp_schedule_event( strtotime( 'tomorrow 07:00' ), 'lookdog_six_hours', 'lookdog_price_watch_hot' );
 		}
 	}
 );
