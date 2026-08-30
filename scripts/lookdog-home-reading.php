@@ -73,9 +73,17 @@ function lookdog_reading_columns() {
 		}
 	}
 
+	// The personal piece is a post like any other and belongs in neither
+	// column: it is not something to read before buying, it is who is doing
+	// the writing. It gets its own line above the columns instead.
+	$about = (int) get_option( 'lookdog_about_post' );
+
 	$problems = array();
 	$guides   = array();
 	foreach ( $posts as $post ) {
+		if ( $about && (int) $post->ID === $about ) {
+			continue;
+		}
 		if ( has_category( 'common-problems', $post ) ) {
 			$problems[] = $post;
 		} else {
@@ -129,6 +137,22 @@ function lookdog_reading_column( $label, $posts ) {
 	<?php
 }
 
+/**
+ * The "who writes this" post, if one is set.
+ *
+ * @return ?array{url:string,title:string}
+ */
+function lookdog_about_article() {
+	$id = (int) get_option( 'lookdog_about_post' );
+	if ( ! $id || 'publish' !== get_post_status( $id ) ) {
+		return null;
+	}
+	return array(
+		'url'   => (string) get_permalink( $id ),
+		'title' => get_the_title( $id ),
+	);
+}
+
 function lookdog_reading_index( $atts = array() ) {
 	$atts = shortcode_atts(
 		array(
@@ -169,8 +193,16 @@ function lookdog_reading_index( $atts = array() ) {
 				);
 				?>
 			</p>
-			<?php if ( $blog ) : ?>
-				<p class="ld-read__all"><a class="ld-textlink" href="<?php echo esc_url( (string) get_permalink( $blog ) ); ?>">All of them, newest first &rarr;</a></p>
+			<?php $about = lookdog_about_article(); ?>
+			<?php if ( $about || $blog ) : ?>
+				<p class="ld-read__all">
+					<?php if ( $about ) : ?>
+						<a class="ld-textlink" href="<?php echo esc_url( $about['url'] ); ?>"><?php esc_html_e( 'Who writes this, and why it is free', 'lookdog' ); ?> &rarr;</a>
+					<?php endif; ?>
+					<?php if ( $blog ) : ?>
+						<a class="ld-textlink" href="<?php echo esc_url( (string) get_permalink( $blog ) ); ?>"><?php esc_html_e( 'All of it, newest first', 'lookdog' ); ?> &rarr;</a>
+					<?php endif; ?>
+				</p>
 			<?php endif; ?>
 		</div>
 		<div class="ld-read__cols">
@@ -197,7 +229,7 @@ add_action(
 <style id="lookdog-reading-index">
 .ld-read__head{max-width:64ch;margin-bottom:44px}
 .ld-read__lede{margin:16px 0 0;color:#3A3F4B;font-size:16px;line-height:1.65}
-.ld-read__all{margin:20px 0 0}
+.ld-read__all{display:flex;flex-wrap:wrap;gap:14px 30px;margin:20px 0 0}
 .ld-read__cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:34px 64px}
 .ld-read__label{margin:0 0 4px;padding-bottom:14px;border-bottom:2px solid #14213D;
 color:#5A5F6B;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
