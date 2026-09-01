@@ -16,6 +16,17 @@
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Reserved slug for a bare /go/ with nothing after it.
+ *
+ * Without a rule for it, WordPress fell through to its own 404 guessing and
+ * sent /go/ to whichever product it thought the word resembled - on the day
+ * this was written, a tracker collar. A person typing the short link off a
+ * phone screen and missing the last word landed on a random product page with
+ * no idea why.
+ */
+const LOOKDOG_GO_INDEX = '__index';
+
 function lookdog_go_targets() {
 	return (array) get_option( 'lookdog_go_links', array() );
 }
@@ -97,6 +108,7 @@ function lookdog_go_count( $slug ) {
 
 add_action( 'init', static function () {
 	add_rewrite_rule( '^go/([A-Za-z0-9_-]+)/?$', 'index.php?lookdog_go=$matches[1]', 'top' );
+	add_rewrite_rule( '^go/?$', 'index.php?lookdog_go=' . LOOKDOG_GO_INDEX, 'top' );
 } );
 
 add_filter( 'query_vars', static function ( $vars ) {
@@ -108,6 +120,14 @@ add_action( 'template_redirect', static function () {
 	$slug = get_query_var( 'lookdog_go' );
 	if ( ! $slug ) {
 		return;
+	}
+
+	// Bare /go/ is a landing page, not a campaign. It goes where the link in
+	// bio goes, so the two can never disagree.
+	if ( LOOKDOG_GO_INDEX === $slug ) {
+		$start = get_page_by_path( 'start' );
+		wp_safe_redirect( $start ? (string) get_permalink( $start ) : home_url( '/' ), 302 );
+		exit;
 	}
 
 	$url = lookdog_go_resolve( $slug );
