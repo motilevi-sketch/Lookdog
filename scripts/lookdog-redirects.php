@@ -43,6 +43,16 @@ function lookdog_redirect_map() {
 		'product/real-time-gps-dog-collar-movement-alerts' => 4065,
 		'product/two-in-one-tick-removal-tool'            => 4788,
 		'product/lead-mounted-waste-bag-dispenser'        => 4244,
+
+		// WooCommerce ships a cart, a checkout and an account page, and this
+		// site sells nothing through any of them - every product is an
+		// external link. They sat published and in the sitemap, so a reviewer
+		// or a search engine checking what this site is found an empty basket
+		// and a login form. They are private now; these rules catch anything
+		// still pointing at them.
+		'cart'     => 1218,
+		'checkout' => 1218,
+		'account'  => 1218,
 	) );
 }
 
