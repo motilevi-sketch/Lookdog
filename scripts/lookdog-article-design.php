@@ -33,13 +33,45 @@ function lookdog_article_styles() {
 	) );
 }
 
+/**
+ * Style keys that have no CSS of their own, and what to render them as.
+ *
+ * Four articles were published on 1 September 2026 carrying the keys
+ * `decision`, `catalogue`, `myth` and `argument`. Nothing in this system
+ * implements those names, so the pages rendered with a variant class no
+ * stylesheet matched and no accent colour at all - base typography and nothing
+ * else, while every other guide had both. Rather than leave them plain, each is
+ * resolved to the existing variant that suits its shape.
+ *
+ * Anything unrecognised and unaliased falls back to `ledger`, so a typo in the
+ * meta can never again produce a page with no art direction.
+ */
+function lookdog_article_style_aliases() {
+	return apply_filters( 'lookdog_article_style_aliases', array(
+		'decision'  => 'spec',     // a comparison that ends in a choice
+		'catalogue' => 'ledger',   // ruled rows of types and what each fixes
+		'myth'      => 'field',    // corrects a widely held wrong belief
+		'argument'  => 'bulletin', // makes a case, and states consequences
+	) );
+}
+
 function lookdog_article_style( $post_id ) {
 	$style = (string) get_post_meta( $post_id, 'lookdog_article_style', true );
-	if ( '' !== $style ) {
-		return $style;
+	if ( '' === $style ) {
+		$map   = lookdog_article_styles();
+		$style = isset( $map[ $post_id ] ) ? $map[ $post_id ] : 'ledger';
 	}
-	$map = lookdog_article_styles();
-	return isset( $map[ $post_id ] ) ? $map[ $post_id ] : 'ledger';
+
+	// Only keys with a palette entry have a stylesheet behind them.
+	if ( function_exists( 'lookdog_article_accents' ) ) {
+		$known = lookdog_article_accents();
+		if ( ! isset( $known[ $style ] ) ) {
+			$aliases = lookdog_article_style_aliases();
+			$style   = isset( $aliases[ $style ] ) ? $aliases[ $style ] : 'ledger';
+		}
+	}
+
+	return $style;
 }
 
 /**

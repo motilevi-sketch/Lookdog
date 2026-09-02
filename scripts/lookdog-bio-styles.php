@@ -80,9 +80,59 @@ transition:background .15s ease,color .15s ease}
 .ld-bio__ghost:hover{background:var(--ink);color:#fff}
 .ld-bio__disclosure{margin:20px 0 0;font-size:12px;line-height:1.6;color:var(--muted)}
 
+/* Bell, at the top. A social visitor arriving from a video has met the dog
+   already; the logo alone throws that recognition away. */
+.ld-bio__face{display:block;width:84px;height:84px;margin:0 auto 14px;border-radius:50%;
+object-fit:cover;border:3px solid rgba(255,255,255,.9)}
+.ld-bio__free{margin:12px 0 0;font-size:13.5px;line-height:1.55;color:#fff;
+border-top:1px solid rgba(255,255,255,.18);padding-top:12px}
+
+/* The three numbers. Read live, so they are a claim that can be checked
+   rather than an adjective. */
+.ld-bio__facts{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin:0;padding:0;
+list-style:none;background:var(--surface);border-bottom:1px solid var(--line)}
+.ld-bio__facts li{padding:16px 10px;text-align:center;border-right:1px solid var(--line)}
+.ld-bio__facts li:last-child{border-right:0}
+.ld-bio__facts b{display:block;font-size:21px;font-weight:600;color:var(--ink);
+line-height:1.1;font-variant-numeric:tabular-nums}
+.ld-bio__facts span{display:block;margin-top:5px;font-size:11.5px;line-height:1.35;color:var(--muted)}
+
+/* The guides. The half of this site that is not for sale, and the half that
+   was missing from the page every social visitor lands on. */
+.ld-bio__reading{margin:30px 0 0;padding:26px 20px 0;border-top:1px solid var(--line)}
+.ld-bio__read{display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+padding:13px 0;border-bottom:1px solid var(--line);text-decoration:none}
+.ld-bio__readname{font-size:15px;font-weight:600;line-height:1.35;color:var(--ink)}
+.ld-bio__read:hover .ld-bio__readname{color:var(--accent-dark)}
+.ld-bio__readmeta{flex:0 0 auto;font-size:12px;color:var(--muted);white-space:nowrap;
+font-variant-numeric:tabular-nums}
+.ld-bio__reading .ld-bio__ghost{margin-top:18px}
+
+/* Who writes this. */
+.ld-bio__who{margin:30px 0 0;padding:26px 20px 0;border-top:1px solid var(--line)}
+.ld-bio__whocard{display:flex;align-items:center;gap:14px;text-decoration:none;
+background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px}
+.ld-bio__whocard:hover{border-color:var(--ink)}
+.ld-bio__whoimg{flex:0 0 62px;width:62px;height:62px;border-radius:50%;object-fit:cover}
+.ld-bio__whotext{flex:1 1 auto;min-width:0}
+.ld-bio__whoname{display:block;font-size:15px;font-weight:600;color:var(--ink);line-height:1.3}
+.ld-bio__whonote{display:block;margin-top:4px;font-size:13px;line-height:1.45;color:var(--muted)}
+
+.ld-bio__social{display:flex;justify-content:center;gap:22px;margin:18px 0 0}
+.ld-bio__social a{font-size:13.5px;font-weight:600;color:var(--ink);text-decoration:none;
+border-bottom:2px solid var(--accent);padding-bottom:2px}
+.ld-bio__social a:hover{color:var(--accent-dark)}
+
 @media (max-width:430px){
 .ld-bio__head{padding:28px 20px 24px}
 .ld-bio__shot img{height:190px}
+.ld-bio__facts b{font-size:19px}
+.ld-bio__facts li{padding:14px 7px}
+.ld-bio__facts span{font-size:11px}
+}
+@media (prefers-reduced-motion:reduce){
+.ld-bio__featurecard{transition:none}
+.ld-bio__featurecard:hover{transform:none}
 }
 </style>
 	<?php
