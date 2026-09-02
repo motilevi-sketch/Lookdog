@@ -53,6 +53,14 @@ function lookdog_redirect_map() {
 		'cart'     => 1218,
 		'checkout' => 1218,
 		'account'  => 1218,
+
+		// "Why the Same Brush Does Not Work on Every Dog's Coat" was retired on
+		// 2 September 2026. Measured against the rest of the site it shared 22
+		// of its 60 commonest terms with the grooming guide and 21 with the
+		// shedding article - coat, brush, comb, deshedding, undercoat, slicker,
+		// double - which is three pages answering "which brush for my dog".
+		// The guide it duplicated most is where its readers should land.
+		'dog-grooming-tools-by-coat-type' => 4497,
 	) );
 }
 

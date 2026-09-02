@@ -56,7 +56,6 @@ function lookdog_article_photo_map() {
 		// so the photographs restate the argument rather than decorate it.
 		5098 => array( 3960, 4452, 3995 ), // tether, booster, hammock - the three jobs
 		5099 => array( 3623, 3679, 3644 ), // orthopedic, cooling, enclosed
-		5100 => array( 3904, 3897, 3890 ), // deshedding, dematting, slicker
 		5101 => array( 4872, 4886, 4893 ), // mesh, short-snout, duck-bill
 	) );
 }
