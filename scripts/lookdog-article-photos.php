@@ -51,6 +51,13 @@ function lookdog_article_photo_map() {
 		5090 => array( 3792, 4718, 4285 ), // maze bowl, lick mat, snuffle mat
 		5091 => array( 3658, 3665, 4550 ), // gel mat, water cushion, ice silk
 		5092 => array( 4390, 4397, 4949 ), // front-clip, tactical, soft small-dog
+		// Published 1 September 2026 outside this session. Each strip is three
+		// products the article itself discusses, one per section it splits into,
+		// so the photographs restate the argument rather than decorate it.
+		5098 => array( 3960, 4452, 3995 ), // tether, booster, hammock - the three jobs
+		5099 => array( 3623, 3679, 3644 ), // orthopedic, cooling, enclosed
+		5100 => array( 3904, 3897, 3890 ), // deshedding, dematting, slicker
+		5101 => array( 4872, 4886, 4893 ), // mesh, short-snout, duck-bill
 	) );
 }
 
