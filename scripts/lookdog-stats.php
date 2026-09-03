@@ -82,6 +82,17 @@ function lookdog_click_count( $post_id ) {
 		$days = array_slice( $days, -120, null, true );
 	}
 	update_option( 'lookdog_click_days', $days, false );
+
+	/**
+	 * Fired for every counted click.
+	 *
+	 * Kept as an action so anything that wants to know who is clicking - see
+	 * lookdog-click-log.php - can listen without this function growing a second
+	 * job it does not need to know about.
+	 *
+	 * @param int $post_id Product clicked.
+	 */
+	do_action( 'lookdog_click', $post_id );
 }
 
 add_action(
@@ -137,6 +148,15 @@ add_action(
 
 		nocache_headers();
 		do_action( 'litespeed_control_set_nocache', 'lookdog affiliate redirect' );
+		// Belt and braces alongside the action above. A cached affiliate
+		// redirect would skip PHP entirely - the click uncounted, the visitor
+		// sent to whatever destination was cached earlier - and the stakes are
+		// higher here than on an ordinary page. Testing found the redirect was
+		// NOT being cached, so this is hardening rather than a fix; it also
+		// covers proxies between the visitor and LiteSpeed, which the action
+		// does not reach.
+		header( 'X-LiteSpeed-Cache-Control: no-cache', true );
+		header( 'Cache-Control: no-store, no-cache, must-revalidate, max-age=0', true );
 		header( 'X-Robots-Tag: noindex, nofollow', true );
 		header( 'Referrer-Policy: no-referrer-when-downgrade', true );
 		wp_redirect( $dest, 302 );

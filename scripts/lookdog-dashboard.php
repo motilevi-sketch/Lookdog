@@ -297,6 +297,15 @@ if ( function_exists( 'lookdog_actions_card' ) ) {
 }
 ?>
 
+<?php
+// Who is pressing the buy button. Above the click totals on purpose: a number
+// is worthless until you know whether a person produced it. See
+// lookdog-click-log.php.
+if ( function_exists( 'lookdog_click_log_card' ) ) {
+	lookdog_click_log_card();
+}
+?>
+
 <div class="grid">
 	<div class="stat">
 		<b><?php echo esc_html( number_format_i18n( $d['today'] ) ); ?></b>
