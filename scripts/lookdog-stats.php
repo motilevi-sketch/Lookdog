@@ -306,6 +306,84 @@ function lookdog_stats_screen() {
 		</div>
 	</div>
 
+	<?php
+	/**
+	 * Who is clicking, first.
+	 *
+	 * It sits above "most clicked" because the owner opens this screen from the
+	 * admin menu, not the phone dashboard, and because a click total means
+	 * nothing until you know whether a person produced it. The same card is on
+	 * /dashboard/; this is the copy in the place he actually looks.
+	 */
+	if ( function_exists( 'lookdog_click_agents' ) ) :
+		$agents = lookdog_click_agents( 7 );
+		$auto   = 0;
+		foreach ( $agents as $a ) {
+			if ( $a['bot'] ) {
+				$auto += $a['clicks'];
+			}
+		}
+		?>
+		<h2><?php esc_html_e( 'Who is clicking', 'lookdog' ); ?></h2>
+		<?php if ( ! $agents ) : ?>
+			<p class="description">
+				<?php esc_html_e( 'Nothing logged yet. Recording started on 3 September 2026 and fills up as the buy button is pressed. Your own clicks are never counted while you are logged in.', 'lookdog' ); ?>
+			</p>
+		<?php else : ?>
+			<?php if ( $auto ) : ?>
+				<div class="notice notice-error inline" style="margin:0 0 12px">
+					<p>
+						<?php
+						printf(
+							/* translators: %s: number of automated clicks. */
+							esc_html__( '%s of the clicks in the last seven days came from something automated rather than a person. AliExpress penalises publishers for click fraud, so this is worth chasing down.', 'lookdog' ),
+							'<strong>' . esc_html( number_format_i18n( $auto ) ) . '</strong>'
+						);
+						?>
+					</p>
+				</div>
+			<?php endif; ?>
+			<table class="widefat striped">
+				<thead><tr>
+					<th style="width:80px"><?php esc_html_e( 'Clicks', 'lookdog' ); ?></th>
+					<th style="width:110px"><?php esc_html_e( 'Kind', 'lookdog' ); ?></th>
+					<th><?php esc_html_e( 'Browser or program', 'lookdog' ); ?></th>
+					<th style="width:150px"><?php esc_html_e( 'Spread', 'lookdog' ); ?></th>
+					<th style="width:120px"><?php esc_html_e( 'Came from', 'lookdog' ); ?></th>
+				</tr></thead>
+				<tbody>
+				<?php foreach ( $agents as $a ) : ?>
+					<tr>
+						<td><strong><?php echo esc_html( number_format_i18n( $a['clicks'] ) ); ?></strong></td>
+						<td>
+							<?php if ( $a['bot'] ) : ?>
+								<span style="color:#b32d2e;font-weight:600"><?php esc_html_e( 'automated', 'lookdog' ); ?></span>
+							<?php else : ?>
+								<span style="color:#007017;font-weight:600"><?php esc_html_e( 'browser', 'lookdog' ); ?></span>
+							<?php endif; ?>
+						</td>
+						<td><code style="font-size:11px"><?php echo esc_html( '' !== $a['ua'] ? $a['ua'] : 'no user agent sent' ); ?></code></td>
+						<td>
+							<?php
+							printf(
+								/* translators: 1: products, 2: sources. */
+								esc_html__( '%1$s products, %2$s source(s)', 'lookdog' ),
+								esc_html( number_format_i18n( $a['products'] ) ),
+								esc_html( number_format_i18n( $a['sources'] ) )
+							);
+							?>
+						</td>
+						<td><?php echo esc_html( $a['refs'] ? implode( ', ', array_slice( $a['refs'], 0, 2 ) ) : '&mdash;' ); ?></td>
+					</tr>
+				<?php endforeach; ?>
+				</tbody>
+			</table>
+			<p class="description">
+				<?php esc_html_e( 'One source clicking across many products is a program walking the catalogue. Several sources with one or two clicks each are people. IP addresses are not stored - only a salted hash, enough to count sources and not enough to identify anyone.', 'lookdog' ); ?>
+			</p>
+		<?php endif; ?>
+	<?php endif; ?>
+
 	<h2><?php esc_html_e( 'Most clicked products', 'lookdog' ); ?></h2>
 	<?php if ( ! $top ) : ?>
 		<p><?php esc_html_e( 'No clicks recorded yet. Counting started when this screen was installed; your own clicks are never counted while you are logged in.', 'lookdog' ); ?></p>
