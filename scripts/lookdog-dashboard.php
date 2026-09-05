@@ -143,6 +143,17 @@ function lookdog_dash_data() {
 		'drops'     => function_exists( 'lookdog_price_drops' ) ? lookdog_price_drops( 5 ) : array(),
 		'go'        => array_slice( $go, 0, 6, true ),
 		'ga4'       => function_exists( 'lookdog_ga4_id' ) ? lookdog_ga4_id() : '',
+		// Crawlers turned away at /out/ since 5 September. Counted separately
+		// rather than dropped, so the split stays visible. See
+		// lookdog-stats.php for why this exists at all.
+		'bots'      => array_sum( array_map( 'intval', (array) get_option( 'lookdog_click_bot_days', array() ) ) ),
+		'scout'     => function_exists( 'lookdog_scout_pending' )
+			? array(
+				'pending'  => lookdog_scout_pending(),
+				'rejected' => function_exists( 'lookdog_scout_rejected' ) ? count( lookdog_scout_rejected() ) : 0,
+				'next'     => wp_next_scheduled( 'lookdog_scout_cron' ),
+			)
+			: null,
 	);
 }
 
@@ -331,6 +342,24 @@ if ( function_exists( 'lookdog_click_log_card' ) ) {
 	</div>
 </div>
 
+<?php
+/**
+ * The all-time figure cannot be repaired, only labelled.
+ *
+ * Until 5 September a crawler following a buy button counted as a click, and
+ * between 3 and 5 September every logged click was automated. There is no
+ * record of which of the older ones were real, so the number stays as it is
+ * with the truth printed under it rather than being quietly restated.
+ */
+?>
+<p class="muted" style="margin:-6px 0 14px">
+	Clicks before 5 Sep include crawlers and are inflated &mdash; on 3&ndash;4 Sep every logged one was a bot.
+	From 5 Sep onward these are people.
+	<?php if ( $d['bots'] ) : ?>
+		<strong><?php echo esc_html( number_format_i18n( $d['bots'] ) ); ?></strong> turned away since.
+	<?php endif; ?>
+</p>
+
 <?php if ( $d['top'] ) : ?>
 	<div class="card">
 		<h2>Most clicked</h2>
@@ -380,6 +409,30 @@ if ( function_exists( 'lookdog_click_log_card' ) ) {
 		<span class="num"><?php echo esc_html( number_format_i18n( $d['products'] ) . ' / ' . number_format_i18n( $d['articles'] ) ); ?></span>
 	</div>
 </div>
+
+<?php if ( $d['scout'] ) : ?>
+	<div class="card<?php echo $d['scout']['pending'] ? ' alert' : ''; ?>">
+		<h2>Product scout</h2>
+		<?php if ( $d['scout']['pending'] ) : ?>
+			<p><strong><?php echo esc_html( number_format_i18n( $d['scout']['pending'] ) ); ?></strong> candidate<?php echo 1 === $d['scout']['pending'] ? '' : 's'; ?> waiting on a yes or no.</p>
+		<?php else : ?>
+			<p class="muted">Nothing waiting. The sweep runs weekly and leaves anything worth stocking here.</p>
+		<?php endif; ?>
+		<div class="row">
+			<span style="font-size:14.5px">Turned down so far</span>
+			<span class="num"><?php echo esc_html( number_format_i18n( $d['scout']['rejected'] ) ); ?></span>
+		</div>
+		<?php if ( $d['scout']['next'] ) : ?>
+			<div class="row">
+				<span style="font-size:14.5px">Next sweep</span>
+				<span class="num"><?php echo esc_html( date_i18n( 'D j M', (int) $d['scout']['next'] ) ); ?></span>
+			</div>
+		<?php endif; ?>
+		<div class="links" style="margin-top:10px">
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=lookdog-scout' ) ); ?>">Open the scout</a>
+		</div>
+	</div>
+<?php endif; ?>
 
 <?php if ( $d['go'] ) : ?>
 	<div class="card">
