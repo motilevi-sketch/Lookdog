@@ -43,11 +43,18 @@ const LOOKDOG_PRICE_WATCH_HOOK = 'lookdog_price_watch';
  * through has hit the rate limit, not found 60 delisted products. Anything not
  * answered for keeps the figures it already had.
  *
- * @param int   $limit Stop after this many products. 0 for all.
- * @param int[] $only  Restrict to these post IDs. Empty for the whole catalogue.
+ * @param int    $limit       Stop after this many products. 0 for all.
+ * @param int[]  $only        Restrict to these post IDs. Empty for the whole catalogue.
+ * @param string $option_key  Where to store the report. The nightly full sweep
+ *                            and the hourly hot-list sweep must use different
+ *                            keys - they used to share one, so whichever ran
+ *                            last silently overwrote the other's record, and
+ *                            since the hot sweep runs four times a day to the
+ *                            full sweep's once, its 40-product report is what
+ *                            the option almost always held.
  * @return array<string,mixed> A report, also stored for the record.
  */
-function lookdog_refresh_prices( $limit = 0, $only = array() ) {
+function lookdog_refresh_prices( $limit = 0, $only = array(), $option_key = 'lookdog_price_watch_report' ) {
 	if ( ! function_exists( 'lookdog_ae_call' ) || ! defined( 'ALIEXPRESS_TRACKING_ID' ) ) {
 		return array( 'ok' => false, 'error' => 'API client unavailable' );
 	}
@@ -180,7 +187,7 @@ function lookdog_refresh_prices( $limit = 0, $only = array() ) {
 		usleep( 250000 );
 	}
 
-	update_option( 'lookdog_price_watch_report', $report, false );
+	update_option( $option_key, $report, false );
 	delete_transient( 'lookdog_rating_floor' );
 	delete_transient( 'lookdog_price_drops' );
 
@@ -343,8 +350,7 @@ function lookdog_hot_product_ids( $limit = 40 ) {
  * @return void
  */
 function lookdog_refresh_hot_prices() {
-	$report = lookdog_refresh_prices( 0, lookdog_hot_product_ids( 40 ) );
-	update_option( 'lookdog_price_hot_report', $report, false );
+	lookdog_refresh_prices( 0, lookdog_hot_product_ids( 40 ), 'lookdog_price_hot_report' );
 }
 
 /* ---------------------------------------------------------------- schedule */
