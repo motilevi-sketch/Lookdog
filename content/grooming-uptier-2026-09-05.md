@@ -101,3 +101,13 @@ sweep continues on its schedule.
 - Guide 4497 after the edit: block comments balanced 38/38, anchors balanced
   10/10, no loose HTML chunks, all eight product links resolve, one H1 on the
   live page.
+
+---
+Session note (2026-09-10): 18 blog articles had no featured image, so nothing
+of theirs could appear in the image sitemap or as an og:image. Assigned each
+one an existing product photo already on the site, matched by topic, with
+every candidate visually checked first — this same catalog had already
+produced three cat photos wrongly used as article images earlier this
+session, and checking caught a second, unrelated case (a deshedding-brush
+listing photo that includes a cat among the pets shown, used instead for the
+grooming table image). No new images uploaded.
