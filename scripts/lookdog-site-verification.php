@@ -25,9 +25,10 @@ function lookdog_verification_tokens() {
 
 add_action( 'wp_head', static function () {
 	$names = array(
-		'google' => 'google-site-verification',
-		'bing'   => 'msvalidate.01',
-		'yandex' => 'yandex-verification',
+		'google'    => 'google-site-verification',
+		'bing'      => 'msvalidate.01',
+		'yandex'    => 'yandex-verification',
+		'pinterest' => 'p:domain_verify',
 	);
 
 	foreach ( lookdog_verification_tokens() as $engine => $token ) {
