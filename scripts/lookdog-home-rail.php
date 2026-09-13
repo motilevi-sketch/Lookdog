@@ -84,38 +84,93 @@ function lookdog_product_rail( $atts = array() ) {
 				<a class="ld-textlink" href="<?php echo esc_url( $archive ); ?>">See all <?php echo esc_html( (string) $term->count ); ?></a>
 			<?php endif; ?>
 		</div>
-		<ul class="ld-rail">
-			<?php
-			foreach ( $ids as $pid ) :
-				$thumb = get_post_thumbnail_id( $pid );
-				$name  = get_the_title( $pid );
-				?>
-			<li class="ld-rail__item">
-				<a class="ld-pcard" href="<?php echo esc_url( (string) get_permalink( $pid ) ); ?>">
-					<span class="ld-pcard__media">
-						<?php
-						if ( $thumb ) {
-							echo wp_get_attachment_image(
-								$thumb,
-								'woocommerce_thumbnail',
-								false,
-								array(
-									'alt'     => $name,
-									'loading' => 'lazy',
-								)
-							);
-						}
-						?>
-					</span>
-					<span class="ld-pcard__name"><?php echo esc_html( $name ); ?></span>
-					<span class="ld-pcard__cta">See the write-up</span>
-				</a>
-			</li>
-			<?php endforeach; ?>
-		</ul>
+		<div class="ld-rail__scroller">
+			<button type="button" class="ld-rail__arrow ld-rail__arrow--prev" aria-label="Previous products" disabled>&#8249;</button>
+			<ul class="ld-rail">
+				<?php
+				foreach ( $ids as $pid ) :
+					$thumb = get_post_thumbnail_id( $pid );
+					$name  = get_the_title( $pid );
+					?>
+				<li class="ld-rail__item">
+					<a class="ld-pcard" href="<?php echo esc_url( (string) get_permalink( $pid ) ); ?>">
+						<span class="ld-pcard__media">
+							<?php
+							if ( $thumb ) {
+								echo wp_get_attachment_image(
+									$thumb,
+									'woocommerce_thumbnail',
+									false,
+									array(
+										'alt'     => $name,
+										'loading' => 'lazy',
+									)
+								);
+							}
+							?>
+						</span>
+						<span class="ld-pcard__name"><?php echo esc_html( $name ); ?></span>
+						<span class="ld-pcard__cta">See the write-up</span>
+					</a>
+				</li>
+				<?php endforeach; ?>
+			</ul>
+			<button type="button" class="ld-rail__arrow ld-rail__arrow--next" aria-label="More products">&#8250;</button>
+		</div>
 	</div>
 </section>
 	<?php
 	return (string) ob_get_clean();
 }
 add_shortcode( 'lookdog_product_rail', 'lookdog_product_rail' );
+
+/**
+ * Prev/next affordance for the rail.
+ *
+ * The rail is a horizontal scroller with only a thin scrollbar as a cue, which
+ * is easy to miss - nothing on the card edge suggests there is more to see.
+ * These buttons scroll by one card width and disable themselves at either end,
+ * so the rail's own scroll position stays the single source of truth; nothing
+ * here duplicates it. Printed once, only where the rail itself can appear.
+ *
+ * @return void
+ */
+function lookdog_rail_arrows_script() {
+	global $post;
+	if ( ! $post instanceof WP_Post || ! has_shortcode( (string) $post->post_content, 'lookdog_product_rail' ) ) {
+		return;
+	}
+	?>
+<script id="lookdog-rail-arrows">
+document.addEventListener( 'DOMContentLoaded', function () {
+	document.querySelectorAll( '.ld-rail__scroller' ).forEach( function ( scroller ) {
+		var rail = scroller.querySelector( '.ld-rail' );
+		var prev = scroller.querySelector( '.ld-rail__arrow--prev' );
+		var next = scroller.querySelector( '.ld-rail__arrow--next' );
+		if ( ! rail || ! prev || ! next ) {
+			return;
+		}
+		function step() {
+			var item = rail.querySelector( '.ld-rail__item' );
+			return item ? item.getBoundingClientRect().width + 26 : rail.clientWidth;
+		}
+		function update() {
+			var max = rail.scrollWidth - rail.clientWidth - 1;
+			prev.disabled = rail.scrollLeft <= 0;
+			next.disabled = rail.scrollLeft >= max;
+		}
+		prev.addEventListener( 'click', function () {
+			rail.scrollBy( { left: -step(), behavior: 'smooth' } );
+		} );
+		next.addEventListener( 'click', function () {
+			rail.scrollBy( { left: step(), behavior: 'smooth' } );
+		} );
+		rail.addEventListener( 'scroll', update, { passive: true } );
+		window.addEventListener( 'resize', update );
+		update();
+	} );
+} );
+</script>
+	<?php
+}
+add_action( 'wp_footer', 'lookdog_rail_arrows_script' );

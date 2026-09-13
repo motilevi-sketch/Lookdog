@@ -69,6 +69,18 @@ function lookdog_home_styles() {
 .ld-pcard__cta{display:block;padding:12px 16px 16px;color:#EA670B;font-size:13px;font-weight:600;}
 .ld-rail::-webkit-scrollbar{height:8px;}
 .ld-rail::-webkit-scrollbar-thumb{background:#E6E6E1;border-radius:30px;}
+/* Prev/next: the scrollbar alone was easy to miss, so the edges get an
+   explicit control. Hidden on touch, where a swipe is the native affordance
+   and a tap target sitting over the cards would only get in the way. */
+.ld-rail__scroller{position:relative;}
+.ld-rail__arrow{display:none;position:absolute;top:50%;z-index:2;width:40px;height:40px;margin-top:-20px;border:1px solid #E6E6E1;border-radius:50%;background:#FFFFFF;color:#14213D;font-size:20px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(20,33,61,.14);transition:opacity .15s ease;}
+.ld-rail__arrow:hover{background:#F8F8F6;}
+.ld-rail__arrow:disabled{opacity:0;pointer-events:none;}
+.ld-rail__arrow--prev{left:-14px;}
+.ld-rail__arrow--next{right:-14px;}
+@media (hover:hover) and (pointer:fine){
+	.ld-rail__arrow{display:flex;align-items:center;justify-content:center;}
+}
 
 /* featured guide */
 .ld-guide{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:64px;align-items:center;}
