@@ -52,6 +52,9 @@ function lookdog_problem_reading_map() {
 		'hates-the-car'       => array( 5035, 'Telling sickness from fear, and why a seatbelt tether is a restraint rather than crash protection.' ),
 		'bad-breath'          => array( 5036, 'Bad breath is gum disease, not hygiene. Why brushing is the only thing that reliably works.' ),
 		'puppy'               => array( 4524, 'What a puppy actually needs in the first six months, and when — rather than the thirty things you will be sold.' ),
+		'clipping-at-home'    => array( 5252, 'Almost every bad home haircut is a step done out of order, not a bad tool. Where the dog stands, blade heat, and the face and feet.' ),
+		'overgrown-nails'     => array( 4497, 'Why nails should never touch the floor, and the little-and-often trim that fixes a long nail one big cut cannot.' ),
+		'wont-hold-still-for-bath' => array( 5289, 'Slipping and fear look the same in a wet dog but need opposite fixes, and holding tighter only helps one of them.' ),
 	) );
 }
 
