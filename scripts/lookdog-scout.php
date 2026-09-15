@@ -89,14 +89,14 @@ function lookdog_scout_buckets() {
 			'keywords'   => array(
 				'automatic ball launcher dog',
 				'interactive treat dispensing dog toy',
-				'remote control dog toy car',
+				'remote control dog toy',
 				'dog flirt pole',
 				'indestructible dog toy large breed',
 				'dog puzzle toy iq training',
-				'dog agility training kit',
-				'smart interactive treat camera toy dog',
+				'dog agility tunnel obstacle',
+				'wifi pet camera treat dispenser',
 				'heavy duty chew toy large dog',
-				'dog flying disc professional',
+				'dog frisbee flying disc',
 			),
 		),
 	);
@@ -148,6 +148,42 @@ function lookdog_scout_item_url( $id ) {
 }
 
 /**
+ * Is this listing's title a cat product cross-tagged into the dog search?
+ *
+ * The pet category on AliExpress lists cats and dogs together, and a title
+ * like "ROJECO Cat Toys Smart Interactive Cat Bouncing Ball ... Dog Pet
+ * Accessories" turned up in a dog-toy sweep this way - "dog" appears once, as
+ * a trailing catch-all tag, while "cat" is the actual product twice over.
+ * Counting which word the title actually leads with catches that case without
+ * rejecting a genuinely dual-species listing, where the two counts are equal
+ * or dog leads.
+ *
+ * @param string $title Product title.
+ * @return bool
+ */
+function lookdog_scout_is_cat_primary( $title ) {
+	$cats = preg_match_all( '/\bcats?\b/i', $title );
+	$dogs = preg_match_all( '/\bdogs?\b/i', $title );
+	return $cats > $dogs;
+}
+
+/**
+ * Does this title mention a dog, a puppy, or a pet at all?
+ *
+ * The pet category is loose enough that a keyword like "remote control dog
+ * toy" can return a wall-climbing gecko robot marketed for kids, with no
+ * animal in the title whatsoever - a shared tag, not a shared product. A
+ * listing that never says dog, puppy or even pet has no business in this
+ * catalogue regardless of what search phrase found it.
+ *
+ * @param string $title Product title.
+ * @return bool
+ */
+function lookdog_scout_mentions_a_pet( $title ) {
+	return (bool) preg_match( '/\b(dogs?|puppy|puppies|pets?)\b/i', $title );
+}
+
+/**
  * Sweep one keyword and merge whatever clears the bar into the bucket.
  *
  * @param string $bucket  Bucket slug.
@@ -177,12 +213,14 @@ function lookdog_scout_sweep( $bucket, $keyword ) {
 	}
 
 	$stats = array(
-		'seen'     => 0,
-		'kept'     => 0,
-		'no_price' => 0,
-		'no_score' => 0,
-		'low_bar'  => 0,
-		'known'    => 0,
+		'seen'        => 0,
+		'kept'        => 0,
+		'no_price'    => 0,
+		'no_score'    => 0,
+		'low_bar'     => 0,
+		'known'       => 0,
+		'cat_primary' => 0,
+		'no_pet'      => 0,
 	);
 
 	for ( $page = 1; $page <= (int) $cfg['pages']; $page++ ) {
@@ -223,6 +261,18 @@ function lookdog_scout_sweep( $bucket, $keyword ) {
 				continue;
 			}
 
+			$title = (string) ( $p['product_title'] ?? '' );
+
+			if ( ! lookdog_scout_mentions_a_pet( $title ) ) {
+				++$stats['no_pet'];
+				continue;
+			}
+
+			if ( lookdog_scout_is_cat_primary( $title ) ) {
+				++$stats['cat_primary'];
+				continue;
+			}
+
 			// A blank rate is a listing with no sales history, not a perfect
 			// one. Most of this band is blank; none of it is kept.
 			$raw = isset( $p['evaluate_rate'] ) ? trim( (string) $p['evaluate_rate'] ) : '';
@@ -242,7 +292,7 @@ function lookdog_scout_sweep( $bucket, $keyword ) {
 				continue;
 			}
 
-			$key  = lookdog_harvest_key( $p['product_title'] ?? '' );
+			$key  = lookdog_harvest_key( $title );
 			$imgs = array();
 			if ( ! empty( $p['product_small_image_urls']['string'] ) ) {
 				$imgs = array_slice( (array) $p['product_small_image_urls']['string'], 0, 6 );
@@ -252,7 +302,7 @@ function lookdog_scout_sweep( $bucket, $keyword ) {
 
 			$store[ $id ] = array(
 				'id'     => $id,
-				'title'  => (string) ( $p['product_title'] ?? '' ),
+				'title'  => $title,
 				'key'    => $key,
 				'rate'   => $rate,
 				'volume' => $vol,
