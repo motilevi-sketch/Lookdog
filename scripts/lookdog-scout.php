@@ -27,6 +27,13 @@
  * paired with the same 84% positive-feedback bar used everywhere else. A listing
  * with no feedback figure at all is never kept, whatever its price.
  *
+ * A SECOND BUCKET, added once Grooming's own $20-40 tier was filled. Dog Toys
+ * has the same shape: 41 products, a $2.87 median, and exactly one over $20.
+ * The keywords are different in kind rather than just price - automatic
+ * launchers, remote-control toys, agility kits and treat cameras - rather than
+ * pricier versions of the cheap balls and plush toys already stocked, because
+ * the cheap end already covers that ground well.
+ *
  * WHAT IT DOES NOT DO. It does not publish anything. Candidates sit in a list
  * until a human keeps or rejects them, and a rejection is remembered so the
  * same listing never comes back. The links in the admin table are plain
@@ -69,6 +76,27 @@ function lookdog_scout_buckets() {
 				'pet grooming hammock',
 				'dog grooming scissors set',
 				'quiet dog trimmer rechargeable',
+			),
+		),
+		'dog_toys' => array(
+			'label'      => 'Dog Toys, $20-40',
+			'cat'        => 'dog-toys',
+			'min_price'  => 20.0,
+			'max_price'  => 40.0,
+			'min_rate'   => 84.0,
+			'min_volume' => 20,
+			'pages'      => 2,
+			'keywords'   => array(
+				'automatic ball launcher dog',
+				'interactive treat dispensing dog toy',
+				'remote control dog toy car',
+				'dog flirt pole',
+				'indestructible dog toy large breed',
+				'dog puzzle toy iq training',
+				'dog agility training kit',
+				'smart interactive treat camera toy dog',
+				'heavy duty chew toy large dog',
+				'dog flying disc professional',
 			),
 		),
 	);
