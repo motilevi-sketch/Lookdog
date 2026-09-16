@@ -173,6 +173,30 @@ function lookdog_refresh_prices( $limit = 0, $only = array(), $option_key = 'loo
 			update_post_meta( $pid, '_lookdog_price_time', time() );
 			update_post_meta( $pid, '_lookdog_currency', (string) ( $p['target_sale_price_currency'] ?? 'USD' ) );
 
+			/*
+			 * WooCommerce's own price fields were never populated for this
+			 * catalogue - every import went through wp_insert_post() directly,
+			 * never through a WooCommerce save that sets _regular_price/_price.
+			 * The single product page has always shown a price (the "seller's
+			 * price" strip below), but the shop grid, category archives and
+			 * search results read WooCommerce's own field and showed nothing at
+			 * all. Setting it here, through the product object rather than a
+			 * raw meta write, keeps WooCommerce's price lookup table (used for
+			 * price-range sorting and filtering) in sync too - a bare
+			 * update_post_meta() would leave that table pointing at nothing.
+			 * Requested currency is USD, the store's own currency, so no
+			 * conversion is needed here.
+			 */
+			$wc_product = wc_get_product( $pid );
+			if ( $wc_product ) {
+				$formatted = number_format( $new, 2, '.', '' );
+				if ( $wc_product->get_regular_price() !== $formatted ) {
+					$wc_product->set_regular_price( $formatted );
+					$wc_product->set_price( $formatted );
+					$wc_product->save();
+				}
+			}
+
 			if ( isset( $p['target_original_price'] ) ) {
 				update_post_meta( $pid, '_lookdog_price_was', number_format( (float) $p['target_original_price'], 2, '.', '' ) );
 			}
