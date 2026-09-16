@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * featured product would have left the old sales copy pointing at the old item.
  */
 function lookdog_bio_featured_id() {
-	return (int) apply_filters( 'lookdog_bio_featured_id', 3553 );
+	return (int) apply_filters( 'lookdog_bio_featured_id', 3904 );
 }
 
 /** The product's own short description, minus the affiliate boilerplate. */
