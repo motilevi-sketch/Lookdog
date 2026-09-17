@@ -53,6 +53,46 @@ function lookdog_click_is_bot( $ua ) {
 }
 
 /**
+ * Does the request contradict the browser its user agent claims to be?
+ *
+ * DELIBERATELY SEPARATE FROM lookdog_click_is_bot(), and never used to block
+ * anything. That function gates the affiliate redirect: a false positive there
+ * costs a real buyer their click-through and the site its commission, so it
+ * stays conservative and matches only agents that admit what they are. This one
+ * only labels a row in the log, so it can afford to be suspicious.
+ *
+ * WHY IT EXISTS. Of 400 logged clicks, 94 passed the bot check - and 87 of those
+ * were desktop, 60 of them reporting the identical Chrome-on-Mac string, one
+ * click each from 85 different addresses, spread evenly through the night. That
+ * is not what an audience looks like. It is also not something a user-agent
+ * blocklist can catch, because the string being sent is a perfectly ordinary
+ * one.
+ *
+ * So this tests the claim instead of the string. Chrome has sent Sec-CH-UA on
+ * every secure request since version 89; a request whose user agent says Chrome
+ * but which sends no such header is not Chrome. Accept-Language is the same kind
+ * of test - every real browser sends one.
+ *
+ * Neither is proof. A privacy extension or a corporate proxy can strip headers,
+ * which is exactly why this labels and never blocks.
+ *
+ * @param string $ua User agent string.
+ * @return bool
+ */
+function lookdog_click_looks_spoofed( $ua ) {
+	if ( ! preg_match( '~Chrome/(\d+)~i', $ua, $m ) || (int) $m[1] < 89 ) {
+		return false; // Only Chromium makes a claim this can be checked against.
+	}
+	if ( ! isset( $_SERVER['HTTP_SEC_CH_UA'] ) ) {
+		return true;
+	}
+	if ( ! isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ) {
+		return true;
+	}
+	return false;
+}
+
+/**
  * Record one click. Hooked to the action lookdog-stats.php fires.
  *
  * @param int $post_id Product clicked.
@@ -73,6 +113,15 @@ function lookdog_click_log_record( $post_id ) {
 		// visits from one source group together.
 		'src' => substr( hash_hmac( 'sha256', $ip, wp_salt( 'nonce' ) ), 0, 12 ),
 		'bot' => lookdog_click_is_bot( $ua ) ? 1 : 0,
+		// Labels only. See lookdog_click_looks_spoofed(): the affiliate redirect
+		// is never withheld on the strength of this.
+		'sus' => lookdog_click_looks_spoofed( $ua ) ? 1 : 0,
+		// The headers the verdict was based on, so a row can be re-read later
+		// rather than taken on trust. c = Sec-CH-UA, l = Accept-Language,
+		// f = Sec-Fetch-Site.
+		'h'   => ( isset( $_SERVER['HTTP_SEC_CH_UA'] ) ? 'c' : '-' )
+			. ( isset( $_SERVER['HTTP_ACCEPT_LANGUAGE'] ) ? 'l' : '-' )
+			. ( isset( $_SERVER['HTTP_SEC_FETCH_SITE'] ) ? 'f' : '-' ),
 	);
 
 	if ( count( $log ) > LOOKDOG_CLICK_LOG_MAX ) {
@@ -101,6 +150,8 @@ function lookdog_click_agents( $days = 7 ) {
 			$rows[ $key ] = array(
 				'ua'       => $key,
 				'bot'      => ! empty( $e['bot'] ),
+				'sus'      => 0,
+				'headers'  => array(),
 				'clicks'   => 0,
 				'products' => array(),
 				'sources'  => array(),
@@ -109,6 +160,12 @@ function lookdog_click_agents( $days = 7 ) {
 			);
 		}
 		$rows[ $key ]['clicks']++;
+		if ( ! empty( $e['sus'] ) ) {
+			$rows[ $key ]['sus']++;
+		}
+		if ( ! empty( $e['h'] ) ) {
+			$rows[ $key ]['headers'][ $e['h'] ] = true;
+		}
 		$rows[ $key ]['products'][ (int) $e['p'] ]  = true;
 		$rows[ $key ]['sources'][ $e['src'] ?? '' ] = true;
 		if ( ! empty( $e['ref'] ) ) {
@@ -121,6 +178,7 @@ function lookdog_click_agents( $days = 7 ) {
 		$r['products'] = count( $r['products'] );
 		$r['sources']  = count( $r['sources'] );
 		$r['refs']     = array_keys( $r['refs'] );
+		$r['headers']  = array_keys( $r['headers'] );
 	}
 	unset( $r );
 
@@ -140,10 +198,13 @@ function lookdog_click_log_card() {
 	$agents = lookdog_click_agents( 7 );
 	$total  = 0;
 	$bots   = 0;
+	$sus    = 0;
 	foreach ( $agents as $a ) {
 		$total += $a['clicks'];
 		if ( $a['bot'] ) {
 			$bots += $a['clicks'];
+		} else {
+			$sus += (int) $a['sus'];
 		}
 	}
 	?>
@@ -157,6 +218,7 @@ function lookdog_click_log_card() {
 	border-radius:20px;padding:3px 9px}
 .ua__tag--bot{background:var(--bad);color:#fff}
 .ua__tag--human{background:var(--good);color:#fff}
+.ua__tag--sus{background:var(--warn,#B45309);color:#fff}
 .ua__ua{display:block;margin-top:6px;font-size:12px;line-height:1.45;color:var(--body);
 	word-break:break-all}
 .ua__meta{display:block;margin-top:4px;font-size:12px;color:var(--muted)}
@@ -177,13 +239,36 @@ function lookdog_click_log_card() {
 			);
 			?>
 		</p>
+		<?php if ( $sus ) : ?>
+			<p class="muted" style="margin:-6px 0 12px">
+				<?php
+				printf(
+					/* translators: %s: clicks that passed the bot check but contradict their own user agent. */
+					esc_html__( 'A further %s passed the bot check but sent none of the headers the browser they claim to be always sends. They still reached the affiliate link - this is a label, not a block.', 'lookdog' ),
+					esc_html( (string) $sus )
+				);
+				?>
+			</p>
+		<?php endif; ?>
 		<ul class="ualist">
 			<?php foreach ( array_slice( $agents, 0, 8 ) as $a ) : ?>
 				<li class="ua">
 					<span class="ua__top">
 						<span class="ua__n"><?php echo esc_html( (string) $a['clicks'] ); ?> clicks</span>
-						<span class="ua__tag <?php echo $a['bot'] ? 'ua__tag--bot' : 'ua__tag--human'; ?>">
-							<?php echo $a['bot'] ? esc_html__( 'automated', 'lookdog' ) : esc_html__( 'browser', 'lookdog' ); ?>
+						<?php
+						if ( $a['bot'] ) {
+							$tag_class = 'ua__tag--bot';
+							$tag_text  = __( 'automated', 'lookdog' );
+						} elseif ( ! empty( $a['sus'] ) ) {
+							$tag_class = 'ua__tag--sus';
+							$tag_text  = __( 'claims a browser', 'lookdog' );
+						} else {
+							$tag_class = 'ua__tag--human';
+							$tag_text  = __( 'browser', 'lookdog' );
+						}
+						?>
+						<span class="ua__tag <?php echo esc_attr( $tag_class ); ?>">
+							<?php echo esc_html( $tag_text ); ?>
 						</span>
 					</span>
 					<span class="ua__ua"><?php echo esc_html( '' !== $a['ua'] ? $a['ua'] : 'no user agent sent' ); ?></span>
@@ -198,6 +283,10 @@ function lookdog_click_log_card() {
 						);
 						if ( $a['refs'] ) {
 							echo ' &middot; ' . esc_html( implode( ', ', array_slice( $a['refs'], 0, 3 ) ) );
+						}
+						if ( ! empty( $a['headers'] ) ) {
+							/* translators: %s: which of the Sec-CH-UA, Accept-Language and Sec-Fetch-Site headers arrived. */
+							echo ' &middot; ' . esc_html( sprintf( __( 'headers %s', 'lookdog' ), implode( '/', $a['headers'] ) ) );
 						}
 						?>
 					</span>
