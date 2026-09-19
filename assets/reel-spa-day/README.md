@@ -1,7 +1,13 @@
 # Spa Day Reel
 
-`spa-day-reel.mp4` — Instagram Reel compiled from six 6-second AI-generated
-Shih Tzu grooming clips.
+Instagram Reel compiled from six 6-second AI-generated Shih Tzu grooming
+clips, in two audio variants:
+
+- `spa-day-reel.mp4` — voiceover over a low ambient pad
+- `spa-day-reel-voice-only.mp4` — voiceover only, no music bed
+
+Both share the same video master, captions and narration timing, so they are
+interchangeable.
 
 ## Specs
 
@@ -11,8 +17,8 @@ Shih Tzu grooming clips.
 | Duration | 34.2s |
 | Video | H.264 High@4.0, 24fps |
 | Audio | AAC 192k stereo, 48kHz |
-| Loudness | -14.6 LUFS (Instagram target) |
-| Size | 28 MB, faststart enabled |
+| Loudness | -14.6 / -14.2 LUFS (Instagram target) |
+| Size | 28 MB each, faststart enabled |
 
 ## Edit
 
@@ -32,9 +38,13 @@ light sharpening. No watermark.
 ## Audio
 
 Source clips had no usable audio (-46 dB), so the soundtrack is built from
-scratch: synthesized voiceover over an ambient pad held at -26 dB. The pad is
-deliberately quiet so a trending audio track can be layered over it in-app
-without clashing.
+scratch: synthesized voiceover, in the mixed version sitting over an ambient
+pad held at -26 dB. The pad is deliberately quiet so a trending audio track can
+be layered over it in-app without clashing.
+
+The voice-only variant drops the pad entirely — gaps between lines are true
+silence, which is the cleaner base if you plan to add a music track in
+Instagram rather than ship it as-is.
 
 Captions are burned in, matched to the narration and positioned clear of the
 Instagram UI overlay so the reel reads correctly on mute.
