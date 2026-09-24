@@ -2,9 +2,10 @@
 /**
  * LookDog - Amazon links, without the things Amazon does not allow.
  *
- * The owner has a dormant Amazon Associates account for amazon.de. This is the
- * plumbing for using it. It renders nothing at all until a tracking tag is
- * stored, so it can sit here safely while the account status is confirmed.
+ * Built on 3 September 2026 while the owner's account was a dormant amazon.de
+ * one. Switched on 24 September 2026 for an amazon.com account: the tag lives
+ * in the `lookdog_amazon` option. Even switched on, nothing renders anywhere
+ * until a product is mapped or an article carries the shortcode.
  *
  * THREE RULES BUILT IN RATHER THAN WRITTEN DOWN SOMEWHERE
  *
@@ -18,9 +19,9 @@
  *    addition to the site's usual notice, so it is printed by the same function
  *    that prints the link and cannot be separated from it.
  *
- * THE STORE IS A SETTING, NOT A CONSTANT. The account is German today. If the
- * audience turns out to be American and a .com account follows, one option
- * value changes and every link on the site follows.
+ * THE STORE IS A SETTING, NOT A CONSTANT. The account is amazon.com today. If
+ * it ever changes store, one option value changes and every link on the site
+ * follows - but re-check the disclosure sentence below when it does.
  *
  * Deployed to: wp-content/novamira-sandbox/lookdog-amazon.php
  */
@@ -96,10 +97,12 @@ function lookdog_amazon_block( $asin, $intro = '' ) {
 	$out .= '<p class="ld-az__go"><a href="' . esc_url( $url ) . '" rel="sponsored nofollow noopener" target="_blank">'
 		. sprintf( /* translators: %s: store name. */ esc_html__( 'See it on %s', 'lookdog' ), esc_html( $c['label'] ) )
 		. ' &rarr;</a></p>';
-	// Amazon's own required wording, alongside the site's usual notice. Confirm
-	// the current sentence in the operating agreement for the store in use -
-	// the German programme states it in German.
-	$out .= '<p class="ld-az__disc">' . esc_html__( 'As an Amazon Associate we earn from qualifying purchases.', 'lookdog' ) . '</p>';
+	// Amazon's own required wording, verbatim from the operating agreement for
+	// amazon.com (checked 24 September 2026). It says "I", not "we": the site
+	// voice would prefer "we", but this is the one sentence where the agreement
+	// wins over the house style. If the store ever changes, re-check it - the
+	// German programme, for one, states it in German.
+	$out .= '<p class="ld-az__disc">' . esc_html__( 'As an Amazon Associate I earn from qualifying purchases.', 'lookdog' ) . '</p>';
 	$out .= '</div>';
 	return $out;
 }
