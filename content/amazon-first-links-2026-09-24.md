@@ -39,3 +39,31 @@ The chewing guide is 975 words and now carries three shopping links (two
 catalogue products and this one), slightly over the house rate of one per 800
 words. Accepted because this block sits exactly where the article has just told
 the reader what to look for.
+
+## Second batch — same day
+
+The owner searched with the terms suggested in chat and skipped the sponsored
+results this time (positions 8-7 to 8-18, none marked `spons`). All four carry
+`lookdog-20`.
+
+| ASIN | Product (from the listing URL) | Placed in | Where exactly |
+|---|---|---|---|
+| B07N7VTKQC | AOFOOK front carrier, adjustable | 5298 Carrying a Small Dog | After the paragraph on front carriers and both hands free |
+| B0BWC9FJ39 | JOEJOY booster seat, metal frame | 5035 My Dog Hates the Car | After the "What helps" list, pointing back to its first item, letting them see out |
+| B0BZYDN8SJ | EHEYCIGA orthopaedic bed, waterproof, washable cover | 4499 Choosing a Dog Bed | After the list ending on the waterproof inner liner |
+| B0GCXVX5NW | Stainless fountain, 2.1 gal (about 8 litres) | 4500 Trackers, Lights and Training Tech | After the fountain list ending on "keep a normal bowl as well" |
+
+Each intro claims only what the listing URL states or the section above already
+says, then repeats the section's own test:
+- booster: height and containment, **not** crash protection; harness, never collar
+- bed: "orthopaedic" proves nothing; palm test on arrival, return it if you reach the floor
+- fountain: check replacement filters exist and what they cost before buying
+- carrier: check the weight limit; keep trips short in warm weather
+
+## Found in passing, not changed
+
+The comparison articles 5098 and 5099 carry AliExpress prices typed into the
+article body ("Booster Car Seat with Storage Pockets — $11.88", "Orthopedic Foam
+Dog Bed ... — $9.02"). Those figures do not refresh with the nightly price
+watch, so they drift from the product pages over time - one source of the
+price mismatches the owner reported in mid-September.
