@@ -50,8 +50,8 @@ function lookdog_guide_clusters() {
 	return apply_filters(
 		'lookdog_guide_clusters',
 		array(
-			'coat'      => array( 4497, 5252, 5030, 5289 ),
-			'car'       => array( 4498, 5035, 5098 ),
+			'coat'      => array( 4497, 5296, 5030, 5252, 5289 ),
+			'car'       => array( 4498, 5298, 5098, 5035 ),
 			'rest'      => array( 4499, 5099, 5091, 5031 ),
 			'outdoors'  => array( 4500, 5089, 5033, 5034 ),
 			'feeding'   => array( 3777, 5090, 5029 ),

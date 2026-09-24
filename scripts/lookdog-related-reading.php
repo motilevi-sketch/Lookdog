@@ -55,6 +55,8 @@ function lookdog_problem_reading_map() {
 		'clipping-at-home'    => array( 5252, 'Almost every bad home haircut is a step done out of order, not a bad tool. Where the dog stands, blade heat, and the face and feet.' ),
 		'overgrown-nails'     => array( 4497, 'Why nails should never touch the floor, and the little-and-often trim that fixes a long nail one big cut cannot.' ),
 		'wont-hold-still-for-bath' => array( 5289, 'Slipping and fear look the same in a wet dog but need opposite fixes, and holding tighter only helps one of them.' ),
+		'coat-mats'           => array( 5296, 'Mats start in the same few places, and each has its own cause. The comb test that finds them, and why bathing a matted dog makes it worse.' ),
+		'carrying-a-small-dog' => array( 5298, 'Pick the carrier for the trip, not the look: where each format puts the weight on you, and how to size one by measurement rather than the label.' ),
 	) );
 }
 
@@ -87,6 +89,22 @@ function lookdog_compare_reading_map() {
 		5092 => array(
 			'blurb'    => 'Where the lead clips changes what happens when your dog leans into it. Front, back, fit, and what a car tether does not do.',
 			'products' => array( 3981, 4390, 4397, 4851, 4942, 4949 ),
+		),
+		5098 => array(
+			'blurb'    => 'A booster seat, a hammock and a tether solve three different problems. Which one actually restrains a dog, and which just protects the seats.',
+			'products' => array( 3375, 4452, 3995, 3988, 3981, 3974, 3967, 3960, 4432, 4445 ),
+		),
+		5099 => array(
+			'blurb'    => 'Sinking foam, summer heat, winter draughts and a dog that wants walls around them are four different problems. Which bed actually fixes which one.',
+			'products' => array( 3623, 3602, 3679, 3658, 3672, 4606, 4592, 3616, 3644, 3630 ),
+		),
+		5100 => array(
+			'blurb'    => 'A brush that works on a double coat does nothing on a silky one. Deshedding tools, dematting combs and nail clippers versus a grinder, matched to the coat.',
+			'products' => array( 3904, 3316, 4383, 3890, 3897, 4837, 3918, 3337, 3876, 3869 ),
+		),
+		5101 => array(
+			'blurb'    => 'None of these are built for a walk. Which muzzle suits a vet visit, a flat-faced breed or a dog that has never worn one, and why duration matters more than the shape.',
+			'products' => array( 4872, 4886, 4879, 4893 ),
 		),
 	) );
 }
