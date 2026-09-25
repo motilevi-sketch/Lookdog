@@ -318,6 +318,12 @@ if ( function_exists( 'lookdog_actions_card' ) ) {
 if ( function_exists( 'lookdog_click_log_card' ) ) {
 	lookdog_click_log_card();
 }
+
+// Where the visits came from in the first place: Facebook, Instagram, search.
+// See lookdog-landings.php.
+if ( function_exists( 'lookdog_land_card' ) ) {
+	lookdog_land_card();
+}
 ?>
 
 <div class="grid">
