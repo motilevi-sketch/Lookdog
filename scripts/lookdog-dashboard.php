@@ -147,7 +147,10 @@ function lookdog_dash_data() {
 		// rather than dropped, so the split stays visible. See
 		// lookdog-stats.php for why this exists at all.
 		'bots'      => array_sum( array_map( 'intval', (array) get_option( 'lookdog_click_bot_days', array() ) ) ),
+		// Hidden entirely while the weekly sweep is paused. See
+		// lookdog_scout_paused() in lookdog-scout.php.
 		'scout'     => function_exists( 'lookdog_scout_pending' )
+			&& ! ( function_exists( 'lookdog_scout_paused' ) && lookdog_scout_paused() )
 			? array(
 				'pending'  => lookdog_scout_pending(),
 				'rejected' => function_exists( 'lookdog_scout_rejected' ) ? count( lookdog_scout_rejected() ) : 0,

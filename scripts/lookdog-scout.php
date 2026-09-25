@@ -404,9 +404,37 @@ function lookdog_scout_pending() {
  * The weekly sweep.
  * ---------------------------------------------------------------------- */
 
+/**
+ * Is the weekly sweep switched off?
+ *
+ * Switched off on 25 September 2026 at the owner's request. The site has no
+ * AliExpress sales yet, so ten new candidates a week were a list to clear
+ * rather than a list to act on. The plan is to switch it back on once sales
+ * start showing up.
+ *
+ * Unscheduling the event alone would not hold: the init hook below puts it
+ * straight back. So the pause is an option that both the scheduler and the
+ * job itself check. Candidates already found and every rejection are kept, so
+ * switching it back on picks up where it left off.
+ *
+ *   Pause:  update_option( 'lookdog_scout_paused', 1 );
+ *   Resume: delete_option( 'lookdog_scout_paused' );
+ *
+ * @return bool
+ */
+function lookdog_scout_paused() {
+	return (bool) get_option( 'lookdog_scout_paused' );
+}
+
 add_action(
 	'init',
 	static function () {
+		if ( lookdog_scout_paused() ) {
+			if ( wp_next_scheduled( 'lookdog_scout_cron' ) ) {
+				wp_clear_scheduled_hook( 'lookdog_scout_cron' );
+			}
+			return;
+		}
 		if ( ! wp_next_scheduled( 'lookdog_scout_cron' ) ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'weekly', 'lookdog_scout_cron' );
 		}
@@ -426,6 +454,10 @@ add_filter(
 add_action(
 	'lookdog_scout_cron',
 	static function () {
+		// An event already queued when the pause went on can still fire once.
+		if ( lookdog_scout_paused() ) {
+			return;
+		}
 		@set_time_limit( 300 ); // phpcs:ignore WordPress.PHP.NoSilencedErrors
 		$log = array( 'when' => time(), 'kept' => 0, 'seen' => 0 );
 		foreach ( lookdog_scout_buckets() as $bucket => $cfg ) {
@@ -448,7 +480,9 @@ add_action(
 	static function () {
 		$pending = lookdog_scout_pending();
 		$title   = __( 'Product scout', 'lookdog' );
-		if ( $pending ) {
+		// No nagging count while paused: the point of pausing is that the list
+		// no longer asks for anything.
+		if ( $pending && ! lookdog_scout_paused() ) {
 			$title .= ' <span class="awaiting-mod"><span class="pending-count">' . (int) $pending . '</span></span>';
 		}
 		add_submenu_page(
@@ -574,7 +608,10 @@ function lookdog_scout_screen() {
 		} else {
 			esc_html_e( 'The first full sweep has not run yet.', 'lookdog' );
 		}
-		if ( $next ) {
+		if ( lookdog_scout_paused() ) {
+			echo ' ';
+			esc_html_e( 'The weekly sweep is switched off. The search buttons below still work one phrase at a time.', 'lookdog' );
+		} elseif ( $next ) {
 			echo ' ';
 			printf(
 				/* translators: %s: human time difference. */
